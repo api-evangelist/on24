@@ -1,0 +1,59 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://apidoc.on24.com/ plus the confirmed request/response shape from the
+  node-on24 community client (github.com/the-automaton/node-on24). ON24 does not
+  publish an OpenAPI, so cross-cutting conventions are captured from the docs and
+  a live client, not derived from a spec.
+description: >-
+  How ON24's REST API behaves across its Registration, Analytics/Reporting,
+  Event Management, and User Management surfaces: base path, authentication,
+  resource scoping, error envelope, and rate-limit posture.
+
+base_url: https://api.on24.com/v2/client/{clientId}
+api_style: REST over HTTPS, JSON responses
+
+authentication:
+  scheme: apiKey headers (accessTokenKey + accessTokenSecret) with client id in path
+  detail: authentication/on24-authentication.yml
+  docs: https://apidoc.on24.com/
+
+resource_scoping:
+  client: >-
+    Every request is scoped to a numeric client (account) id in the path:
+    /v2/client/{clientId}/...
+  event: >-
+    Event-level resources hang off /event/{eventId} (registrants, analytics,
+    registration fields).
+
+pagination:
+  style: query-parameter filters
+  notes: >-
+    Analytics list endpoints accept filter query parameters (e.g. startDate,
+    endDate, partnerref) rather than a documented cursor/offset envelope. Refer
+    to apidoc.on24.com for per-endpoint defaults.
+
+idempotency:
+  supported: false
+  notes: >-
+    ON24 does not document an idempotency-key mechanism. Registrant creation is
+    upsert-like (create/update by email), but no dedicated Idempotency-Key
+    header is published.
+
+error_envelope:
+  transport: HTTP status codes (400, 401, 404, 5xx)
+  body: >-
+    Error responses carry a JSON body that may include a human-readable message;
+    clients read statusCode + body.message.
+  format: vendor-specific (not RFC 9457 problem+json)
+
+rate_limits:
+  documented: false
+  notes: >-
+    No published rate-limit numbers or standard rate-limit response headers were
+    found in the ON24 API documentation.
+
+versioning:
+  scheme: uri-path
+  current: v2
+  detail: lifecycle/on24-lifecycle.yml

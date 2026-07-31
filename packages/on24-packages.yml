@@ -1,0 +1,31 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  npm registry search + GitHub. ON24 publishes no first-party client SDKs; the
+  packages below are community / third-party clients and integration taps for
+  the ON24 API. None are official.
+packages:
+- language: javascript
+  registry: npm
+  name: node-on24
+  url: https://www.npmjs.com/package/node-on24
+  install: npm install node-on24
+  official: false
+  description: >-
+    Community Node.js/TypeScript client for the ON24 Webinar Engagement
+    platform (Registration, Analytics, Event Management). Source:
+    github.com/the-automaton/node-on24. Implementation is partial.
+- language: python
+  registry: github
+  name: tap-on24
+  url: https://github.com/The-Daily-Upside/tap-on24
+  install: pip install git+https://github.com/The-Daily-Upside/tap-on24.git
+  official: false
+  description: >-
+    Third-party Singer tap that extracts ON24 analytics/registration data for
+    ELT pipelines.
+notes: >-
+  No official ON24 SDK was found on npm, PyPI, Maven Central, NuGet,
+  pkg.go.dev, RubyGems, Packagist, or crates.io. Because no library is
+  first-party, no `type: SDKs` pointer is emitted (the sdk_count check requires
+  an official client library).

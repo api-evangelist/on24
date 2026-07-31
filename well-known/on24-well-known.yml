@@ -1,0 +1,25 @@
+generated: '2026-07-20'
+method: searched
+source: live probes of ON24 hosts (curl, 2026-07-20)
+hosts:
+- host: https://api.on24.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+- host: https://www.on24.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+    note: >-
+      www.on24.com is behind bot protection and returns 403 to automated
+      requests; absence could not be confirmed either way.
+notes: >-
+  No /.well-known discovery documents are served from the api.on24.com API host.
+  No OpenID Connect or OAuth authorization-server metadata is published (ON24
+  uses apiKey header auth, not OAuth/OIDC).

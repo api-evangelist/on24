@@ -1,0 +1,27 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://apidoc.on24.com/ (API version in base path) and live host probes.
+  ON24 publishes no dedicated public versioning/deprecation policy page or
+  public status page that resolved during probing.
+versioning:
+  scheme: uri-path
+  current: v2
+  docs: https://apidoc.on24.com/
+  detail: >-
+    The API is versioned in the base path (https://api.on24.com/v2/...). The
+    current documented major version is v2.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  notes: No public deprecation policy or RFC 8594 Sunset/Deprecation header support was found.
+sla:
+  url: null
+  uptime_target: null
+status_page:
+  url: null
+  notes: status.on24.com did not resolve during probing; no public status page pointer emitted.
+notes: >-
+  ON24 is an enterprise platform; SLA/uptime terms are typically contractual
+  rather than published. No StatusPage or Deprecation pointer is emitted because
+  neither a public status page nor a public deprecation policy was verified.

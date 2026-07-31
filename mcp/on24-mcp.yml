@@ -1,0 +1,30 @@
+generated: '2026-07-20'
+method: derived
+status: candidate
+source: >-
+  Candidate tool list derived from the ON24 REST operations documented at
+  apidoc.on24.com and confirmed in the node-on24 client. ON24 publishes no
+  official hosted/remote MCP server; this is a proposed surface, not a live one.
+server:
+  name: on24
+  transport: http
+  url: null
+tools:
+- name: create_registrant
+  description: Register an attendee for a specific ON24 event.
+  source_operation: POST https://api.on24.com/v2/client/{clientId}/event/{eventId}/registrant
+- name: update_registrant
+  description: Update an existing registrant (matched by email).
+  source_operation: PATCH https://api.on24.com/v2/client/{clientId}/registrant/{email}
+- name: forget_registrant
+  description: Forget/erase a registrant, optionally scoped to one event (GDPR).
+  source_operation: POST https://api.on24.com/v2/client/{clientId}/forget
+- name: list_events
+  description: List events with filters (e.g. startDate, endDate) via the Analytics API.
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event
+- name: list_event_registrants
+  description: List registrants/attendees for an event with engagement analytics.
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/registrant
+- name: get_event_registration_fields
+  description: Retrieve the registration field configuration for an event.
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/registrationfields

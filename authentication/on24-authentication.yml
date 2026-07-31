@@ -1,0 +1,39 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://apidoc.on24.com/ (ON24 API documentation portal) and the ON24 client
+  contract confirmed in the community node-on24 client source
+  (github.com/the-automaton/node-on24, src/client-base.ts). ON24 publishes no
+  first-party OpenAPI, so the auth model is captured from the docs + a live
+  client rather than derived from a spec.
+docs: https://apidoc.on24.com/
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+  notes: >-
+    ON24 authenticates every request with a numeric client id embedded in the
+    URL path plus a token key/secret pair sent as HTTP request headers. There is
+    no OAuth 2.0 / OIDC surface documented.
+schemes:
+- name: accessTokenKey
+  type: apiKey
+  in: header
+  key_name: accessTokenKey
+  description: >-
+    Per-client API token key issued in the ON24 platform (Account > Integrations
+    / API access). Sent as the `accessTokenKey` request header.
+- name: accessTokenSecret
+  type: apiKey
+  in: header
+  key_name: accessTokenSecret
+  description: >-
+    Secret paired with accessTokenKey. Sent as the `accessTokenSecret` request
+    header alongside accessTokenKey.
+client_scope:
+  in: path
+  parameter: clientId
+  description: >-
+    Numeric ON24 client (account) id scoping every call; forms part of the base
+    path https://api.on24.com/v2/client/{clientId}/...

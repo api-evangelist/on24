@@ -1,0 +1,34 @@
+generated: '2026-07-20'
+method: searched
+source: >-
+  https://trust.on24.com/ (compliance certifications) and the ON24 API
+  documentation at apidoc.on24.com (technical conformance). ON24 publishes no
+  OpenAPI, so cross-cutting technical standards are asserted from the documented
+  behaviour and a live client.
+standards:
+- id: soc2-type2
+  conforms: true
+  evidence: SOC 2 Type 2 report published on trust.on24.com
+- id: iso-27001
+  conforms: true
+  evidence: ISO/IEC 27001 certification listed on trust.on24.com
+- id: iso-27701
+  conforms: true
+  evidence: ISO/IEC 27701:2019 privacy information management certification (trust.on24.com)
+- id: apec-prp
+  conforms: true
+  evidence: APEC Privacy Recognition for Processors (trust.on24.com)
+- id: gdpr
+  conforms: true
+  evidence: >-
+    ISO 27701 + APEC PRP + published privacy program; ON24 documents a
+    registrant "forget" (erasure) operation supporting data-subject requests.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    ON24 uses apiKey header auth (accessTokenKey/accessTokenSecret), not OAuth2.
+- id: oidc
+  conforms: false
+- id: rfc9457-problem-details
+  conforms: false
+  evidence: Error responses are vendor-specific JSON, not application/problem+json.
