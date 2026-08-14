@@ -1,7 +1,7 @@
 x-enrichment:
-  date: '2026-07-20'
+  date: '2026-08-13'
   status: enriched
-  artifacts_added: 10
+  artifacts_added: 31
   pass: local-v1
 aid: on24
 name: On24
@@ -9,13 +9,19 @@ description: >-
   ON24 (NYSE: ONTF) is a digital engagement and webinar platform that companies
   use to run webinars, virtual events, and always-on content experiences and to
   turn the resulting first-party engagement data into marketing and sales
-  intelligence. ON24 exposes a REST API surface (documented at apidoc.on24.com,
-  served from api.on24.com) covering Registration, Analytics/Reporting, Event
-  Management, and User Management so customers can automate registrant creation,
-  pull attendee and engagement analytics into their CRM/MAP, and integrate the
-  platform with marketing-automation and data-warehouse workflows. Requests are
-  authenticated with a client id plus an accessTokenKey / accessTokenSecret pair
-  sent as HTTP headers.
+  intelligence. ON24 publishes a complete, anonymously accessible OpenAPI 3.0.1
+  for its Webinar & Content Center (WCC) REST API v2 at
+  https://api.on24.com/v2/openapi.json — 58 paths and 67 operations across six
+  tags: Client Level Analytics, Event Level Analytics, Event Management, REST
+  Registration, Content Listings and Helpers. Customers use it to automate
+  registrant creation, pull attendee and engagement analytics into their CRM,
+  marketing automation platform or data warehouse, provision and configure
+  webinars, and honour GDPR erasure requests. The API runs from two regional
+  hosts, https://api.on24.com/v2 (North America) and https://api.eu.on24.com/v2
+  (European Union), and is authenticated with a paired accessTokenKey /
+  accessTokenSecret set of HTTP headers plus a numeric client id in every path.
+  There is no OAuth surface, no first-party SDK and no MCP server, and rate-limit
+  exhaustion is signalled as HTTP 403 rather than 429.
 url: https://raw.githubusercontent.com/api-evangelist/on24/refs/heads/main/apis.yml
 x-type: company
 x-source: vc-portfolio
@@ -24,20 +30,27 @@ x-backed-by:
 x-tier: stub
 x-tier-reason: portfolio-lead
 accessModel:
-  pricing: unknown
-  onboarding: self-serve
+  pricing: contract
+  onboarding: sales
   trial: false
   try_now: false
   public: false
-  label: Self-serve signup
-  confidence: medium
+  label: Contract-gated API access
+  confidence: high
   source:
   - authentication
-  generated: '2026-07-22'
-  method: derived
+  - plans
+  note: >-
+    Corrected 2026-08-13. The API contract itself is public (OpenAPI served
+    anonymously at https://api.on24.com/v2/openapi.json), but CREDENTIALS are
+    not self-serve: ON24 documents that the customer contract must include the
+    "Connect" product before an API token can be provisioned, and a subset of
+    operations additionally requires the Elite tier. No pricing is published.
+  generated: '2026-08-13'
+  method: searched
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-20'
+modified: '2026-08-13'
 image: https://www.on24.com/wp-content/themes/on24/assets/images/on24-logo.svg
 tags:
 - Company
@@ -66,12 +79,46 @@ apis:
     url: https://apidoc.on24.com/
   - type: APIReference
     url: https://apidoc.on24.com/
+  - type: OpenAPI
+    url: openapi/on24-client-level-analytics-openapi.yml
+  - type: OpenAPI
+    url: openapi/on24-event-level-analytics-openapi.yml
+  - type: OpenAPI
+    url: openapi/on24-event-management-openapi.yml
+  - type: OpenAPI
+    url: openapi/on24-rest-registration-openapi.yml
+  - type: OpenAPI
+    url: openapi/on24-content-listings-openapi.yml
+  - type: OpenAPI
+    url: openapi/on24-helpers-openapi.yml
+  - type: Overlay
+    url: overlays/on24-client-level-analytics-overlay.yaml
+  - type: Overlay
+    url: overlays/on24-event-level-analytics-overlay.yaml
+  - type: Overlay
+    url: overlays/on24-event-management-overlay.yaml
+  - type: Overlay
+    url: overlays/on24-rest-registration-overlay.yaml
+  - type: Overlay
+    url: overlays/on24-content-listings-overlay.yaml
+  - type: Overlay
+    url: overlays/on24-helpers-overlay.yaml
+  - type: Examples
+    url: examples/_index.yml
   - type: Authentication
     url: authentication/on24-authentication.yml
   - type: Conventions
     url: conventions/on24-conventions.yml
+  - type: ErrorCatalog
+    url: errors/on24-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/on24-rate-limits.yml
+  - type: DataModel
+    url: data-model/on24-data-model.yml
   - type: MCPServer
     url: mcp/on24-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/on24-tool-crosswalk.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -100,8 +147,6 @@ common:
   url: conventions/on24-conventions.yml
 - type: Packages
   url: packages/on24-packages.yml
-- type: WellKnown
-  url: well-known/on24-well-known.yml
 - type: MCPServer
   url: mcp/on24-mcp.yml
 - type: LLMsTxt
@@ -112,3 +157,27 @@ common:
   url: lifecycle/on24-lifecycle.yml
 - type: DomainSecurity
   url: security/on24-domain-security.yml
+- type: ErrorCatalog
+  url: errors/on24-problem-types.yml
+- type: RateLimits
+  url: rate-limits/on24-rate-limits.yml
+- type: DataModel
+  url: data-model/on24-data-model.yml
+- type: Examples
+  url: examples/_index.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: ToolCrosswalk
+  url: mcp/on24-tool-crosswalk.yml
+- type: ChangeLog
+  url: changelog/on24-changelog.yml
+- type: StatusPage
+  url: https://on24.statuspage.io/
+- type: Plans
+  url: plans/on24-plans-pricing.yml
+- type: DeveloperPortal
+  url: https://apidoc.on24.com/
+- type: GettingStarted
+  url: https://support.on24.com/hc/en-us/articles/21420794723739-Getting-Started-with-Connect-Integrations
+- type: Support
+  url: https://support.on24.com/hc/en-us
