@@ -1,0 +1,722 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ON24 WCC API v2 — Event Level Analytics",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "AccessTokenKey",
+      "value": "{{AccessTokenKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Event Level Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Metadata and Usage",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Return information and summary activity about a particular event.\n\n- If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in the eventanalytics section of the response (totalregistrants, noshowcount)."
+        },
+        {
+          "info": {
+            "name": "Attendees",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/attendee",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "dateInterval",
+                "value": "30",
+                "type": "query",
+                "description": "Number of days returned in a response. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalOffset",
+                "value": "4",
+                "type": "query",
+                "description": "Number of days from which the interval should encompass. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalTimezone",
+                "value": "America/Los_Angeles",
+                "type": "query",
+                "description": "Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval."
+              },
+              {
+                "name": "startdate",
+                "value": "2017-12-31",
+                "type": "query",
+                "description": "Limit results to those with attendee activity after startDate"
+              },
+              {
+                "name": "enddate",
+                "value": "2017-12-31",
+                "type": "query",
+                "description": "Limit results to those with attendee activity before endDate"
+              },
+              {
+                "name": "partnerref",
+                "value": "EM",
+                "type": "query",
+                "description": "Filter by partnerref"
+              },
+              {
+                "name": "userstatus",
+                "value": "any",
+                "type": "query",
+                "description": "Filter to users based on their status. If not provided, only regular users will be returned. Possible values: any: will return all registrants, including: active, soft-deleted and forgotten registrants. deleted: will return soft-deleted users only. forgotten: will return forgotten users only. **Note:** By design, there is No option to exclude soft-deleted users from the response."
+              },
+              {
+                "name": "filterforgotten",
+                "value": "Y",
+                "type": "query",
+                "description": "**Deprecated** - Forgotten registrants filter. Y: only forgotten users will be returned in the response. N: forgotten users will be omitted in the response."
+              },
+              {
+                "name": "excludeanonymous",
+                "value": "Y",
+                "type": "query",
+                "description": "Filter to exclude System-Generated Email Addresses"
+              },
+              {
+                "name": "datefiltermode",
+                "value": "lastActivity",
+                "type": "query",
+                "description": "Type of date to be used with the startDate and endDate parameters."
+              },
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of attendees for a particular event. All dates and times are in Pacific Time.\n\n- **dateFilterMode** parameter options (not case-sensitive):\n  - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.\n  - \"lastActivity\" is the only supported value. When passed, the response will include only those attendees who have had activity between (and including) the provided **startDate** and **endDate**. Attendee lastA"
+        },
+        {
+          "info": {
+            "name": "Attendee Viewing Sessions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/attendeesession",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "sessiontype",
+                "value": "ondemand",
+                "type": "query",
+                "description": "Filter by session type"
+              },
+              {
+                "name": "pageoffset",
+                "value": "5",
+                "type": "query",
+                "description": "Number of page to retrieve"
+              },
+              {
+                "name": "itemsperpage",
+                "value": "25",
+                "type": "query",
+                "description": "Number of items to be retrieved per page"
+              },
+              {
+                "name": "startdate",
+                "value": "2021-04-10",
+                "type": "query",
+                "description": "Limit results to sessions created from start Date"
+              },
+              {
+                "name": "enddate",
+                "value": "2021-04-15",
+                "type": "query",
+                "description": "Limit results to sessions with last update until end Date. Default: current date if startDate was provided and endDate was not."
+              },
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a list of attendee viewing sessions for a particular event. All dates and times are in Pacific Time.\n\n**sessionType** supported values:\n- \"all\" (default)\n- \"live\"\n- \"ondemand\"\n- \"blocked\""
+        },
+        {
+          "info": {
+            "name": "Email Calendar Reminder",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/calendarreminder",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns information on the email calendar reminder that is configured for a particular event."
+        },
+        {
+          "info": {
+            "name": "Certifications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/certifications",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns all certifications for a particular event."
+        },
+        {
+          "info": {
+            "name": "Engagement Hub Content Activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/contentactivity",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns data on the content activity for an Engagement Hub or Target Experience."
+        },
+        {
+          "info": {
+            "name": "Call To Action",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/cta",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns information on the CTA (Call to Action) widgets that are configured for a particular event."
+        },
+        {
+          "info": {
+            "name": "Email Notification Details",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/email",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns information on the email notifications that are configured for a particular event."
+        },
+        {
+          "info": {
+            "name": "Email Statistics",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/emailstatistics",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns all email statistics for a particular event."
+        },
+        {
+          "info": {
+            "name": "Group Chat Activity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/groupchat",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns information on the group chat activity data for a particular event."
+        },
+        {
+          "info": {
+            "name": "Polls",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/poll",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns polls for a particular event. All dates and times are in Pacific Time."
+        },
+        {
+          "info": {
+            "name": "Presenters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/presenter",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns a listing of presenters for a particular event."
+        },
+        {
+          "info": {
+            "name": "Presentation Manager Chat Logs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/presenterchat",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "1498",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "eventId",
+                "value": "1487542",
+                "type": "path",
+                "description": "The event id"
+              }
+            ]
+          },
+          "docs": "Returns Presentation Manager chat logs for a webinar."
+        },
+        {
+          "info": {
+            "name": "Registrants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/registrant",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "dateInterval",
+                "value": "30",
+                "type": "query",
+                "description": "Number of days returned in a response. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalOffset",
+                "value": "4",
+                "type": "query",
+                "description": "Number of days from which the interval should encompass. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalTimezone",
+                "value": "America/Los_Angeles",
+                "type": "query",
+                "description": "Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval."
+              },
+              {
+                "name": "startdate",
+                "value": "2017-12-31",
+                "type": "query",
+                "description": "Limit results to registrants with registration date after startDate"
+              },
+              {
+                "name": "enddate",
+                "value": "2017-12-31",
+                "type": "query",
+                "description": "Limit results to registrants with registration date before endDate"
+              },
+              {
+                "name": "partnerref",
+                "value": "EM",
+                "type": "query",
+                "description": "Filter by partnerref"
+              },
+              {
+                "name": "userstatus",
+                "value": "any",
+                "type": "query",
+                "description": "Filter to users based on their status. If not provided, only regular users will be returned. Possible values: any: will return all registrants, including: active, soft-deleted and forgotten registrants. deleted: will return soft-deleted users only. forgotten: will return forgotten users only. all: **deprecated** - will include regular and soft-deleted users. **Note:** By design, there is No option to exclude soft-deleted users from the response."
+              },
+              {
+                "name": "email",
+                "value": "test@domain.com",
+                "type": "query",
+                "description": "email registrant filter"
+              },
+              {
+                "name": "noshow",
+                "value": "Y",
+                "type": "query",
+                "description": "Filters registrants who did not show up for the event"
+              },
+              {
+                "name": "filterforgotten",
+                "value": "Y",
+                "type": "query",
+                "description": "**Deprecated** - Forgotten registrants filter. Y: only forgotten users will be returned in the response. N: forgotten users will be omitted in the response."
+              },
+              {
+                "name": "excludeanonymous",
+                "value": "Y",
+                "type": "query",
+                "description": "Filter to exclude System-Generated Email Addresses"
+              },
+              {
+                "name": "datefiltermode",
+                "value": "lastActivity",
+                "type": "query",
+                "description": "Type of date to be used with the startDate and endDate parameters."
+              },
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves a list of registrants for a particular event.\n\n- If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses.\n- **dateFilterMode** parameter options (not case-sensitive):\n  - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.\n  - \"lastActivity\" is the only supported value. When"
+        },
+        {
+          "info": {
+            "name": "Resources Viewed",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/resource",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns resources for a particular event. All dates and times are in Pacific Time."
+        },
+        {
+          "info": {
+            "name": "Surveys",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/survey",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns surveys for a particular event. All dates and times are in Pacific Time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

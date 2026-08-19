@@ -1,27 +1,70 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
-source: >-
-  https://apidoc.on24.com/ (API version in base path) and live host probes.
-  ON24 publishes no dedicated public versioning/deprecation policy page or
-  public status page that resolved during probing.
+source: https://api.on24.com/v2/openapi.json, https://on24.statuspage.io/ (probed 200), https://support.on24.com/hc/en-us/sections/32095215415067-2025-Release-Notes,
+  https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens
 versioning:
   scheme: uri-path
   current: v2
   docs: https://apidoc.on24.com/
-  detail: >-
-    The API is versioned in the base path (https://api.on24.com/v2/...). The
-    current documented major version is v2.
+  detail: The API is versioned in the base path (https://api.on24.com/v2/...). The published OpenAPI carries info.version
+    "2" with no minor/build/date component, so a consumer cannot detect a contract change. A /v1 path still resolves
+    on the host but returns 404 for the spec; /v3 does not exist.
 deprecation:
   policy_url: null
   sunset_header: false
-  notes: No public deprecation policy or RFC 8594 Sunset/Deprecation header support was found.
+  deprecated_operations: 0
+  deprecated_parameters: 2
+  notes: 'No published deprecation policy and no RFC 8594 Sunset/Deprecation header support. The spec marks no operation
+    as deprecated:true. Deprecation is instead signalled only as prose inside parameter descriptions: `filterforgotten`
+    is marked "**Deprecated**" on 4 operations, and the `userstatus=all` enum value is marked "**deprecated**".
+    A machine reading `deprecated: true` would find nothing.'
+  items:
+  - name: filterforgotten
+    kind: query parameter
+    operations: 4
+    note: Marked **Deprecated** in the description; no replacement named, no removal date.
+  - name: userstatus=all
+    kind: enum value
+    operations: 2
+    note: Marked **deprecated**; superseded by the explicit any/deleted/forgotten values.
+breaking_changes:
+- date: '2025-06-01'
+  change: 4:3 video formats no longer supported; Media Player Engagement Tool is 16:9 only.
+  announced: '2025-04-04'
+  notice_days: 58
+  source: https://support.on24.com/hc/en-us/articles/34899085880603-April-2025-Product-Release-Notes
+release_notes:
+  url: https://support.on24.com/hc/en-us/sections/32095215415067-2025-Release-Notes
+  cadence: product release notes roughly every 4-8 weeks; EU data center releases one day before NA
+  latest: July 2025
+  stale: true
+  notes: No 2026 release-notes section exists as of 2026-08-13 — the public changelog is ~12 months behind.
+  detail: changelog/on24-changelog.yml
+status_page:
+  url: https://on24.statuspage.io/
+  verified: true
+  http_status: 200
+  title: ON24 Intelligent Engagement Platform Status
+  provider: Atlassian Statuspage
+  notes: 'CORRECTION TO THE PREVIOUS ROUND: this repo recorded "no public status page" because status.on24.com does
+    not resolve. ON24 hosts it on the vendor subdomain instead. Verified live 2026-08-13.'
+credential_lifecycle:
+  token_inactivity_expiry_days: 60
+  notes: API tokens with no activity are automatically DISABLED after 60 days, with warning emails as the deadline
+    approaches; a disabled token can be re-enabled from the platform and the counter resets on use. This is an unusual
+    and load-bearing lifecycle rule for a low-frequency integration.
+  source: https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens
 sla:
   url: null
   uptime_target: null
-status_page:
-  url: null
-  notes: status.on24.com did not resolve during probing; no public status page pointer emitted.
-notes: >-
-  ON24 is an enterprise platform; SLA/uptime terms are typically contractual
-  rather than published. No StatusPage or Deprecation pointer is emitted because
-  neither a public status page nor a public deprecation policy was verified.
+  notes: No public SLA. ON24 is an enterprise platform; uptime terms are contractual.
+  data_availability:
+    registrant: ~15 minutes
+    attended_live: 30 minutes to 2 hours after event end
+    attended_on_demand: 4 to 12 hours
+    source: https://support.on24.com/hc/en-us/articles/21420786301083-REST-API-Integrations-Overview
+regions:
+- name: North America
+  base_url: https://api.on24.com/v2
+- name: European Union
+  base_url: https://api.eu.on24.com/v2

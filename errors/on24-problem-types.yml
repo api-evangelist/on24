@@ -1,0 +1,155 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/on24-openapi.json (4xx/5xx response descriptions across all 67 operations), harvested
+  from https://api.on24.com/v2/openapi.json
+format: vendor-json
+notes: 'ON24 does NOT use RFC 9457 application/problem+json. Errors are returned as a plain JSON object with a single
+  `message` string (observed live: GET https://api.on24.com/v2/client/1234/event -> 401 {"message":"Header must
+  contain both accessTokenKey and accessTokenSecret."}). The spec documents error conditions only as prose in the
+  response `description`; there is no error schema and no machine-readable error code registry. NOTE THE RATE-LIMIT
+  ANOMALY: quota exhaustion is signalled as HTTP 403, not 429.'
+envelope:
+  media_type: application/json
+  fields:
+  - name: message
+    type: string
+    description: Human-readable error message. The only field observed.
+  example:
+    message: Header must contain both accessTokenKey and accessTokenSecret.
+status_codes:
+- status: 400
+  occurrences: 24
+  title: Bad Request
+  conditions:
+  - Error, incorrect date formats.
+  - File is not accepted filetype
+  - Webinar was not created due to errors in the parameters
+  - You have exceeded the maximum number of user to be deleted (100,000)
+  - Invalid metadata.
+  - Bad request
+  - Invalid Date format for params startdate and enddate. Incorrect timezone value provided.
+  - The email parameter is missing.
+  - The email parameter value is blank.
+  - Invalid value for the honorrequired parameter.
+  - Invalid value for the honorvalidation parameter.
+  - Invalid value for the inBlocked parameter.
+- status: 401
+  occurrences: 67
+  title: Unauthorized
+  conditions:
+  - AccessTokenKey and AccessTokenSecret are wrong or invalid.
+  - The access token secret or access token key was not found
+  - AccessTokenKey and AccessTokenSecret are wrong or invalid
+  - AccessTokenKey and AccessTokenSecret are deactivated.
+  - You do not have permission to perform the requested operation
+  - You do not have permission to perform the requested operation.
+- status: 403
+  occurrences: 67
+  title: Forbidden
+  conditions:
+  - You have reached the maximum number of calls for this api.
+  - You do not have permission to perform the requested operation.
+  - The client id {clientId} is inactive.
+  - The event {eventId} is inactive.
+  - The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached
+    the maximum number of calls for this endpoint
+  - The client id {clientId} is inactive
+  - The event id {eventId} is inactive.
+  - You have reached the maximum number of calls for this api
+  - You do not have permission to perform the requested operation
+  - You don't have access to this client id
+- status: 404
+  occurrences: 56
+  title: Not Found
+  conditions:
+  - The client {clientId} doesn't exist.
+  - The event {eventId} doesn't exist.
+  - The client {clientId} doesn't exist
+  - The attendant {email} doesn't exist.
+  - Event not found for this client or its children
+  - The event {eventId} doesn't exist
+  - The client {eventId} doesn't exist
+  - No registrant was found for that email address
+  - The client {clientid} doesn't exist.
+  - The Engagement Hub {gatewayId} doesn't exist.
+- status: 410
+  occurrences: 1
+  title: Gone
+  conditions:
+  - Event has already been deleted
+- status: 412
+  occurrences: 2
+  title: Precondition Failed
+  conditions:
+  - Event does not meet criteria for deletion
+  - You're trying to soft delete the registrant you're creating.
+- status: 500
+  occurrences: 2
+  title: Internal Server Error
+  conditions:
+  - Response code from uploading service is not success
+problem_types:
+- type: authentication-missing
+  status: 401
+  title: Access token headers missing
+  detail: Header must contain both accessTokenKey and accessTokenSecret.
+  remediation: Send BOTH AccessTokenKey and AccessTokenSecret request headers; supplying only one is rejected.
+- type: authentication-invalid
+  status: 401
+  title: Access token invalid or deactivated
+  detail: AccessTokenKey and AccessTokenSecret are wrong or invalid, not found, or deactivated.
+  remediation: Re-issue the token pair in the ON24 platform; confirm the pair belongs to the clientId in the path.
+- type: permission-denied
+  status: 403
+  title: Operation not permitted for this client
+  detail: You do not have permission to perform the requested operation; or the client id is not an Elite user;
+    or the adminId cannot operate under this client.
+  remediation: Confirm the token pair is scoped to the clientId and that the account tier (Elite) entitles the endpoint.
+- type: quota-exceeded
+  status: 403
+  title: API call quota exhausted
+  detail: You have reached the maximum number of calls for this api / for this endpoint.
+  remediation: 'Back off and retry later. NOTE: ON24 returns 403 (not 429) on quota exhaustion and publishes no
+    Retry-After or RateLimit-* headers, so clients must distinguish quota from permission by inspecting the message
+    string.'
+- type: client-inactive
+  status: 403
+  title: Client is inactive
+  detail: The client id {clientId} is inactive.
+  remediation: Reactivate the ON24 client account.
+- type: client-not-found
+  status: 404
+  title: Client does not exist
+  detail: The client {clientId} doesn't exist.
+  remediation: Verify the numeric clientId in the request path.
+- type: event-not-found
+  status: 404
+  title: Event does not exist
+  detail: The event {eventId} doesn't exist, or is not found for this client or its children.
+  remediation: Verify eventId and that it belongs to the clientId (or a child account when includesubaccounts is
+    used).
+- type: registrant-not-found
+  status: 404
+  title: Registrant not found
+  detail: No registrant was found for that email address.
+  remediation: Confirm the email is registered for the event before PATCHing.
+- type: event-already-deleted
+  status: 410
+  title: Event already deleted
+  detail: Event has already been deleted.
+  remediation: Treat as terminal; the delete is already effective.
+- type: precondition-failed
+  status: 412
+  title: Precondition not met
+  detail: Event does not meet criteria for deletion; or you are trying to soft delete the registrant you are creating.
+  remediation: Split create and soft-delete into separate calls; check event state before deletion.
+- type: bulk-limit-exceeded
+  status: 400
+  title: Bulk forget limit exceeded
+  detail: You have exceeded the maximum number of user to be deleted (100,000).
+  remediation: Chunk forget/forgetall requests to <= 100,000 users per call.
+- type: date-format-invalid
+  status: 400
+  title: Incorrect date format
+  detail: Error, incorrect date formats.
+  remediation: Use the date format documented for the endpoint parameters (startDate/endDate).

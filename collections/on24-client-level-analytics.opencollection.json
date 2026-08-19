@@ -1,0 +1,891 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ON24 WCC API v2 — Client Level Analytics",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "AccessTokenKey",
+      "value": "{{AccessTokenKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Client Level Analytics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Sub-Clients",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              }
+            ]
+          },
+          "docs": "Returns a listing of sub-clients for a particular client."
+        },
+        {
+          "info": {
+            "name": "Attendees",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/attendee",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "dateInterval",
+                "value": "30",
+                "type": "query",
+                "description": "Number of days returned in a response. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalOffset",
+                "value": "4",
+                "type": "query",
+                "description": "Number of days from which the interval should encompass. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalTimezone",
+                "value": "America/Los_Angeles",
+                "type": "query",
+                "description": "Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval."
+              },
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "startdate",
+                "value": "2007-12-03",
+                "type": "query",
+                "description": "Limit results to those with attendee activity after startDate"
+              },
+              {
+                "name": "enddate",
+                "value": "2007-12-05",
+                "type": "query",
+                "description": "Limit results to those with attendee activity before endDate"
+              },
+              {
+                "name": "pageoffset",
+                "value": "1",
+                "type": "query",
+                "description": "Selects the page to retrieve"
+              },
+              {
+                "name": "excludesubaccounts",
+                "value": "Y",
+                "type": "query",
+                "description": "if set to \"Y\", sub-accounts will be excluded"
+              },
+              {
+                "name": "subaccounts",
+                "value": "22921, 32295",
+                "type": "query",
+                "description": "Comma separated list of child client ids"
+              },
+              {
+                "name": "partnerref",
+                "value": "EM",
+                "type": "query",
+                "description": "filter by partnerref"
+              },
+              {
+                "name": "excludelive",
+                "value": "Y",
+                "type": "query",
+                "description": "filter to exclude live attendees"
+              },
+              {
+                "name": "filterforgotten",
+                "value": "Y",
+                "type": "query",
+                "description": "**Deprecated** - Forgotten users filter. Y: only forgotten users will be returned. N: forgotten users will be omitted."
+              },
+              {
+                "name": "itemsperpage",
+                "value": "25",
+                "type": "query",
+                "description": "Number of items to be retrieved per page"
+              },
+              {
+                "name": "userstatus",
+                "value": "any",
+                "type": "query",
+                "description": "Filters users based on their status. Possible values: any, deleted, forgotten."
+              },
+              {
+                "name": "excludeanonymous",
+                "value": "Y",
+                "type": "query",
+                "description": "Filter to exclude System-Generated Email Addresses"
+              },
+              {
+                "name": "datefiltermode",
+                "value": "lastActivity",
+                "type": "query",
+                "description": "Type of date to be used with the startDate and endDate parameters."
+              },
+              {
+                "name": "realtimeonly",
+                "value": "Y",
+                "type": "query",
+                "description": "Filter to exclude properties that rely on the datawarehouse."
+              }
+            ]
+          },
+          "docs": "Returns a listing of attendees for a particular client. There is a limit of 100 attendees per page.\n\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client ids (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under the {clientId} of the request\n  - If **subaccounts** is provided and **excludeSubaccounts** is \"Y\", following error message is returned: *\"You have to set excludesubaccounts='N' in order to filter by subaccounts.\".*\n  - If *"
+        },
+        {
+          "info": {
+            "name": "Attendee by Email",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/attendee/:email",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "email",
+                "value": "john.doe@on24.com",
+                "type": "path",
+                "description": "Attendant to lookup"
+              }
+            ]
+          },
+          "docs": "Returns most recent attendance information for a specific email address."
+        },
+        {
+          "info": {
+            "name": "Attendees by Email Multiple Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/attendee/:email/allevents",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "email",
+                "value": "john.doe@on24.com",
+                "type": "path",
+                "description": "The email to lookup"
+              },
+              {
+                "name": "pageoffset",
+                "value": "1",
+                "type": "query",
+                "description": "Selects the page to retrieve"
+              },
+              {
+                "name": "excludesubaccounts",
+                "value": "Y",
+                "type": "query",
+                "description": "if set to \"Y\", sub-accounts will be excluded"
+              },
+              {
+                "name": "subaccounts",
+                "value": "22921, 32295",
+                "type": "query",
+                "description": "Comma separated list of child client ids"
+              },
+              {
+                "name": "itemsperpage",
+                "value": "25",
+                "type": "query",
+                "description": "Number of items to be retrieved per page"
+              }
+            ]
+          },
+          "docs": "Returns a listing of all attendance information for a specific email address. There is a limit of 100 registrants per page.\n\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under the {clientId} of the request.\n  - If **subaccounts** is provided and **excludeSubaccounts** is \"Y\", the following error message is returned: *\"You have to set excludesubaccounts='N' in order to filte"
+        },
+        {
+          "info": {
+            "name": "Engaged Accounts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/engagedaccount",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              }
+            ]
+          },
+          "docs": "Returns a list of the top engaged accounts as displayed in the Account Engagement Cloud with a link to their Account Engagement Profile. Up to 100 accounts will be listed.\n\n- If there are no engaged accounts, an empty list will be returned.\n- Only the last 90 days of data is used to generate the list."
+        },
+        {
+          "info": {
+            "name": "Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "dateInterval",
+                "value": "30",
+                "type": "query",
+                "description": "Number of days returned in a response. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalOffset",
+                "value": "4",
+                "type": "query",
+                "description": "Number of days from which the interval should encompass. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalTimezone",
+                "value": "America/Los_Angeles",
+                "type": "query",
+                "description": "Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval."
+              },
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "pageoffset",
+                "value": "1",
+                "type": "query",
+                "description": "Number of page to retrieve"
+              },
+              {
+                "name": "startdate",
+                "value": "2007-12-03",
+                "type": "query",
+                "description": "startDate's max range between start and end dates can be up to 6 months"
+              },
+              {
+                "name": "enddate",
+                "value": "2007-12-05",
+                "type": "query",
+                "description": "endDate's max range between start and end dates can be up to 6 months"
+              },
+              {
+                "name": "includesubaccounts",
+                "value": "Y",
+                "type": "query",
+                "description": "If 'Y' then sub-accounts will be included in the response"
+              },
+              {
+                "name": "datefiltermode",
+                "value": "creation",
+                "type": "query",
+                "description": "Type of date to be used with the startDate and endDate parameters."
+              },
+              {
+                "name": "filterorder",
+                "value": "desc",
+                "type": "query",
+                "description": "The filter order"
+              },
+              {
+                "name": "includeinactive",
+                "value": "Y",
+                "type": "query",
+                "description": "If 'Y' then inactive events will be included in the response"
+              },
+              {
+                "name": "contenttype",
+                "value": "webcast",
+                "type": "query",
+                "description": "Filter events by contentType"
+              },
+              {
+                "name": "itemsperpage",
+                "value": "25",
+                "type": "query",
+                "description": "Number of items to be retrieved per page"
+              },
+              {
+                "name": "subaccounts",
+                "value": "22921, 32295",
+                "type": "query",
+                "description": "Comma separated list of child client ids"
+              }
+            ]
+          },
+          "docs": "Returns a listing of events for a particular client. Events belonging to sub-client accounts are not included in the response.\n\n- If **startDate** and **endDate** are not sent, the response will return all events from the past 3 months.\n- The **startDate** and **endDate** will filter the list of events based on **dateFilterMode** parameter value.\n- If **includesubaccounts** is \"Y\", pagination will be required. Both **pageOffset** and **itemsPerPage** parameters will be available. Response schema"
+        },
+        {
+          "info": {
+            "name": "Leads",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/lead",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "dateInterval",
+                "value": "30",
+                "type": "query",
+                "description": "Number of days returned in a response. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalOffset",
+                "value": "4",
+                "type": "query",
+                "description": "Number of days from which the interval should encompass. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalTimezone",
+                "value": "America/Los_Angeles",
+                "type": "query",
+                "description": "Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval."
+              },
+              {
+                "name": "startdate",
+                "value": "2007-12-03",
+                "type": "query",
+                "description": "Limit results to users with registration date or attendance activity after startDate"
+              },
+              {
+                "name": "enddate",
+                "value": "2007-12-05",
+                "type": "query",
+                "description": "Limit results to users with registration date or attendance activity before endDate"
+              },
+              {
+                "name": "pageoffset",
+                "value": "1",
+                "type": "query",
+                "description": "Selects the page to retrieve"
+              },
+              {
+                "name": "itemsperpage",
+                "value": "25",
+                "type": "query",
+                "description": "Number of items to be retrieved per page"
+              }
+            ]
+          },
+          "docs": "Returns a listing of leads for a particular client. There is a limit of 50 leads per page.\n\n- If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses."
+        },
+        {
+          "info": {
+            "name": "PEP",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/lead/:email",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "email",
+                "value": "test@domain.com",
+                "type": "path",
+                "description": "lead email"
+              }
+            ]
+          },
+          "docs": "Returns the Prospect Engagement Profile data for a specific email address."
+        },
+        {
+          "info": {
+            "name": "Presenters",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/presenter",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "dateInterval",
+                "value": "30",
+                "type": "query",
+                "description": "Number of days returned in a response. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalOffset",
+                "value": "4",
+                "type": "query",
+                "description": "Number of days from which the interval should encompass. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalTimezone",
+                "value": "America/Los_Angeles",
+                "type": "query",
+                "description": "Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval."
+              },
+              {
+                "name": "excludesubaccounts",
+                "value": "Y",
+                "type": "query",
+                "description": "if set to \"Y\", sub-accounts will be excluded"
+              },
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "startdate",
+                "value": "2007-12-03",
+                "type": "query",
+                "description": "Limit results to presenters with last login date after startDate"
+              },
+              {
+                "name": "enddate",
+                "value": "2007-12-05",
+                "type": "query",
+                "description": "Limit results to presenters with last login date before endDate"
+              }
+            ]
+          },
+          "docs": "Returns a listing of presenters for a particular client."
+        },
+        {
+          "info": {
+            "name": "Registrants",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/registrant",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "dateInterval",
+                "value": "30",
+                "type": "query",
+                "description": "Number of days returned in a response. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalOffset",
+                "value": "4",
+                "type": "query",
+                "description": "Number of days from which the interval should encompass. See Rolling Interval."
+              },
+              {
+                "name": "dateIntervalTimezone",
+                "value": "America/Los_Angeles",
+                "type": "query",
+                "description": "Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval."
+              },
+              {
+                "name": "excludeSubaccounts",
+                "value": "Y",
+                "type": "query",
+                "description": "if set to \"y\", sub-accounts will be excluded"
+              },
+              {
+                "name": "pageoffset",
+                "value": "1",
+                "type": "query",
+                "description": "Selects the page to retrieve"
+              },
+              {
+                "name": "startdate",
+                "value": "2007-12-03",
+                "type": "query",
+                "description": "Limit results to registrants with registration date after startDate"
+              },
+              {
+                "name": "enddate",
+                "value": "2007-12-05",
+                "type": "query",
+                "description": "Limit results to registrants with registration date before endDate"
+              },
+              {
+                "name": "partnerref",
+                "value": "EM",
+                "type": "query",
+                "description": "filter by partnerref"
+              },
+              {
+                "name": "userstatus",
+                "value": "any",
+                "type": "query",
+                "description": "Filter to users based on their status. If not provided, only regular users will be returned. Possible values: any: will return all registrants, including: active, soft-deleted and forgotten registrants. deleted: will return soft-deleted users only. forgotten: will return forgotten users only. all: **deprecated** - will include regular and soft-deleted users. **Note:** By design, there is No option to exclude soft-deleted users from the response."
+              },
+              {
+                "name": "excludelive",
+                "value": "Y",
+                "type": "query",
+                "description": "Filter to exclude registrants which register after event ends"
+              },
+              {
+                "name": "filterforgotten",
+                "value": "Y",
+                "type": "query",
+                "description": "**Deprecated** - Forgotten registrants filter. Y: only forgotten users will be returned in the response. N: forgotten users will be omitted in the response."
+              },
+              {
+                "name": "itemsperpage",
+                "value": "25",
+                "type": "query",
+                "description": "Number of items to be retrieved per page"
+              },
+              {
+                "name": "excludeanonymous",
+                "value": "Y",
+                "type": "query",
+                "description": "Filter to exclude System-Generated Email Addresses"
+              },
+              {
+                "name": "subaccounts",
+                "value": "22921, 32295",
+                "type": "query",
+                "description": "Comma separated list of child client ids"
+              },
+              {
+                "name": "datefiltermode",
+                "value": "lastactivity",
+                "type": "query",
+                "description": "Type of date to be used with the startDate and endDate parameters."
+              }
+            ]
+          },
+          "docs": "Returns a listing of registrants for a particular client. There is a limit of 100 registrants per page.\n\n- If double opt-in verification was enabled at the time of registration for an event, and a user has not completed the verification process, the user will not be included in any endpoint responses.\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma)\n  - Child client IDs must be under the {clientId} of the r"
+        },
+        {
+          "info": {
+            "name": "Registrant by Email",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/registrant/:email",
+            "headers": [
+              {
+                "name": "accept",
+                "value": "application/json"
+              },
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "email",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "partnerref",
+                "value": "EM",
+                "type": "query",
+                "description": "filter by partnerref"
+              },
+              {
+                "name": "eventid",
+                "value": "382931",
+                "type": "query",
+                "description": "If provided, returns reg info for that event"
+              }
+            ]
+          },
+          "docs": "Returns most recent registration information for a specific email address.\n\n- If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses."
+        },
+        {
+          "info": {
+            "name": "Registrants by Email Multiple Events",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/registrant/:email/allevents",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "email",
+                "value": "john.doe@on24.com",
+                "type": "path",
+                "description": "The email to lookup"
+              },
+              {
+                "name": "pageoffset",
+                "value": "1",
+                "type": "query",
+                "description": "Selects the page to retrieve"
+              },
+              {
+                "name": "excludesubaccounts",
+                "value": "y",
+                "type": "query",
+                "description": "if set to \"y\", sub-accounts will be excluded"
+              },
+              {
+                "name": "subaccounts",
+                "value": "22921, 32295",
+                "type": "query",
+                "description": "Comma separated list of child client ids"
+              },
+              {
+                "name": "itemsperpage",
+                "value": "25",
+                "type": "query",
+                "description": "Number of items to be retrieved per page"
+              }
+            ]
+          },
+          "docs": "Returns a listing of all registration information for a specific email address. There is a limit of 100 registrants per page.\n\n- If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses.\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under t"
+        },
+        {
+          "info": {
+            "name": "Client Survey Library",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/surveylibrary",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              }
+            ]
+          },
+          "docs": "Returns the survey library questions and response options for a client."
+        },
+        {
+          "info": {
+            "name": "Client User Questions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/userquestions",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "excludesubaccounts",
+                "value": "Y",
+                "type": "query",
+                "description": "if set to \"Y\", sub-accounts will be excluded"
+              },
+              {
+                "name": "emailFilter",
+                "value": "microsoft.com|intel.com|ba.com",
+                "type": "query",
+                "description": "Limit the questions returned to only those from specific domains"
+              },
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "startdate",
+                "value": "2012-05-19T12:00:00-05:00",
+                "type": "query",
+                "description": "Limit the results to those occurring after this date/time"
+              },
+              {
+                "name": "enddate",
+                "value": "2012-05-19T12:00:00-05:00",
+                "type": "query",
+                "description": "limit the results to those occurring before this date/time"
+              }
+            ]
+          },
+          "docs": "Returns a listing of user questions for a particular client.\n\n- Real-time API endpoint that returns the info for the last 5 minutes\n- The maximum duration for the **startDate** and **endDate** interval is 1 hour."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

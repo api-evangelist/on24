@@ -1,0 +1,609 @@
+{
+  "operationId": "AnalyticsEventLevel.Attendees",
+  "method": "GET",
+  "path": "/client/{clientId}/event/{eventId}/attendee",
+  "status": 200,
+  "media_type": "application/json",
+  "source": "https://api.on24.com/v2/openapi.json (verbatim response examples published by ON24)",
+  "examples": {
+    "Elite account": {
+      "eventid": 311512,
+      "totalattendees": 1,
+      "attendees": [
+        {
+          "email": "xxxxxxxx@on24.com",
+          "eventuserid": 49502149,
+          "exteventusercd": "1502",
+          "userstatus": "active",
+          "isblocked": "N",
+          "engagementscore": 8.5,
+          "liveminutes": 40,
+          "liveviewed": 1,
+          "firstliveactivity": "2015-05-19T11:01:42-07:00",
+          "lastliveactivity": "2015-05-19T11:41:42-07:00",
+          "archiveminutes": 120,
+          "archiveviewed": 2,
+          "firstarchiveactivity": "2015-05-19T06:14:17-07:00",
+          "lastarchiveactivity": "2015-05-19T09:20:48-08:00",
+          "askedquestions": 2,
+          "resourcesdownloaded": 2,
+          "answeredpolls": 2,
+          "answeredsurveys": 2,
+          "answeredsurveyquestions": 4,
+          "launchmode": "At the Venue",
+          "questions": [
+            {
+              "questionid": 6268255,
+              "createtimestamp": "2015-05-19T11:55:12-07:00",
+              "content": "What happens if I forget my password?",
+              "answer": {
+                "createtimestamp": "2015-05-19T11:57:12-07:00",
+                "content": "Customer service will email you instructions for getting a new password",
+                "presenterid": 813717,
+                "presentername": "Mark XXXXX",
+                "privacy": "Private"
+              }
+            },
+            {
+              "questionid": 6268257,
+              "createtimestamp": "2015-05-19T11:58:12-07:00",
+              "content": "Can you use the tool to send SMS texts directly?",
+              "answer": {
+                "createtimestamp": "2015-05-19T11:59:59-07:00",
+                "content": "No, although you can set up a Twitter hashtag  for an event",
+                "presenterid": 813706,
+                "presentername": "Steve XXXXX",
+                "privacy": "Private"
+              }
+            }
+          ],
+          "polls": [
+            {
+              "pollid": 16818601,
+              "pollsubmittedtimestamp": "2015-05-19T11:45:12-07:00",
+              "pollquestionid": 6268336,
+              "pollquestion": "Which products are you interested in? (select all that apply)",
+              "pollanswers": [
+                "Full Service Webcasts"
+              ],
+              "pollanswersdetail": [
+                {
+                  "answercode": "choice1",
+                  "answer": "Full Service Webcasts"
+                }
+              ]
+            },
+            {
+              "pollid": 16818630,
+              "pollsubmittedtimestamp": "2015-05-19T11:47:12-07:00",
+              "pollquestionid": 6268358,
+              "pollquestion": "How familiar are you with virtual event solutions?",
+              "pollanswers": [
+                "Unfamiliar"
+              ],
+              "pollanswersdetail": [
+                {
+                  "answercode": "choice1",
+                  "answer": "Unfamiliar"
+                }
+              ]
+            }
+          ],
+          "resources": [
+            {
+              "resourceid": 16836843,
+              "resourceviewed": "Frost and Sullivan 2012",
+              "resourceviewedtimestamp": "2015-05-19T12:05:02-07:00"
+            },
+            {
+              "resourceid": 16836837,
+              "resourceviewed": "5 keys to webcasting",
+              "resourceviewedtimestamp": "2015-05-19T12:15:37-07:00"
+            }
+          ],
+          "surveys": [
+            {
+              "surveyid": "311512_survey1",
+              "surveysubmittedtimestamp": "2015-05-19T11:49:12-07:00",
+              "surveyquestions": [
+                {
+                  "surveyquestionid": 6268293,
+                  "surveyquestion": "How valuable was the information presented?",
+                  "questioncode": "110",
+                  "primaryquestioncode": "110",
+                  "surveyanswers": [
+                    "Not Valuable at all"
+                  ],
+                  "surveyanswersdetail": [
+                    {
+                      "answercode": "choice1",
+                      "answer": "Not Valuable at all"
+                    }
+                  ]
+                },
+                {
+                  "surveyquestionid": 6268271,
+                  "surveyquestion": "What industry are you in?",
+                  "surveyanswers": [
+                    "Food& Beverage"
+                  ],
+                  "surveyanswersdetail": [
+                    {
+                      "answercode": "choice1",
+                      "answer": "Food& Beverage"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "surveyid": "311512_survey2",
+              "surveysubmittedtimestamp": "2015-05-19T11:51:12-07:00",
+              "surveyquestions": [
+                {
+                  "surveyquestionid": 6268306,
+                  "surveyquestion": "Would you like a 1:1 session with an expert?",
+                  "surveyanswers": [
+                    "No"
+                  ],
+                  "surveyanswersdetail": [
+                    {
+                      "answercode": "choice1",
+                      "answer": "No"
+                    }
+                  ]
+                },
+                {
+                  "surveyquestionid": 6268299,
+                  "surveyquestion": "Which tools are you using today?",
+                  "questioncode": "235",
+                  "primaryquestioncode": "234",
+                  "surveyanswers": [
+                    "Webex"
+                  ],
+                  "surveyanswersdetail": [
+                    {
+                      "answercode": "choice1",
+                      "answer": "Webex"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "twitterwidget": [
+            {
+              "date": "2015-05-19T11:02:39-07:00",
+              "tweetdescription": "A new Webinar on Artificial Intelligence has been scheduled. Check www.on24.com/eventschedule"
+            }
+          ],
+          "calltoactions": [
+            {
+              "ctaid": "83970357",
+              "ctaname": "Call To Action 1",
+              "clicks": "3",
+              "action": "https://www.calltoactionurl.com",
+              "date": "2015-05-19T11:10:00-07:00"
+            }
+          ],
+          "testwidgets": [
+            {
+              "testwidgetresult": "P",
+              "retries": 0,
+              "correctanswersneeded": 2,
+              "correctanswersprovided": 2
+            }
+          ],
+          "testwidgetresult": "P",
+          "certificationwidgetresult": "C",
+          "certificationcredit": "NR",
+          "certificationtimestamp": "2015-05-19T12:29:41-07:00",
+          "userprofileurl": "https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=",
+          "campaigncode": "CPM-001",
+          "sourcecampaigncode": "CMP-001",
+          "sourceeventid": 2141380,
+          "cumulativeliveminutes": 40,
+          "cumulativearchiveminutes": 120,
+          "partnerref": "registered_partner",
+          "attendancepartnerref": "last_partner",
+          "attendeesessions": 4,
+          "certifications": [
+            {
+              "certificationid": 83328985,
+              "certificationresult": "C",
+              "certificationname": "Certification 1",
+              "certificationcredit": "NR",
+              "certificationtimestamp": "2015-05-19T12:29:41-07:00",
+              "certificationurl": "https://event.on24.com/ceCertficate/26/18/35/24/2/certificate_83328985.pdf"
+            }
+          ],
+          "meetingconversions": [
+            {
+              "widgetid": "98533828",
+              "widgetname": "Book a Meeting Sample",
+              "widgettype": "book_a_meeting",
+              "widgetaction": "https://www.bookedmeeting.com",
+              "widgetsubmittedtimestamp": "2016-01-01T10:00:23-07:00"
+            }
+          ],
+          "democonversions": [
+            {
+              "widgetid": "98533852",
+              "widgetname": "Schedule a Demo Sample",
+              "widgettype": "request_a_demo",
+              "widgetaction": "jane.doe@on24.com",
+              "widgetsubmittedtimestamp": "2016-01-01T11:00:23-07:00"
+            }
+          ],
+          "freetrial": [
+            {
+              "widgetid": "93838564",
+              "widgetname": "Free Trial Sample",
+              "widgettype": "free_trial",
+              "widgetaction": "john.doe@on24.com",
+              "widgetsubmittedtimestamp": "2016-01-01T11:07:23-07:00"
+            }
+          ],
+          "contactus": [
+            {
+              "widgetid": "7884",
+              "widgetname": "Contact us 1",
+              "widgettype": "contactus",
+              "widgetaction": "john.doe@on24.com",
+              "widgetsubmittedtimestamp": "2015-05-20T11:18:13-07:00"
+            }
+          ],
+          "drift": [
+            {
+              "widgetid": "93858367",
+              "widgetname": "startConversation",
+              "widgettype": "drift",
+              "widgetaction": "Jan 01, 2016 10:00 AM",
+              "widgetsubmittedtimestamp": "2016-01-01T11:07:23-07:00"
+            }
+          ],
+          "breakouts": [
+            {
+              "breakoutid": "4816",
+              "breakoutname": "Breakout Room Sample",
+              "breakoutrole": "Attendee",
+              "breakoutcumulativeliveminutes": 15
+            }
+          ],
+          "calendly": [
+            {
+              "meetingsbooked": 2
+            }
+          ],
+          "shareidea": [
+            {
+              "topic": "What are the best colors?",
+              "type": "IDEA",
+              "description": "Blue",
+              "ideanumber": 66628,
+              "rating": 1,
+              "datetime": "2024-07-26T07:38:51-07:00"
+            },
+            {
+              "topic": "How can we increase our audience engagement?",
+              "type": "COMMENT",
+              "description": "By providing relevant and exciting information.",
+              "ideanumber": 66627,
+              "datetime": "2024-07-26T07:37:24-07:00"
+            }
+          ],
+          "reactions": [
+            {
+              "type": "celebrate",
+              "timefromstart": 9,
+              "datetime": "2024-06-16T23:40:40-07:00"
+            },
+            {
+              "type": "laugh",
+              "timefromstart": 7,
+              "datetime": "2024-06-16T23:40:38-07:00"
+            },
+            {
+              "type": "heart",
+              "timefromstart": 6,
+              "datetime": "2024-06-16T23:40:37-07:00"
+            },
+            {
+              "type": "like",
+              "timefromstart": 4,
+              "datetime": "2024-06-16T23:40:35-07:00"
+            }
+          ],
+          "livemediaplayerminutes": 40,
+          "archivemediaplayerminutes": 40
+        }
+      ]
+    },
+    "When content type is gateway": {
+      "eventid": 311513,
+      "totalattendees": 1,
+      "attendees": [
+        {
+          "email": "xxxxxxxx@ehub.com",
+          "eventuserid": 49502161,
+          "exteventusercd": "1504",
+          "userstatus": "active",
+          "isblocked": "N",
+          "engagementscore": 4.1,
+          "liveminutes": 15,
+          "liveviewed": 1,
+          "archiveminutes": 32,
+          "archiveviewed": 1,
+          "firstarchiveactivity": "2015-05-20T06:14:17-07:00",
+          "lastarchiveactivity": "2015-05-20T09:20:48-08:00",
+          "askedquestions": 0,
+          "resourcesdownloaded": 0,
+          "answeredpolls": 0,
+          "answeredsurveys": 0,
+          "answeredsurveyquestions": 0,
+          "userprofileurl": "https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=",
+          "campaigncode": "CPM-001",
+          "sourcecampaigncode": "CMP-001",
+          "sourceeventid": 2141380,
+          "cumulativeliveminutes": 0,
+          "cumulativearchiveminutes": 32,
+          "partnerref": "registered_partner",
+          "attendancepartnerref": "last_partner",
+          "attendeesessions": 1,
+          "meetingconversions": [
+            {
+              "widgetid": "8147",
+              "widgetname": "Book a Meeting 1",
+              "widgettype": "book_a_meeting",
+              "widgetaction": "https://www.ehub_bookedmeeting.com",
+              "widgetsubmittedtimestamp": "2015-05-20T10:05:23-07:00"
+            }
+          ],
+          "democonversions": [
+            {
+              "widgetid": "7895",
+              "widgetname": "Schedule a Demo 1",
+              "widgettype": "request_a_demo",
+              "widgetaction": "jane.doe@on24.com",
+              "widgetsubmittedtimestamp": "2015-05-20T11:21:00-07:00"
+            }
+          ],
+          "contactus": [
+            {
+              "widgetid": "7884",
+              "widgetname": "Contact us 1",
+              "widgettype": "contactus",
+              "widgetaction": "john.doe@on24.com",
+              "widgetsubmittedtimestamp": "2015-05-20T11:18:13-07:00"
+            }
+          ],
+          "getpricing": [
+            {
+              "widgetid": 7891,
+              "widgetname": "Price Quote 1",
+              "widgettype": "price_quote",
+              "widgetaction": "https://www.google.com/",
+              "widgetsubmittedtimestamp": "2015-05-20T02:29:30-07:00"
+            }
+          ],
+          "freetrial": [
+            {
+              "widgetid": "93838564",
+              "widgetname": "Free Trial Sample",
+              "widgettype": "free_trial",
+              "widgetaction": "john.doe@on24.com",
+              "widgetsubmittedtimestamp": "2016-01-01T11:07:23-07:00"
+            }
+          ],
+          "drift": [
+            {
+              "widgetid": "93858367",
+              "widgetname": "startConversation",
+              "widgettype": "drift",
+              "widgetaction": "Jan 01, 2016 10:00 AM",
+              "widgetsubmittedtimestamp": "2016-01-01T11:07:23-07:00"
+            }
+          ]
+        }
+      ]
+    },
+    "When content type is experience": {
+      "eventid": 311514,
+      "totalattendees": 1,
+      "attendees": [
+        {
+          "email": "xxxxxxxx@targetexperience.com",
+          "eventuserid": 49502162,
+          "exteventusercd": "1505",
+          "userstatus": "active",
+          "isblocked": "N",
+          "engagementscore": 4.1,
+          "liveminutes": 0,
+          "archiveminutes": 32,
+          "archiveviewed": 1,
+          "firstarchiveactivity": "2015-05-20T06:14:17-07:00",
+          "lastarchiveactivity": "2015-05-20T09:20:48-08:00",
+          "askedquestions": 0,
+          "resourcesdownloaded": 0,
+          "answeredpolls": 0,
+          "answeredsurveys": 0,
+          "answeredsurveyquestions": 0,
+          "userprofileurl": "https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=",
+          "campaigncode": "CPM-001",
+          "sourcecampaigncode": "CMP-001",
+          "sourceeventid": 2141380,
+          "cumulativeliveminutes": 0,
+          "cumulativearchiveminutes": 32,
+          "partnerref": "registered_partner",
+          "attendancepartnerref": "last_partner",
+          "attendeesessions": 1,
+          "meetingconversions": [
+            {
+              "widgetid": "98533828",
+              "widgetname": "Book a Meeting 1",
+              "widgettype": "book_a_meeting",
+              "widgetaction": "https://www.bookedmeeting.com",
+              "widgetsubmittedtimestamp": "2015-05-20T10:00:23-07:00"
+            }
+          ],
+          "democonversions": [
+            {
+              "widgetid": "98533852",
+              "widgetname": "Schedule a Demo 1",
+              "widgettype": "request_a_demo",
+              "widgetaction": "jane.doe@on24.com",
+              "widgetsubmittedtimestamp": "2015-05-20T11:00:23-07:00"
+            }
+          ],
+          "contactus": [
+            {
+              "widgetid": "98532583",
+              "widgetname": "Contact us 1",
+              "widgettype": "contactus",
+              "widgetaction": "john.doe@on24.com",
+              "widgetsubmittedtimestamp": "2015-05-20T11:00:23-07:00"
+            }
+          ],
+          "drift": [
+            {
+              "widgetid": "93858367",
+              "widgetname": "startConversation",
+              "widgettype": "drift",
+              "widgetaction": "Jan 01, 2016 10:00 AM",
+              "widgetsubmittedtimestamp": "2016-01-01T11:07:23-07:00"
+            }
+          ]
+        }
+      ]
+    },
+    "VE account": {
+      "eventid": 71883,
+      "totalattendees": 1,
+      "attendees": [
+        {
+          "email": "xxxxxxxxx@on24.com",
+          "eventuserid": 123375229,
+          "clientid": 2213,
+          "exteventusercd": "1502",
+          "userstatus": "active",
+          "isblocked": "N",
+          "archiveminutes": 7,
+          "archiveviewed": 1,
+          "firstarchiveactivity": "2020-01-20T23:59:38-08:00",
+          "lastarchiveactivity": "2020-01-20T23:59:38-08:00",
+          "resourcesdownloaded": 1,
+          "answeredsurveys": 1,
+          "answeredsurveyquestions": 1,
+          "campaigncode": "CPM-001",
+          "sourcecampaigncode": "CPM-001",
+          "cumulativearchiveminutes": 13,
+          "attendeesessions": 6,
+          "locationsvisited": 1,
+          "resources": [
+            {
+              "resourceid": 5626305,
+              "resourceviewed": "Customer Resource",
+              "resourceviewedtimestamp": "2020-01-21T00:02:29-08:00",
+              "resourceviews": 1,
+              "resourcetype": "WEBCAST",
+              "sponsorid": 223628,
+              "sponsorname": "Sponsor_1"
+            }
+          ],
+          "surveys": [
+            {
+              "surveyid": "6388264",
+              "surveysubmittedtimestamp": "2020-01-21T00:05:13-08:00",
+              "surveyquestions": [
+                {
+                  "surveyquestionid": 987654,
+                  "surveyquestion": "what is the number phi ?",
+                  "surveyanswers": [
+                    "It is the basis for the golden ratio: 1.618"
+                  ],
+                  "surveyanswersdetail": [
+                    {
+                      "answercode": "choice1",
+                      "answer": "It is the basis for the golden ratio: 1.618"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "locationvisits": [
+            {
+              "locationid": 2,
+              "locationcode": "home",
+              "locationname": "Plaza",
+              "sponsorid": 0,
+              "sponsorname": "Environment-level",
+              "visits": 31,
+              "visitsduration": 44,
+              "cumulativevisitsduration": 44
+            }
+          ],
+          "meetingconversions": [
+            {
+              "widgetid": "98358328",
+              "widgetname": "Book a Meeting Sample",
+              "widgettype": "book_a_meeting",
+              "widgetaction": "https://www.bookedmeeting.com",
+              "widgetsubmittedtimestamp": "2016-01-01T10:00:23-07:00"
+            }
+          ],
+          "democonversions": [
+            {
+              "widgetid": "98533852",
+              "widgetname": "Schedule a Demo Sample",
+              "widgettype": "request_a_demo",
+              "widgetaction": "jane.doe@on24.com",
+              "widgetsubmittedtimestamp": "2016-01-01T11:00:23-07:00"
+            }
+          ],
+          "getpricing": [
+            {
+              "widgetid": "93538823",
+              "widgetname": "Get Pricing Sample",
+              "widgettype": "get_pricing",
+              "widgetaction": "jane.doe@on24.com",
+              "widgetsubmittedtimestamp": "2016-01-01T11:05:23-07:00"
+            }
+          ],
+          "freetrial": [
+            {
+              "widgetid": "93838564",
+              "widgetname": "Free Trial Sample",
+              "widgettype": "free_trial",
+              "widgetaction": "john.doe@on24.com",
+              "widgetsubmittedtimestamp": "2016-01-01T11:07:23-07:00"
+            }
+          ]
+        }
+      ]
+    },
+    "When content type is golive": {
+      "eventid": 6958054,
+      "totalattendees": 1,
+      "attendees": [
+        {
+          "email": "xxxxxxxx@on24.com",
+          "eventuserid": 264677544,
+          "userstatus": "active",
+          "isblocked": "N",
+          "engagementscore": 6.2,
+          "liveminutes": 40,
+          "liveviewed": 1,
+          "firstliveactivity": "2021-10-01T05:55:22-08:00",
+          "lastliveactivity": "2021-10-02T11:41:42-07:00",
+          "resourcesdownloaded": 0,
+          "answeredpolls": 0,
+          "sourceeventid": 6958054,
+          "userprofileurl": "https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=",
+          "cumulativeliveminutes": 35,
+          "attendeesessions": 4
+        }
+      ]
+    }
+  }
+}

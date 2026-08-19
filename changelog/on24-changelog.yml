@@ -1,0 +1,59 @@
+generated: '2026-08-13'
+method: searched
+source: https://support.on24.com/hc/en-us/sections/32095215415067-2025-Release-Notes (Zendesk Help Center section
+  "2025 Release Notes", read via the public help-center API)
+docs: https://support.on24.com/hc/en-us/sections/32095215415067-2025-Release-Notes
+scheme: dated product release notes, published per release train (not per API version)
+cadence: roughly every 4-8 weeks; each release ships to the EU data center one day before the NA data center
+api_specific: false
+notes: 'ON24 publishes PRODUCT release notes covering the whole Intelligent Engagement Platform (Webcast Elite,
+  Forums, Engagement Hub, Target, Media Manager, Intelligence, Connect, Go Live). There is no API-specific changelog
+  and the OpenAPI at https://api.on24.com/v2/openapi.json carries info.version "2" with no build/date stamp, so
+  a consumer cannot tell when the contract last changed. STALENESS FINDING: as of 2026-08-13 the newest published
+  release note is July 2025 — the help center has a "2025 Release Notes" section and no 2026 section, so the public
+  changelog is roughly 12 months behind.'
+current_version: v2 (URI path); OpenAPI info.version "2", undated
+latest_entry_date: '2025-07-11'
+entry_count: 5
+entries:
+- version: July 2025
+  date: '2025-07-11'
+  date_eu: '2025-07-10'
+  breaking: false
+  url: https://support.on24.com/hc/en-us/articles/38145112129179-July-2025-Product-Release-Notes
+  highlights:
+  - Key Moment video branding moved to Platform Tools > Branding > Video Settings
+  - AI-generated podcasts on ON24 Nurture Pages
+- version: May 2025
+  date: '2025-05-30'
+  date_eu: '2025-05-29'
+  breaking: false
+  url: https://support.on24.com/hc/en-us/articles/36253508589467-May-2025-Product-Release-Notes
+  highlights:
+  - Certificate font-size control in Earn Certification tool
+  - Drag-to-move console tools from the header chrome
+  - French Canadian live captioning
+- version: April 2025
+  date: '2025-04-04'
+  date_eu: '2025-04-03'
+  breaking: true
+  url: https://support.on24.com/hc/en-us/articles/34899085880603-April-2025-Product-Release-Notes
+  highlights:
+  - Agentic Event Creation (BETA) assistant in Webcast Elite
+  - 'BREAKING: 4:3 video format support removed from June 1 2025; Media Player Engagement Tool is 16:9 only'
+- version: February 2025
+  date: '2025-02-21'
+  date_eu: '2025-02-20'
+  breaking: false
+  url: https://support.on24.com/hc/en-us/articles/33118767180571-February-2025-Product-Release-Notes
+  highlights:
+  - Multi-registration URL lands users on the next upcoming live event
+  - Multi-language registration and lobby pages (BETA, up to five languages)
+- version: January 2025
+  date: '2025-01-10'
+  date_eu: '2025-01-09'
+  breaking: false
+  url: https://support.on24.com/hc/en-us/articles/31526980965275-January-2025-Product-Release-Notes
+  highlights:
+  - Console Builder Tools toggle replaces Tools Manager; inactive tools hidden
+  - Guided registration page setup

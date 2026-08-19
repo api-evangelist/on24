@@ -1,30 +1,208 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: derived
 status: candidate
-source: >-
-  Candidate tool list derived from the ON24 REST operations documented at
-  apidoc.on24.com and confirmed in the node-on24 client. ON24 publishes no
-  official hosted/remote MCP server; this is a proposed surface, not a live one.
+source: Candidate tool list DERIVED from the real ON24 OpenAPI harvested from https://api.on24.com/v2/openapi.json
+  (openapi/_original/on24-openapi.json). Every operationId below is verified present in that spec.
 server:
   name: on24
-  transport: http
+  transport: null
   url: null
+deployment:
+  mode: none
+  auth: api-key
+  verified: derived
+  tools: 35
+  checked: '2026-08-13'
+  notes: 'ON24 ships NO MCP server, hosted or local. Probed 2026-08-13: https://api.on24.com/mcp -> 404, https://mcp.on24.com/
+    -> DNS does not resolve, npm text search for "on24 mcp" returns no ON24 package, and no ON24 entry exists on
+    the public MCP registries. This file is a PROPOSED surface only — there is no endpoint an agent can call and
+    no package a human can install.'
+auth:
+  scheme: apiKey header pair
+  headers:
+  - AccessTokenKey
+  - AccessTokenSecret
+  scoping: numeric clientId in the path; every tool must carry it
+  detail: authentication/on24-authentication.yml
+tool_count: 35
+notes: 'UPGRADE FROM THE PREVIOUS ROUND: the earlier candidate list was written from prose in the docs and contained
+  operations that do not exist in the published contract (e.g. PATCH /registrant/{email} was listed without a client/event
+  distinction, and GET /event/{eventId}/registrationfields was named instead of the real /regfield path). Every
+  tool below is now bound to a verified operationId. See mcp/on24-tool-crosswalk.yml for the full REST binding and
+  the 32 operations left uncovered.'
 tools:
 - name: create_registrant
-  description: Register an attendee for a specific ON24 event.
+  category: registration
+  description: REST Registration API
   source_operation: POST https://api.on24.com/v2/client/{clientId}/event/{eventId}/registrant
-- name: update_registrant
-  description: Update an existing registrant (matched by email).
+  operationId: Registration.RESTRegistrationAPI
+- name: update_registrant_event
+  category: registration
+  description: Update Registrant (event-level)
+  source_operation: PATCH https://api.on24.com/v2/client/{clientId}/event/{eventId}/registrant
+  operationId: Registration.UpdateRegistrantEventlevel
+- name: update_registrant_client
+  category: registration
+  description: Update Registrant (client-level)
   source_operation: PATCH https://api.on24.com/v2/client/{clientId}/registrant/{email}
+  operationId: Registration.UpdateRegistrantClientlevel
 - name: forget_registrant
-  description: Forget/erase a registrant, optionally scoped to one event (GDPR).
+  category: privacy
+  description: Forget Registrant (client-level)
   source_operation: POST https://api.on24.com/v2/client/{clientId}/forget
+  operationId: Registration.ForgetRegistrantClientlevel
+- name: forget_all_registrants_event
+  category: privacy
+  description: Forget All Registrant (event-level)
+  source_operation: POST https://api.on24.com/v2/client/{clientId}/event/{eventId}/forgetall
+  operationId: Registration.ForgetAllRegistrantEventlevel
+- name: forget_all_registrants_client
+  category: privacy
+  description: Forget All Registrant (client-level)
+  source_operation: POST https://api.on24.com/v2/client/{clientId}/forgetall
+  operationId: Registration.ForgetAllRegistrantClientlevel
 - name: list_events
-  description: List events with filters (e.g. startDate, endDate) via the Analytics API.
+  category: analytics
+  description: Events
   source_operation: GET https://api.on24.com/v2/client/{clientId}/event
+  operationId: AnalyticsClientLevel.Events
+- name: get_event
+  category: analytics
+  description: Metadata and Usage
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}
+  operationId: AnalyticsEventLevel.MetadataAndUsage
 - name: list_event_registrants
-  description: List registrants/attendees for an event with engagement analytics.
+  category: analytics
+  description: Registrants
   source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/registrant
-- name: get_event_registration_fields
-  description: Retrieve the registration field configuration for an event.
-  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/registrationfields
+  operationId: AnalyticsEventLevel.Registrants
+- name: list_event_attendees
+  category: analytics
+  description: Attendees
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/attendee
+  operationId: AnalyticsEventLevel.Attendees
+- name: list_attendee_sessions
+  category: analytics
+  description: Attendee Viewing Sessions
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/attendeesession
+  operationId: AnalyticsEventLevel.AttendeeViewingSessions
+- name: list_client_registrants
+  category: analytics
+  description: Registrants
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/registrant
+  operationId: AnalyticsClientLevel.Registrants
+- name: list_client_attendees
+  category: analytics
+  description: Attendees
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/attendee
+  operationId: AnalyticsClientLevel.Attendees
+- name: get_registrant_by_email
+  category: analytics
+  description: Registrant by Email
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/registrant/{email}
+  operationId: AnalyticsClientLevel.RegistrantByEmail
+- name: get_attendee_by_email
+  category: analytics
+  description: Attendee by Email
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/attendee/{email}
+  operationId: AnalyticsClientLevel.AttendeeByEmail
+- name: get_prospect_engagement_profile
+  category: analytics
+  description: PEP
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/lead/{email}
+  operationId: AnalyticsClientLevel.PEP
+- name: list_leads
+  category: analytics
+  description: Leads
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/lead
+  operationId: AnalyticsClientLevel.Leads
+- name: list_engaged_accounts
+  category: analytics
+  description: Engaged Accounts
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/engagedaccount
+  operationId: AnalyticsClientLevel.EngagedAccounts
+- name: list_event_polls
+  category: analytics
+  description: Polls
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/poll
+  operationId: AnalyticsEventLevel.Polls
+- name: list_event_surveys
+  category: analytics
+  description: Surveys
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/survey
+  operationId: AnalyticsEventLevel.Surveys
+- name: list_event_ctas
+  category: analytics
+  description: Call To Action
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/cta
+  operationId: AnalyticsEventLevel.CallToAction
+- name: list_event_resources
+  category: analytics
+  description: Resources Viewed
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/resource
+  operationId: AnalyticsEventLevel.ResourcesViewed
+- name: get_email_statistics
+  category: analytics
+  description: Email Statistics
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/emailstatistics
+  operationId: AnalyticsEventLevel.EmailStatistics
+- name: create_webinar
+  category: event-management
+  description: Create/Copy a Webinar
+  source_operation: POST https://api.on24.com/v2/client/{clientId}/event
+  operationId: EventManagement.CreateAWebinar
+- name: update_webinar
+  category: event-management
+  description: Update a Webinar
+  source_operation: PUT https://api.on24.com/v2/client/{clientId}/event/{eventId}
+  operationId: EventManagement.UpdateAWebinar
+- name: delete_webinar
+  category: event-management
+  description: Delete Webinar
+  source_operation: DELETE https://api.on24.com/v2/client/{clientId}/event/{eventId}
+  operationId: EventManagement.DeleteWebinar
+- name: upload_slides
+  category: event-management
+  description: Upload Slides
+  source_operation: POST https://api.on24.com/v2/client/{clientId}/event/{eventId}/slides
+  operationId: EventManagement.UploadSlides
+- name: list_slides
+  category: event-management
+  description: Slide Listing
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/slides
+  operationId: EventManagement.SlideListing
+- name: create_speaker_bio
+  category: event-management
+  description: Create Speaker Bio
+  source_operation: POST https://api.on24.com/v2/client/{clientId}/event/{eventId}/speakerbio
+  operationId: EventManagement.CreateSpeakerBio
+- name: get_registration_fields
+  category: helpers
+  description: Retrieve Registration Fields
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/event/{eventId}/regfield
+  operationId: Helpers.RetrieveRegistrationFields
+- name: list_event_types
+  category: helpers
+  description: Retrieve Event Types
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/eventtypes
+  operationId: Helpers.RetrieveEventTypes
+- name: list_event_profiles
+  category: helpers
+  description: Retrieve Event Profiles
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/eventprofile
+  operationId: Helpers.RetrieveEventProfiles
+- name: list_users
+  category: helpers
+  description: Users
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/users
+  operationId: Helpers.Users
+- name: list_media_assets
+  category: content
+  description: Media Manager Derivative Content
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/mediamanager
+  operationId: ContentListings.MediaManagerDerivativeContent
+- name: list_engagement_hub_content
+  category: content
+  description: Engagement Hub Content Listing
+  source_operation: GET https://api.on24.com/v2/client/{clientId}/ehub/{gatewayId}/content
+  operationId: ContentListings.EngagementHubContentListing

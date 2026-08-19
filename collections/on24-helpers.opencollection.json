@@ -1,0 +1,453 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ON24 WCC API v2 — Helpers",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "AccessTokenKey",
+      "value": "{{AccessTokenKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Helpers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Retrieve Account Managers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/accountmanager",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18901",
+                "type": "path",
+                "description": "The account managers will be retrieved based on the client id"
+              }
+            ]
+          },
+          "docs": "Retrieves Account Manager Contacts."
+        },
+        {
+          "info": {
+            "name": "Custom Account Tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/customaccounttag",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18901",
+                "type": "path",
+                "description": "The client id"
+              }
+            ]
+          },
+          "docs": "Retrieves the account's custom tag information."
+        },
+        {
+          "info": {
+            "name": "Retrieve Registration Fields",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/regfield",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Retrieves registration field information for a particular event"
+        },
+        {
+          "info": {
+            "name": "Retrieve Event Managers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/eventmanager",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18901",
+                "type": "path",
+                "description": "The event managers will be retrieved based on the client id"
+              }
+            ]
+          },
+          "docs": "Retrieves Event Manager Contacts."
+        },
+        {
+          "info": {
+            "name": "Retrieve Event Profiles",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/eventprofile",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18901",
+                "type": "path",
+                "description": "The event profiles will be retrieved based on the client id"
+              }
+            ]
+          },
+          "docs": "Retrieves event profiles."
+        },
+        {
+          "info": {
+            "name": "Retrieve Event Types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/eventtypes",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18091",
+                "type": "path",
+                "description": "The event types will be retrieved based on the client id"
+              }
+            ]
+          },
+          "docs": "Retrieves event types for the given client account."
+        },
+        {
+          "info": {
+            "name": "Retrieve Language Codes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/languages",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18901",
+                "type": "path",
+                "description": "The language codes will be retrieved based on the client id"
+              }
+            ]
+          },
+          "docs": "Retrieves language codes."
+        },
+        {
+          "info": {
+            "name": "Retrieve Sales Rep Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/salesrep",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18901",
+                "type": "path",
+                "description": "The sales contacts will be retrieved based on the client id"
+              }
+            ]
+          },
+          "docs": "Retrieves Sales Representatives."
+        },
+        {
+          "info": {
+            "name": "Retrieve Signal Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/signalrep",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18901",
+                "type": "path",
+                "description": "The signal contacts will be retrieved based on the client id"
+              }
+            ]
+          },
+          "docs": "Retrieves Signal Contacts"
+        },
+        {
+          "info": {
+            "name": "Retrieve Technical Rep Contacts",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/technicalrep",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18901",
+                "type": "path",
+                "description": "The technical contacts will be retrieved based on the client id"
+              }
+            ]
+          },
+          "docs": "Retrieves Technical Representatives."
+        },
+        {
+          "info": {
+            "name": "Retrieve Timezones Codes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/timezones",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18091",
+                "type": "path",
+                "description": "The time zones will be retrieved based on the client id"
+              }
+            ]
+          },
+          "docs": "Retrieves time zones for the given client account"
+        },
+        {
+          "info": {
+            "name": "Retrieve Replacement Tokens",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/tokens",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18901",
+                "type": "path",
+                "description": "The client id"
+              },
+              {
+                "name": "context",
+                "value": "email",
+                "type": "query",
+                "description": "Indicates where the token is supported"
+              }
+            ]
+          },
+          "docs": "Retrieves replacement tokens that can be used in contents like Email Templates."
+        },
+        {
+          "info": {
+            "name": "Users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/users",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              }
+            ]
+          },
+          "docs": "Returns a listing of users for a particular client, including their user's subclients."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

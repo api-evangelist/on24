@@ -1,0 +1,506 @@
+generated: '2026-08-13'
+method: derived
+source: mcp/on24-mcp.yml (candidate tools) bound to openapi/_original/on24-openapi.json (harvested from https://api.on24.com/v2/openapi.json)
+status: candidate
+notes: 'IMPORTANT CAVEAT: ON24 ships no MCP server. This crosswalk maps the CANDIDATE tool surface in mcp/on24-mcp.yml
+  onto the real REST contract, so the binding is exact (every row is 1:1 against a verified operationId) but the
+  MCP side is proposed, not deployed. There is no GraphQL surface. Because the tools are derived FROM the OpenAPI
+  rather than observed from a live tools/list, there are no mcp_only rows by construction — that is a property of
+  the derivation, not a finding about ON24.'
+surfaces:
+  openapi:
+    path: openapi/_original/on24-openapi.json
+    url: https://api.on24.com/v2/openapi.json
+    gated: false
+    operations: 67
+    note: Anonymous, 200, parses as OpenAPI 3.0.1. Identical document also served at https://api.eu.on24.com/v2/openapi.json.
+  graphql:
+    endpoint: null
+    gated: null
+    note: No GraphQL surface published or discovered.
+  mcp:
+    url: null
+    gated: null
+    note: No MCP server exists (api.on24.com/mcp -> 404; mcp.on24.com does not resolve).
+coverage:
+  openapi_operations: 67
+  mcp_tools: 35
+  mapped: 35
+  mcp_only: 0
+  rest_only: 32
+  rest_coverage_pct: 52.2
+crosswalk:
+- tool: create_registrant
+  category: registration
+  rest:
+  - Registration.RESTRegistrationAPI
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: update_registrant_event
+  category: registration
+  rest:
+  - Registration.UpdateRegistrantEventlevel
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: update_registrant_client
+  category: registration
+  rest:
+  - Registration.UpdateRegistrantClientlevel
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: forget_registrant
+  category: privacy
+  rest:
+  - Registration.ForgetRegistrantClientlevel
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: forget_all_registrants_event
+  category: privacy
+  rest:
+  - Registration.ForgetAllRegistrantEventlevel
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: forget_all_registrants_client
+  category: privacy
+  rest:
+  - Registration.ForgetAllRegistrantClientlevel
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_events
+  category: analytics
+  rest:
+  - AnalyticsClientLevel.Events
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: get_event
+  category: analytics
+  rest:
+  - AnalyticsEventLevel.MetadataAndUsage
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_event_registrants
+  category: analytics
+  rest:
+  - AnalyticsEventLevel.Registrants
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_event_attendees
+  category: analytics
+  rest:
+  - AnalyticsEventLevel.Attendees
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_attendee_sessions
+  category: analytics
+  rest:
+  - AnalyticsEventLevel.AttendeeViewingSessions
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_client_registrants
+  category: analytics
+  rest:
+  - AnalyticsClientLevel.Registrants
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_client_attendees
+  category: analytics
+  rest:
+  - AnalyticsClientLevel.Attendees
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: get_registrant_by_email
+  category: analytics
+  rest:
+  - AnalyticsClientLevel.RegistrantByEmail
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: get_attendee_by_email
+  category: analytics
+  rest:
+  - AnalyticsClientLevel.AttendeeByEmail
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: get_prospect_engagement_profile
+  category: analytics
+  rest:
+  - AnalyticsClientLevel.PEP
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_leads
+  category: analytics
+  rest:
+  - AnalyticsClientLevel.Leads
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_engaged_accounts
+  category: analytics
+  rest:
+  - AnalyticsClientLevel.EngagedAccounts
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_event_polls
+  category: analytics
+  rest:
+  - AnalyticsEventLevel.Polls
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_event_surveys
+  category: analytics
+  rest:
+  - AnalyticsEventLevel.Surveys
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_event_ctas
+  category: analytics
+  rest:
+  - AnalyticsEventLevel.CallToAction
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_event_resources
+  category: analytics
+  rest:
+  - AnalyticsEventLevel.ResourcesViewed
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: get_email_statistics
+  category: analytics
+  rest:
+  - AnalyticsEventLevel.EmailStatistics
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: create_webinar
+  category: event-management
+  rest:
+  - EventManagement.CreateAWebinar
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: update_webinar
+  category: event-management
+  rest:
+  - EventManagement.UpdateAWebinar
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: delete_webinar
+  category: event-management
+  rest:
+  - EventManagement.DeleteWebinar
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: upload_slides
+  category: event-management
+  rest:
+  - EventManagement.UploadSlides
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_slides
+  category: event-management
+  rest:
+  - EventManagement.SlideListing
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: create_speaker_bio
+  category: event-management
+  rest:
+  - EventManagement.CreateSpeakerBio
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: get_registration_fields
+  category: helpers
+  rest:
+  - Helpers.RetrieveRegistrationFields
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_event_types
+  category: helpers
+  rest:
+  - Helpers.RetrieveEventTypes
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_event_profiles
+  category: helpers
+  rest:
+  - Helpers.RetrieveEventProfiles
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_users
+  category: helpers
+  rest:
+  - Helpers.Users
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_media_assets
+  category: content
+  rest:
+  - ContentListings.MediaManagerDerivativeContent
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+- tool: list_engagement_hub_content
+  category: content
+  rest:
+  - ContentListings.EngagementHubContentListing
+  binding: '1:1'
+  confidence: high
+  note: Derived directly from the published OpenAPI operation; parameters and requestBody of that operation ARE
+    the tool inputSchema.
+mcp_only: []
+rest_only:
+- operationId: AnalyticsClientLevel.AttendeesByEmailMultipleEvents
+  method: GET
+  path: /client/{clientId}/attendee/{email}/allevents
+  summary: Attendees by Email Multiple Events
+  tag: Client Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsClientLevel.ClientSurveyLibrary
+  method: GET
+  path: /client/{clientId}/surveylibrary
+  summary: Client Survey Library
+  tag: Client Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsClientLevel.Presenters
+  method: GET
+  path: /client/{clientId}/presenter
+  summary: Presenters
+  tag: Client Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsClientLevel.RegistrantsByEmailMultipleEvents
+  method: GET
+  path: /client/{clientId}/registrant/{email}/allevents
+  summary: Registrants by Email Multiple Events
+  tag: Client Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsClientLevel.SubClients
+  method: GET
+  path: /client/{clientId}
+  summary: Sub-Clients
+  tag: Client Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsClientLevel.UserQuestions
+  method: GET
+  path: /client/{clientId}/userquestions
+  summary: Client User Questions
+  tag: Client Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsEventLevel.Certifications
+  method: GET
+  path: /client/{clientId}/event/{eventId}/certifications
+  summary: Certifications
+  tag: Event Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsEventLevel.EmailCalendarReminder
+  method: GET
+  path: /client/{clientId}/event/{eventId}/calendarreminder
+  summary: Email Calendar Reminder
+  tag: Event Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsEventLevel.EmailNotificationDetails
+  method: GET
+  path: /client/{clientId}/event/{eventId}/email
+  summary: Email Notification Details
+  tag: Event Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsEventLevel.EngagementHubContentActivity
+  method: GET
+  path: /client/{clientId}/event/{eventId}/contentactivity
+  summary: Engagement Hub Content Activity
+  tag: Event Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsEventLevel.GroupChatActivity
+  method: GET
+  path: /client/{clientId}/event/{eventId}/groupchat
+  summary: Group Chat Activity
+  tag: Event Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsEventLevel.PresentationManagerChatLogs
+  method: GET
+  path: /client/{clientId}/event/{eventId}/presenterchat
+  summary: Presentation Manager Chat Logs
+  tag: Event Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: AnalyticsEventLevel.Presenters
+  method: GET
+  path: /client/{clientId}/event/{eventId}/presenter
+  summary: Presenters
+  tag: Event Level Analytics
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: ContentListings.MediaManagerDerivativeContentText
+  method: GET
+  path: /client/{clientId}/mediamanager/{mediaId}
+  summary: Media Manager Derivative Content Text
+  tag: Content Listings
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: EventManagement.CreateRelatedContent
+  method: POST
+  path: /client/{clientId}/event/{eventId}/relatedcontent
+  summary: Create Related Content
+  tag: Event Management
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: EventManagement.CreateSurveyQuestionsAndAnswers
+  method: POST
+  path: /client/{clientId}/event/{eventId}/surveyquestions
+  summary: Create Survey Questions and Answers
+  tag: Event Management
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: EventManagement.DeleteSpeakerBio
+  method: DELETE
+  path: /client/{clientId}/event/{eventId}/speakerbio
+  summary: Delete Speaker Bio
+  tag: Event Management
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: EventManagement.DeleteVTTFiles
+  method: DELETE
+  path: /client/{clientId}/event/{eventId}/vtt
+  summary: Delete VTT Files
+  tag: Event Management
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: EventManagement.MediaManagerUploadDocument
+  method: POST
+  path: /client/{clientId}/mediamanager/document
+  summary: Media Manager Upload Document
+  tag: Event Management
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: EventManagement.MediaManagerUploadVideo
+  method: POST
+  path: /client/{clientId}/mediamanager/uploadvideo
+  summary: Media Manager Upload Video
+  tag: Event Management
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: EventManagement.UpdateEmailCalendarReminder
+  method: PUT
+  path: /client/{clientId}/event/{eventId}/calendarreminder
+  summary: Update Email Calendar Reminder
+  tag: Event Management
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: EventManagement.UpdateEmailNotification
+  method: PUT
+  path: /client/{clientId}/event/{eventId}/email/{emailId}
+  summary: Update Email Notification
+  tag: Event Management
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: EventManagement.UpdateTextWithBannerWidget
+  method: POST
+  path: /client/{clientId}/event/{eventId}/textwithbanner
+  summary: Update Text With Banner Widget
+  tag: Event Management
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: Helpers.CustomAccountTags
+  method: GET
+  path: /client/{clientId}/customaccounttag
+  summary: Custom Account Tags
+  tag: Helpers
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: Helpers.RetrieveAccountManagers
+  method: GET
+  path: /client/{clientId}/accountmanager
+  summary: Retrieve Account Managers
+  tag: Helpers
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: Helpers.RetrieveEventManagers
+  method: GET
+  path: /client/{clientId}/eventmanager
+  summary: Retrieve Event Managers
+  tag: Helpers
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: Helpers.RetrieveLanguageCodes
+  method: GET
+  path: /client/{clientId}/languages
+  summary: Retrieve Language Codes
+  tag: Helpers
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: Helpers.RetrieveReplacementTokens
+  method: GET
+  path: /client/{clientId}/tokens
+  summary: Retrieve Replacement Tokens
+  tag: Helpers
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: Helpers.RetrieveSalesRepContacts
+  method: GET
+  path: /client/{clientId}/salesrep
+  summary: Retrieve Sales Rep Contacts
+  tag: Helpers
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: Helpers.RetrieveSignalContacts
+  method: GET
+  path: /client/{clientId}/signalrep
+  summary: Retrieve Signal Contacts
+  tag: Helpers
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: Helpers.RetrieveTechnicalRepContacts
+  method: GET
+  path: /client/{clientId}/technicalrep
+  summary: Retrieve Technical Rep Contacts
+  tag: Helpers
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.
+- operationId: Helpers.RetrieveTimezonesCodes
+  method: GET
+  path: /client/{clientId}/timezones
+  summary: Retrieve Timezones Codes
+  tag: Helpers
+  reason: No candidate tool proposed — helper lookup, niche widget update, or low-frequency admin operation.

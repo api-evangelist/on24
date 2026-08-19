@@ -1,0 +1,306 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ON24 WCC API v2 — REST Registration",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "AccessTokenKey",
+      "value": "{{AccessTokenKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "REST Registration",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Forget All Registrant (event-level)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/forgetall",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "accept",
+                "value": "Application/json"
+              },
+              {
+                "name": "content-type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Forgets personal data for all registrant records in the specified event.\n\nThe following registrant fields are modified by this endpoint:\n\n- email = {event_user_id}-deleted\n- firstname = 'deleted'\n- lastname = 'deleted'\n- last_update = {Current date time}\n- last_update_by = adminid\n- company = NULL\n- address_street1 = NULL\n- address_street2 = NULL\n- city = NULL\n- state = NULL\n- event_user_ip = NULL\n- operating_system = NULL\n- browser = NULL\n- zip = NULL\n- home_phone = NULL\n- work_phone = NULL\n- f"
+        },
+        {
+          "info": {
+            "name": "REST Registration API",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/registrant",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "content-type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "name": "accept",
+                "value": "Application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "honorrequired",
+                "value": "N",
+                "type": "query",
+                "description": "Specifies whether the required registration fields must be honored or not."
+              },
+              {
+                "name": "honorvalidation",
+                "value": "N",
+                "type": "query",
+                "description": "Specifies whether validation of response options for registration questions must be honored. Using 'N' allows any value to be pushed to fields with specified values for dropdown list, checkboxes, etc."
+              },
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Creates a registrant.\n\n### Soft Delete\n\nPerform a soft delete operation on a particular Registrant by sending the 'isDeleted' form parameter with the value of (Y or N) to update the deleted state of such Registrant. This value can be sent along with the other form parameters listed in the table above. Deleting/Undeleting a registrant is not allowed after the event has started.\n\n| Name | Located In | Required | Description | Default | Schema | Example |\n| --- | --- | --- | --- | --- | --- | --- |"
+        },
+        {
+          "info": {
+            "name": "Update Registrant (event-level)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/registrant",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "content-type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "name": "accept",
+                "value": "Application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "honorrequired",
+                "value": "N",
+                "type": "query",
+                "description": "Specifies whether the required registration fields must be honored or not."
+              },
+              {
+                "name": "honorvalidation",
+                "value": "N",
+                "type": "query",
+                "description": "Specifies whether validation of response options for registration questions must be honored. Using 'N' allows any value to be pushed to fields with specified values for dropdown list, checkboxes, etc."
+              },
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Updates an event registrant for the given client using the PATCH method. This means that only those registration fields that are part of the request will be updated.\n\nThe registrant to be updated will be identified by the provided email parameter value.\n\n### Soft Delete\n\nSoft delete is not supported through this endpoint. If you need to perform a soft delete on a registrant, please refer to REST Registration.\n\n### Validation\n\n- An optional 'honorrequired' parameter is supported with possible val"
+        },
+        {
+          "info": {
+            "name": "Forget Registrant (client-level)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/forget",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "accept",
+                "value": "Application/json"
+              },
+              {
+                "name": "content-type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Forgets personal data for all registrant data for a specific email address or multiple email addresses across an entire workspace, or for a specific event.\n\nThe following registrant fields are modified by this endpoint:\n\n- email = {event_user_id}-deleted\n- firstname = 'deleted'\n- lastname = 'deleted'\n- last_update = {Current date time}\n- last_update_by = adminid\n- company = NULL\n- address_street1 = NULL\n- address_street2 = NULL\n- city = NULL\n- state = NULL\n- event_user_ip = NULL\n- operating_syst"
+        },
+        {
+          "info": {
+            "name": "Forget All Registrant (client-level)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/forgetall",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "accept",
+                "value": "Application/json"
+              },
+              {
+                "name": "content-type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18091",
+                "type": "path",
+                "description": "The client id"
+              }
+            ]
+          },
+          "docs": "Forgets personal data for all registrant records in the specified workspace and all related sub-accounts.\n\n**NOTE: This will remove all data from all registrants, so this endpoint should be used with caution.**\n\nFollowing Registrant fields are modified by this endpoint:\n\n- email = {event_user_id}-deleted\n- firstname = 'deleted'\n- lastname = 'deleted'\n- last_update = {Current date time}\n- last_update_by = adminid\n- company = NULL\n- address_street1 = NULL\n- address_street2 = NULL\n- city = NULL\n- s"
+        },
+        {
+          "info": {
+            "name": "Update Registrant (client-level)",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://api.on24.com/v2/client/:clientId/registrant/:email",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "content-type",
+                "value": "application/x-www-form-urlencoded"
+              },
+              {
+                "name": "accept",
+                "value": "Application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18091",
+                "type": "path",
+                "description": "The client id is used for authentication"
+              },
+              {
+                "name": "email",
+                "value": "user@on24.com",
+                "type": "path",
+                "description": "The registrants will be updated that match this parameter"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Updates all registrants for the given client using the PATCH method. This means that only those registration fields that are part of the request will be updated. Because the registration pages for the various events may have different required registration field or allowed values, there will be no validation of the formData values for this request.\n\nIf provided, the email parameter in the body of the request (formData) will replace the existing email address for all matching registrants found by"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,28 @@
+generated: '2026-08-13'
+method: generated
+source: Packaged Agent Skills generated from the real ON24 OpenAPI (openapi/_original/on24-openapi.json, harvested
+  from https://api.on24.com/v2/openapi.json) plus the ON24 help center. ON24 publishes no skills, no AGENTS.md and
+  no llms.txt of its own — searched first, then generated. Every operationId referenced is verified against the
+  spec; none are invented.
+skill_count: 4
+skills:
+- file: on24-register-attendee.md
+  name: on24-register-attendee
+  description: Register a person for an ON24 webinar, honouring the event's configured registration fields, and
+    update or soft-delete that registration afterwards.
+  operations: 5
+- file: on24-pull-engagement-analytics.md
+  name: on24-pull-engagement-analytics
+  description: Pull ON24 event, registrant, attendee and in-event engagement analytics into a CRM, marketing automation
+    platform or data warehouse.
+  operations: 11
+- file: on24-create-and-configure-webinar.md
+  name: on24-create-and-configure-webinar
+  description: Create or copy an ON24 webinar and configure its content, speakers, email notifications and calendar
+    reminder.
+  operations: 13
+- file: on24-honor-erasure-request.md
+  name: on24-honor-erasure-request
+  description: Honour a GDPR/CCPA erasure ("forget me") request in ON24 at either event or account scope, and verify
+    the outcome.
+  operations: 5

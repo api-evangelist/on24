@@ -1,11 +1,13 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
-source: >-
-  https://trust.on24.com/ (compliance certifications) and the ON24 API
-  documentation at apidoc.on24.com (technical conformance). ON24 publishes no
-  OpenAPI, so cross-cutting technical standards are asserted from the documented
-  behaviour and a live client.
+source: https://trust.on24.com/ (compliance certifications), https://api.on24.com/v2/openapi.json (technical conformance,
+  now harvested to openapi/_original/on24-openapi.json), https://support.on24.com/hc/en-us/sections/20952841345051-Security-and-Compliance
 standards:
+- id: openapi-3.0
+  conforms: true
+  evidence: 'ON24 publishes a machine-readable OpenAPI 3.0.1 document at https://api.on24.com/v2/openapi.json (and
+    the identical document at https://api.eu.on24.com/v2/openapi.json): 58 paths, 67 operations, 6 tags, 23 component
+    schemas, securitySchemes declared and applied globally.'
 - id: soc2-type2
   conforms: true
   evidence: SOC 2 Type 2 report published on trust.on24.com
@@ -20,15 +22,31 @@ standards:
   evidence: APEC Privacy Recognition for Processors (trust.on24.com)
 - id: gdpr
   conforms: true
-  evidence: >-
-    ISO 27701 + APEC PRP + published privacy program; ON24 documents a
-    registrant "forget" (erasure) operation supporting data-subject requests.
+  evidence: 'ISO 27701 + APEC PRP + published privacy program, an EU data centre with its own API host (https://api.eu.on24.com/v2)
+    and published allowlist article, plus four dedicated erasure operations in the contract: Registration.ForgetRegistrantClientlevel,
+    ForgetAllRegistrantClientlevel, ForgetAllRegistrantEventlevel and the forgotten/deleted userstatus filters.'
 - id: oauth2
   conforms: false
-  evidence: >-
-    ON24 uses apiKey header auth (accessTokenKey/accessTokenSecret), not OAuth2.
+  evidence: apiKey header pair (AccessTokenKey/AccessTokenSecret) declared in components.securitySchemes; no oauth2
+    flow in the spec.
 - id: oidc
   conforms: false
+  evidence: No /.well-known/openid-configuration on any ON24 host (404 on api.on24.com and api.eu.on24.com).
 - id: rfc9457-problem-details
   conforms: false
-  evidence: Error responses are vendor-specific JSON, not application/problem+json.
+  evidence: Errors are a vendor JSON object with a single `message` string; no application/problem+json media type
+    appears in the spec.
+- id: rfc9116-security-txt
+  conforms: false
+  evidence: /.well-known/security.txt returns 404 on api.on24.com and api.eu.on24.com; www.on24.com returns 403
+    to all automated requests.
+- id: rfc8594-sunset-header
+  conforms: false
+  evidence: No Sunset/Deprecation header support documented; no operation carries deprecated:true.
+- id: rfc6585-429-rate-limiting
+  conforms: false
+  evidence: Quota exhaustion is returned as HTTP 403 rather than 429, with no Retry-After or RateLimit-* headers.
+    See rate-limits/on24-rate-limits.yml.
+- id: asyncapi
+  conforms: false
+  evidence: No event/streaming/webhook contract published; the word "webhook" does not appear in the OpenAPI.

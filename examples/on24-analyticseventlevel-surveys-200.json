@@ -1,0 +1,185 @@
+{
+  "operationId": "AnalyticsEventLevel.Surveys",
+  "method": "GET",
+  "path": "/client/{clientId}/event/{eventId}/survey",
+  "status": 200,
+  "media_type": "application/json",
+  "source": "https://api.on24.com/v2/openapi.json (verbatim response examples published by ON24)",
+  "examples": {
+    "Elite account": {
+      "eventid": 311512,
+      "surveys": [
+        {
+          "surveyid": "311512_survey1",
+          "surveycode": "survey1",
+          "surveyquestions": [
+            {
+              "questionid": 8887738,
+              "questiontype": "singleoption",
+              "question": "What is your age?",
+              "questioncode": 110,
+              "responses": 0
+            },
+            {
+              "questionid": 6268271,
+              "questiontype": "singleoption",
+              "question": "What industry are you in?",
+              "questioncode": 210,
+              "responses": 74,
+              "surveyanswer": [
+                {
+                  "answercode": "choice1",
+                  "answer": "Technology",
+                  "percentage": 16.3
+                },
+                {
+                  "answercode": "choice2",
+                  "answer": "HealthCare",
+                  "percentage": 6.8
+                },
+                {
+                  "answercode": "choice3",
+                  "answer": "Finance",
+                  "percentage": 36.4
+                },
+                {
+                  "answercode": "choice4",
+                  "answer": "Retail",
+                  "percentage": 27
+                },
+                {
+                  "answercode": "choice5",
+                  "answer": "Food & Beverage",
+                  "percentage": 13.5
+                }
+              ]
+            },
+            {
+              "questionid": 6268299,
+              "questiontype": "singletext",
+              "question": "Which tools are you using today?",
+              "questioncode": 315,
+              "responses": 8
+            },
+            {
+              "questionid": 6268293,
+              "questiontype": "singleoption",
+              "question": "How valuable was the information presented?",
+              "questioncode": 673,
+              "responses": 74,
+              "surveyanswer": [
+                {
+                  "answercode": "choice1",
+                  "answer": "Very valuable",
+                  "percentage": 50.1
+                },
+                {
+                  "answercode": "choice2",
+                  "answer": "Valuable",
+                  "percentage": 28.4
+                },
+                {
+                  "answercode": "choice3",
+                  "answer": "Neutral",
+                  "percentage": 8.1
+                },
+                {
+                  "answercode": "choice4",
+                  "answer": "Somewhat Valuable",
+                  "percentage": 6.7
+                },
+                {
+                  "answercode": "choice5",
+                  "answer": "Not Valuable at all",
+                  "percentage": 6.7
+                }
+              ]
+            },
+            {
+              "questionid": 6268306,
+              "questiontype": "singleoption",
+              "question": "Would you like a 1:1 session with an expert?",
+              "questioncode": 704,
+              "responses": 74,
+              "surveyanswer": [
+                {
+                  "answercode": "choice1",
+                  "answer": "Yes",
+                  "percentage": 12.2
+                },
+                {
+                  "answercode": "choice2",
+                  "answer": "No",
+                  "percentage": 87.8
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "VE account": {
+      "eventid": 6419578,
+      "surveys": [
+        {
+          "surveyid": "804031",
+          "surveycode": "Survey1",
+          "surveyquestions": [
+            {
+              "questionid": 3188046,
+              "questiontype": "singletext",
+              "question": "free response 1",
+              "responses": 1
+            },
+            {
+              "questionid": 3188047,
+              "questiontype": "multioption",
+              "question": "Multiple Answer 1",
+              "responses": 1,
+              "surveyanswer": [
+                {
+                  "answercode": "259739",
+                  "answer": "Answer 1",
+                  "percentage": 100.0
+                },
+                {
+                  "answercode": "259740",
+                  "answer": "Answer 2",
+                  "percentage": 100.0
+                },
+                {
+                  "answercode": "259741",
+                  "answer": "Answer 3",
+                  "percentage": 0.0
+                }
+              ]
+            },
+            {
+              "questionid": 3188048,
+              "questiontype": "singleoption",
+              "question": "Single Answer 1",
+              "responses": 1,
+              "surveyanswer": [
+                {
+                  "answercode": "259743",
+                  "answer": "one",
+                  "percentage": 100.0
+                },
+                {
+                  "answercode": "259744",
+                  "answer": "two",
+                  "percentage": 0.0
+                },
+                {
+                  "answercode": "259745",
+                  "answer": "three",
+                  "percentage": 0.0
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,554 @@
+{
+  "operationId": "AnalyticsEventLevel.MetadataAndUsage",
+  "method": "GET",
+  "path": "/client/{clientId}/event/{eventId}",
+  "status": 200,
+  "media_type": "application/json",
+  "source": "https://api.on24.com/v2/openapi.json (verbatim response examples published by ON24)",
+  "examples": {
+    "When content type is webcast": {
+      "eventanalytics": {
+        "totalregistrants": 10,
+        "totalattendees": 9,
+        "liveattendees": 0,
+        "ondemandattendees": 9,
+        "numberofquestionsasked": 0,
+        "numberofquestionsanswered": 0,
+        "numberofpollspushed": 2,
+        "numberofpollresponses": 0,
+        "numberofsurveyspresented": 2,
+        "numberofsurveyresponses": 0,
+        "noshowcount": 1,
+        "registrationpagehits": 4,
+        "sharethiswidgetuniqueviews": 2,
+        "sharethiswidgettotalviews": 3,
+        "twitterwidgetuniqueviews": 1,
+        "twitterwidgettotalviews": 8,
+        "numberofctaclicks": 3,
+        "numberofmeetingconversions": 3,
+        "numberofdemoconversions": 2,
+        "numberoffreetrialrequests": 1,
+        "numberofdrifts": 1,
+        "numberofgroupchatmessagessubmitted": 10,
+        "numberofresourcesavailable": 3,
+        "attendeeswhodownloadedresource": 1,
+        "uniqueattendeeresourcedownloads": 2,
+        "eventengagementscore": 1.7,
+        "numberoftestssubmitted": 10,
+        "numberoftestspassed": 8,
+        "averageliveminutes": 8,
+        "averagecumulativeliveminutes": 5,
+        "averagearchiveminutes": 3,
+        "averagecumulativearchiveminutes": 2,
+        "totalcumulativeliveminutes": 36,
+        "totalcumulativearchiveminutes": 0,
+        "totalcumulativeminutes": 36,
+        "totalmediaplayerminutes": 36,
+        "totallivemediaplayerminutes": 36,
+        "totalarchivemediaplayerminutes": 0
+      },
+      "eventid": 10432146,
+      "eventname": "event Abstract",
+      "clientid": 22950,
+      "eventduration": 45,
+      "goodafter": "2016-10-18T04:35:00-07:00",
+      "isactive": true,
+      "goodtill": "2018-09-12T19:15:48-07:00",
+      "regrequired": true,
+      "description": "New Webcast",
+      "promotionalsummary": "Promotional Summary Sample",
+      "regnotificationrequired": true,
+      "displaytimezonecd": "America/Los_Angeles",
+      "qandaemail": "abhijeet.joshi@lmsin.com",
+      "eventlocation": "campaignCode31536770910802",
+      "eventtype": "Broadcast Video",
+      "category": "Marketing",
+      "servicetype": "Full Service",
+      "sponsor": "Ernst & Young",
+      "createtimestamp": "2016-10-18T04:34:06-07:00",
+      "keyword": "Wired and wireless network, network architecture, IT Professionals, merger or acquisition",
+      "localelanguagecd": "zh",
+      "localecountrycd": "TW",
+      "lastmodified": "2016-10-18T04:34:06-07:00",
+      "lastupdated": "2016-10-20T09:58:12-07:00",
+      "iseliteexpired": "N",
+      "application": "Investor Relations",
+      "industry": "Software",
+      "livestart": "2016-10-18T04:20:00-07:00",
+      "liveend": "2016-10-18T05:20:00-07:00",
+      "archivestart": "2016-10-18T06:30:00-07:00",
+      "archiveend": "2017-10-18T06:30:00-07:00",
+      "scheduledeventduration": 60,
+      "eventprofile": "Stonehenge Profile (918)",
+      "streamtype": "video",
+      "audiencekey": "9AB4ABD834D841E9E5ED9124D266848B",
+      "extaudienceurl": "www.google.com",
+      "reporturl": "https://data.on24.com/webcast/report?e=10432146&k=A8EBCD7A76D8BF36D71DCFEBED688237",
+      "uploadurl": "https://wcc.on24.com/webcast/login",
+      "pmurl": "https://wcc.on24.com/webcast/present?e=10432146&k=A8EBCD7A76D8BF36D71DCFEBED688237",
+      "previewurl": "http://event.on24.com/webcast/previewlobby?e=10432146&k=A8EBCD7A76D8BF36D71DCFEBED688237",
+      "audienceurl": "https://event.on24.com/wcc/r/10432146/9AB4ABD834D841E9E5ED9124D266848B",
+      "singlefilearchive": "https://wccdownload.on24.com/event/92/45/75/96/rt/1_8C2F9DE3B5BD3AF93E297B37F1062EA6.mp4",
+      "presentermediavideofile": "https://wccdownload.on24.com/media/cv/events/92/45/75/96/rt/1_fhvideo1_1683630889731.mp4?filename=1_fhvideo1_1683630889731.mp4",
+      "presentermediaaudiofile": "https://wccdownload.on24.com/media/cv/events/92/45/75/96/rt/1683630889731.wav?filename=1683630889731.wav",
+      "contenttype": "webcast",
+      "ishybridevent": true,
+      "partnerrefstats": [
+        {
+          "code": "-",
+          "count": 2
+        }
+      ],
+      "tags": [
+        "custom tag 1",
+        "custom tag 2",
+        "custom tag 3"
+      ],
+      "funnelstages": [
+        "Consideration",
+        "Awareness",
+        "Evaluation"
+      ],
+      "speakers": [
+        {
+          "name": "Matthew Parfitt",
+          "title": "President",
+          "company": "Vulture US",
+          "description": "As President of Vuture in North America, Matt focuses on marketing communications in the legal sector which 4 years ago saw him launch Vuture in the USA. Matt is a regular speaker and active member of the LMA and has been chair the New York CRM group for the last 3 years."
+        },
+        {
+          "name": "Samantha McKenna",
+          "title": "Director of Sales",
+          "company": "ON24 Inc.",
+          "description": "As Director of Sales, Samantha McKenna heads up the strategy behind ON24's legal presence. A thought leader in the legal industry, Sam works directly with ON24's legal clients on their go-to-market strategy for webinars, thought leadership events, virtual learning environments and virtual communications for alumni relations. She has served the legal community by attending the last seven Legal Marketing Association annual conferences, supporting several LMA chapters with sponsorships and by working directly with LMA on their national webinars as of 2015."
+        }
+      ],
+      "encoders": [
+        {
+          "encoder": "Encoder A",
+          "url": "rtmp://fmseosa.on24.com/liveeosa",
+          "streamid": "5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_A"
+        },
+        {
+          "encoder": "Encoder B",
+          "url": "rtmp://fmseosb.on24.com/liveeosb",
+          "streamid": "5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_B"
+        }
+      ],
+      "eventstd1": "EF1",
+      "eventstd2": "EF2",
+      "eventstd3": "EF3",
+      "eventstd4": "EF4",
+      "eventstd5": "EF5",
+      "surveyurls": [
+        "https://eventqa.on24.com/eventManager/presentation/survey.jsp?eventId=10432146&sessionid=1&key=C9E1154B35A0AE0F3AF2858E25EA5509&survey=survey1"
+      ],
+      "customaccounttags": [
+        {
+          "groupid": 103,
+          "groupname": "Group 3",
+          "tagid": 747,
+          "tagname": "Option 3-A"
+        }
+      ],
+      "customeventfields": [
+        {
+          "name": "custom1",
+          "label": "Region",
+          "value": "North America"
+        },
+        {
+          "name": "custom2",
+          "label": "Org",
+          "value": "Research"
+        },
+        {
+          "name": "custom3",
+          "label": "CRM Campaign Code",
+          "value": "111"
+        },
+        {
+          "name": "custom4",
+          "label": "MAP Campaign Code",
+          "value": "222"
+        },
+        {
+          "name": "custom5",
+          "label": "Product",
+          "value": "Computer"
+        }
+      ],
+      "socialsharingimage": "https://eventqa.on24.com/event/85/07/24/25/rt/1/images/socialsharing/socialsharing.jpg",
+      "socialsharingabstract": "Social Sharing Sample.",
+      "istestevent": "falseCopy to clipboard"
+    },
+    "When content type is gateway": {
+      "eventanalytics": {
+        "totalregistrants": 6,
+        "totalattendees": 14,
+        "noshowcount": -8,
+        "pageviews": 88,
+        "contentviews": 10,
+        "subscribers": 3,
+        "numberofcontactusrequests": 3,
+        "numberofgetpricingrequests": 3,
+        "numberoffreetrialrequests": 1,
+        "numberofdrifts": 1,
+        "numberofmeetingconversions": 3,
+        "numberofdemoconversions": 7
+      },
+      "eventid": 5001321,
+      "clientid": 22950,
+      "description": "New Content Gateway",
+      "displaytimezonecd": "US/Pacific",
+      "localelanguagecd": "zh",
+      "localecountrycd": "TW",
+      "createtimestamp": "2018-12-21T08:34:51-08:00",
+      "publishedtimestamp": "2019-02-21T10:11:03-08:00",
+      "lastmodified": "2019-09-03T14:34:18-07:00",
+      "lastupdated": "2019-09-05T09:58:12-07:00",
+      "livestart": "2018-12-21T08:34:51-08:00",
+      "liveend": "2018-12-21T08:34:51-08:00",
+      "contenttype": "gateway",
+      "campaigncode": "campaignCode31536770910802",
+      "audienceurl": "https://event.on24.com/r/5001321/A85228314568C6038E5F8D4AE3EFD890",
+      "partnerrefstats": [
+        {
+          "code": "-",
+          "count": 2
+        }
+      ],
+      "istestevent": false
+    },
+    "When content type is experience": {
+      "eventanalytics": {
+        "totalregistrants": 4,
+        "totalattendees": 5,
+        "ondemandattendees": 5,
+        "noshowcount": -1,
+        "registrationpagehits": 6,
+        "numberofmeetingconversions": 3,
+        "numberofdemoconversions": 2,
+        "numberofdrifts": 1,
+        "numberofcontactusrequests": 1
+      },
+      "eventid": 5000238,
+      "eventduration": 0,
+      "clientid": 29683,
+      "goodafter": "2018-12-20T00:40:00-08:00",
+      "description": "New Experience",
+      "displaytimezonecd": "US/Pacific",
+      "eventtype": "experience",
+      "createtimestamp": "2018-12-20T00:39:22-08:00",
+      "localelanguagecd": "zh",
+      "localecountrycd": "TW",
+      "lastmodified": "2019-09-24T18:25:22-07:00",
+      "lastupdated": "2019-09-16T10:12:57-07:00",
+      "livestart": "2018-12-20T00:40:00-08:00",
+      "liveend": "2018-12-20T00:40:00-08:00",
+      "audienceurl": "https://gateway.on24.com/wcc/experience/Integrationca/1646442/5000238",
+      "eventprofile": "Gateway Experience Profile",
+      "streamtype": "audio",
+      "contenttype": "experience",
+      "campaigncode": "campaignCode31536770910802",
+      "istestevent": false
+    },
+    "When content type is video": {
+      "eventanalytics": {
+        "totalregistrants": 10,
+        "totalattendees": 9,
+        "ondemandattendees": 9,
+        "numberofpollspushed": 3,
+        "numberofpollresponses": 6,
+        "eventengagementscore": 1.2
+      },
+      "eventid": 5062231,
+      "eventduration": 2,
+      "clientid": 29683,
+      "goodafter": "2019-01-29T22:05:00-08:00",
+      "description": "New Video",
+      "displaytimezonecd": "America/Los_Angeles",
+      "eventtype": "video",
+      "createtimestamp": "2019-01-29T22:04:08-08:00",
+      "localelanguagecd": "zh",
+      "localecountrycd": "TW",
+      "lastmodified": "2019-09-24T18:25:22-07:00",
+      "lastupdated": "2019-04-30T02:27:02-07:00",
+      "livestart": "2019-01-29T22:05:00-08:00",
+      "liveend": "2019-01-29T22:05:00-08:00",
+      "eventprofile": "Stonehenge Profile (1200)",
+      "streamtype": "video",
+      "reporturl": "https://data.on24.com/webcast/report?e=5062231&k=908F4DB78D30452A8B084FDC966CEFCD",
+      "contenttype": "video",
+      "funnelstages": [
+        "Consideration",
+        "Awareness",
+        "Evaluation"
+      ],
+      "istestevent": false
+    },
+    "When content type is pdf": {
+      "eventanalytics": {
+        "totalregistrants": 6,
+        "totalattendees": 5,
+        "ondemandattendees": 5,
+        "eventengagementscore": 1.3
+      },
+      "eventid": 5078145,
+      "eventduration": 0,
+      "clientid": 29683,
+      "goodafter": "2019-02-05T21:55:00-08:00",
+      "description": "New PDF",
+      "displaytimezonecd": "America/Los_Angeles",
+      "eventtype": "pdf",
+      "createtimestamp": "2019-02-05T21:54:55-08:00",
+      "localelanguagecd": "zh",
+      "localecountrycd": "TW",
+      "lastmodified": "2019-09-24T18:25:22-07:00",
+      "lastupdated": "2019-02-08T05:55:47-08:00",
+      "livestart": "2019-02-05T21:55:00-08:00",
+      "liveend": "2019-02-05T21:55:00-08:00",
+      "eventprofile": "Stonehenge Profile (1200)",
+      "streamtype": "whitepaper",
+      "reporturl": "https://data.on24.com/webcast/report?e=5078145&k=1DB6F9E04F2A4821B7D3B7AB3889DFF1",
+      "contenttype": "pdf",
+      "funnelstages": [
+        "Consideration",
+        "Awareness",
+        "Evaluation"
+      ],
+      "istestevent": false
+    },
+    "When content type is webpage": {
+      "eventanalytics": {
+        "totalregistrants": 3,
+        "totalattendees": 3,
+        "ondemandattendees": 3
+      },
+      "eventid": 5463684,
+      "eventduration": 0,
+      "clientid": 29683,
+      "goodafter": "2019-08-08T23:32:00-07:00",
+      "description": "New Webpage",
+      "displaytimezonecd": "America/Los_Angeles",
+      "eventtype": "webpage",
+      "createtimestamp": "2019-08-08T23:31:21-07:00",
+      "localelanguagecd": "zh",
+      "localecountrycd": "TW",
+      "lastmodified": "2019-09-24T18:25:22-07:00",
+      "lastupdated": "2019-08-09T03:42:00-07:00",
+      "livestart": "2019-08-08T23:32:00-07:00",
+      "liveend": "2019-08-08T23:32:00-07:00",
+      "eventprofile": "Stonehenge Profile (1200)",
+      "streamtype": "whitepaper",
+      "contenttype": "webpage",
+      "funnelstages": [
+        "Consideration",
+        "Awareness",
+        "Evaluation"
+      ],
+      "istestevent": false
+    },
+    "VE Account": {
+      "eventanalytics": {
+        "totalregistrants": 10,
+        "totalattendees": 9,
+        "noshowcount": 1,
+        "registrationpagehits": 4,
+        "numberofresourcesavailable": 3,
+        "numberofmeetingconversions": 27,
+        "numberofdemoconversions": 3,
+        "numberofgetpricingrequests": 7,
+        "numberoffreetrialrequests": 11,
+        "attendeeswhodownloadedresource": 1,
+        "uniqueattendeeresourcedownloads": 2,
+        "averagearchiveminutes": 3,
+        "averagecumulativearchiveminutes": 2
+      },
+      "eventid": 14031264,
+      "eventname": "event from VE account",
+      "clientid": 22957,
+      "goodafter": "2016-10-18T04:35:00-07:00",
+      "isactive": true,
+      "goodtill": "2018-09-12T19:15:48-07:00",
+      "regrequired": true,
+      "description": "Test VE Event",
+      "promotionalsummary": "Promotional Summary Sample",
+      "displaytimezonecd": "America/Los_Angeles",
+      "campaigncode": "campaignCode31537670918020",
+      "createtimestamp": "2016-10-18T04:34:06-07:00",
+      "lastmodified": "2016-10-18T04:34:06-07:00",
+      "lastupdated": "2016-10-20T09:58:12-07:00",
+      "livestart": "2016-10-18T04:20:00-07:00",
+      "liveend": "2016-10-18T05:20:00-07:00",
+      "archivestart": "2016-10-18T06:30:00-07:00",
+      "archiveend": "2017-10-18T06:30:00-07:00",
+      "reporturl": "https://data.on24.com/webcast/report?e=14031264&k=A8EBCD7A76D8BF36D71DCFEBED688237",
+      "audienceurl": "https://event.on24.com/wcc/r/14031264/9AB4ABD834D841E9E5ED9124D266848B",
+      "contenttype": "virtualenvironment",
+      "partnerrefstats": [
+        {
+          "code": "-",
+          "count": 2
+        }
+      ],
+      "istestevent": false
+    },
+    "When content type is golive": {
+      "eventanalytics": {
+        "totalregistrants": 3,
+        "totalattendees": 2,
+        "ondemandattendees": 2
+      },
+      "eventid": 10341265,
+      "eventduration": 45,
+      "clientid": 22950,
+      "goodafter": "2021-10-01T04:35:00-07:00",
+      "isactive": true,
+      "goodtill": "2021-10-02T19:15:48-07:00",
+      "regrequired": false,
+      "description": "Go Live Sample",
+      "regnotificationrequired": true,
+      "displaytimezonecd": "America/Los_Angeles",
+      "campaigncode": "Campaign_Code_Sample",
+      "eventtype": "Go Live",
+      "createtimestamp": "2021-09-01T04:34:06-07:00",
+      "localelanguagecd": "zh",
+      "localecountrycd": "TW",
+      "lastmodified": "2021-09-02T04:34:06-07:00",
+      "lastupdated": "2021-09-20T09:58:12-07:00",
+      "livestart": "2021-10-01T04:20:00-07:00",
+      "liveend": "2021-10-02T05:20:00-07:00",
+      "archivestart": "2021-10-01T06:30:00-07:00",
+      "archiveend": "2022-10-01T06:30:00-07:00",
+      "previewurl": "https://golive.on24.com/event/10341265?previewmode=true",
+      "audienceurl": "https://golive.on24.com/event/10341265",
+      "contenttype": "golive",
+      "categories": [
+        "category 1",
+        "category 2",
+        "category 3"
+      ],
+      "tracks": [
+        "track 1",
+        "track 2",
+        "track 3"
+      ],
+      "categoriesdata": [
+        {
+          "id": 21,
+          "name": "category 1"
+        },
+        {
+          "id": 22,
+          "name": "category 2"
+        },
+        {
+          "id": 23,
+          "name": "category 3"
+        }
+      ],
+      "trackdata": [
+        {
+          "id": 11,
+          "name": "track 1"
+        },
+        {
+          "id": 12,
+          "name": "track 2"
+        },
+        {
+          "id": 13,
+          "name": "track 3"
+        }
+      ],
+      "livedays": [
+        {
+          "id": 66,
+          "title": "LIVE DAY 1",
+          "livestarttime": "2021-10-01T03:35:00-07:00",
+          "liveendtime": "2021-10-01T03:40:00-07:00"
+        }
+      ],
+      "contents": [
+        {
+          "title": "content name",
+          "type": "Breakout",
+          "status": "published",
+          "url": "http://www.on24.com"
+        },
+        {
+          "title": "Opening Keynote",
+          "type": "webcast",
+          "status": "Published",
+          "resourceid": 1234567,
+          "sessionstarttime": "2026-04-02T08:15:00-07:00",
+          "eventid": 4567890,
+          "livedayid": 1001,
+          "tracks": [
+            {
+              "id": 11,
+              "name": "track 1"
+            },
+            {
+              "id": 12,
+              "name": "track 2"
+            }
+          ],
+          "categories": [
+            {
+              "id": 21,
+              "name": "category 1"
+            },
+            {
+              "id": 22,
+              "name": "category 2"
+            }
+          ]
+        }
+      ],
+      "speakers": [
+        {
+          "name": "Speaker Sample",
+          "title": "Mr.",
+          "company": "CO",
+          "description": "Speaker BIO sample."
+        }
+      ],
+      "sponsors": [
+        {
+          "id": 118,
+          "name": "Sponsor A",
+          "staff": [
+            {
+              "firstname": "Jim",
+              "lastname": "Darnald",
+              "company": "Company Name",
+              "title": "Sr. Manager",
+              "email": "jim.darnald@test.com",
+              "roles": [
+                "Admin",
+                "Rep"
+              ]
+            }
+          ]
+        }
+      ],
+      "istestevent": false
+    },
+    "Broadcast Video (encoder fragment)": {
+      "encoders": [
+        {
+          "encoder": "Encoder A",
+          "url": "rtmp://fmseosa.on24.com/liveeosa",
+          "streamid": "5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_A"
+        },
+        {
+          "encoder": "Encoder B",
+          "url": "rtmp://fmseosb.on24.com/liveeosb",
+          "streamid": "5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_B"
+        }
+      ]
+    }
+  }
+}

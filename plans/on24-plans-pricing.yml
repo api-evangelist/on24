@@ -1,0 +1,29 @@
+generated: '2026-08-13'
+method: searched
+source: https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens and https://support.on24.com/hc/en-us/articles/21420786301083-REST-API-Integrations-Overview
+  and the 2025 product release notes, all of which route entitlement to the sales contract rather than a published
+  price.
+plan_count: 0
+plans: []
+public_pricing: false
+notes: 'ON24 publishes NO priced plans for the API or the platform. Access is contract-gated twice over: (1) the
+  help center states "First, ensure your ON24 contract includes ''Connect''" before an API token can be provisioned
+  at all, and (2) 10 of the 67 operations return 403 "The client id is not an Elite user", so several endpoints
+  additionally require the Elite tier. Every release note repeats "Contact your account manager with questions about
+  features included in your subscription." The public pricing page could not be read directly: https://www.on24.com/pricing/
+  returns HTTP 403 to automated requests (bot protection), as does every other path on www.on24.com. This is recorded
+  as an honest zero, not an unchecked field.'
+entitlements:
+- name: Connect
+  requirement: Required in the contract before an API token can be provisioned.
+  source: https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens
+- name: Elite
+  requirement: Required for a subset of endpoints; otherwise 403 "The client id is not an Elite user".
+  source: openapi/_original/on24-openapi.json (403 response descriptions)
+evidence:
+- url: https://www.on24.com/pricing/
+  status: 403
+  note: bot protection; body is a 103-byte "403 Forbidden" stub
+- url: https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens
+  status: 200
+  note: states the Connect contract requirement instead of a price

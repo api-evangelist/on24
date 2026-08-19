@@ -1,0 +1,55 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/on24-openapi.json (403 response descriptions on 67 of 67 operations) plus https://support.on24.com/hc/en-us/articles/21420786301083-REST-API-Integrations-Overview
+  and https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens
+docs: https://apidoc.on24.com/
+limit_count: 0
+limits: []
+notes: NO NUMERIC RATE LIMIT IS PUBLISHED. ON24 documents neither a request quota nor a window anywhere in the OpenAPI,
+  the apidoc.on24.com reference, or the help center. What IS published — and what an agent actually has to handle
+  — is the EXHAUSTION BEHAVIOUR, which is non-standard and is recorded below.
+exhaustion:
+  status_code: 403
+  standard_status_code: 429
+  anomaly: true
+  detail: Quota exhaustion is returned as HTTP 403 Forbidden, NOT 429 Too Many Requests. 67 of 67 operations document
+    a 403 whose description includes "You have reached the maximum number of calls for this api" or "You reached
+    the maximum number of calls for this endpoint" — sharing the same status code as "You do not have permission
+    to perform the requested operation" and "The client id {clientId} is inactive". A client therefore cannot distinguish
+    a permission failure from a quota failure by status code alone; it must string-match the `message` field of
+    the JSON error body.
+  body_field: message
+  messages:
+  - You have reached the maximum number of calls for this api.
+  - You reached the maximum number of calls for this endpoint
+response_headers:
+  published: false
+  x_ratelimit: false
+  ratelimit_draft: false
+  retry_after: false
+  notes: No X-RateLimit-*, RateLimit-* (draft) or Retry-After headers are documented in the OpenAPI or the docs,
+    and none were observed on the live unauthenticated 401 response from GET https://api.on24.com/v2/client/1234/event.
+    There is no runtime rate-limit signal for an agent to read — back-off must be blind.
+scoping:
+  per: api-token pair (accessTokenKey + accessTokenSecret), scoped to one numeric clientId
+  granularity: the 403 messages distinguish a per-API limit from a per-ENDPOINT limit, so limits appear to be enforced
+    at both levels
+related_ceilings:
+- name: bulk forget maximum
+  value: 100000
+  unit: users per request
+  operations:
+  - Registration.ForgetAllRegistrantClientlevel
+  - Registration.ForgetAllRegistrantEventlevel
+  evidence: '400 response: "You have exceeded the maximum number of user to be deleted (100,000)"'
+- name: token inactivity expiry
+  value: 60
+  unit: days
+  evidence: https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens — "Tokens with no activity will
+    be disabled after 60 days."
+data_freshness:
+  notes: Not a rate limit, but the published availability lag an integration must plan around.
+  registrant: ~15 minutes
+  attended_live: 30 minutes to 2 hours after the event ends
+  attended_on_demand: 4 to 12 hours
+  source: https://support.on24.com/hc/en-us/articles/21420786301083-REST-API-Integrations-Overview

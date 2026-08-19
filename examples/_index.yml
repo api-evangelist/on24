@@ -1,0 +1,50 @@
+generated: '2026-08-13'
+method: searched
+source: https://api.on24.com/v2/openapi.json — examples extracted verbatim from the provider-published OpenAPI;
+  nothing synthesised.
+notes: 'ON24''s spec is unusually example-rich and unusually schema-poor: 319 parameters carry an `example` and
+  all 67 200-responses carry named `examples`, but ZERO responses declare a `schema`. The examples ARE the response
+  contract for this API. The files below extract the response examples for ten marquee operations verbatim; the
+  full set stays in openapi/_original/on24-openapi.json.'
+coverage:
+  parameter_examples: 319
+  response_examples: 67
+  responses_with_schema: 0
+  operations: 67
+files:
+- file: on24-analyticsclientlevel-events-200.json
+  operationId: AnalyticsClientLevel.Events
+  method: GET
+  path: /client/{clientId}/event
+  status: 200
+  example_count: 5
+- file: on24-eventmanagement-createawebinar-200.json
+  operationId: EventManagement.CreateAWebinar
+  method: POST
+  path: /client/{clientId}/event
+  status: 200
+  example_count: 3
+- file: on24-analyticseventlevel-metadataandusage-200.json
+  operationId: AnalyticsEventLevel.MetadataAndUsage
+  method: GET
+  path: /client/{clientId}/event/{eventId}
+  status: 200
+  example_count: 9
+- file: on24-analyticseventlevel-attendees-200.json
+  operationId: AnalyticsEventLevel.Attendees
+  method: GET
+  path: /client/{clientId}/event/{eventId}/attendee
+  status: 200
+  example_count: 5
+- file: on24-analyticseventlevel-surveys-200.json
+  operationId: AnalyticsEventLevel.Surveys
+  method: GET
+  path: /client/{clientId}/event/{eventId}/survey
+  status: 200
+  example_count: 2
+- file: on24-analyticsclientlevel-pep-200.json
+  operationId: AnalyticsClientLevel.PEP
+  method: GET
+  path: /client/{clientId}/lead/{email}
+  status: 200
+  example_count: 2

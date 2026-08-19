@@ -1,0 +1,1289 @@
+{
+  "item": [
+    {
+      "id": "c72226de-68af-47e2-ab65-c5d66e3bb676",
+      "name": "Content Listings",
+      "description": {
+        "content": "",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "44f27a79-95d3-467f-b24d-ac71d3c1d6e2",
+          "name": "Engagement Hub Content Listing",
+          "request": {
+            "name": "Engagement Hub Content Listing",
+            "description": {
+              "content": "Returns published content for a particular gateway event.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "ehub",
+                ":gatewayId",
+                "content"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "clientId",
+                  "description": "(Required) The client id"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<number>",
+                  "key": "gatewayId",
+                  "description": "(Required) The gateway id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Security Parameter",
+                "key": "accessTokenKey",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) Security Parameter",
+                "key": "accessTokenSecret",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "954f96b4-a55c-4e33-806e-c058a5381083",
+              "name": "Return list of contents for a gateway event",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "ehub",
+                    ":gatewayId",
+                    "content"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "gatewayId",
+                      "description": "(Required) The gateway id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"gatewayid\": 1045208,\n  \"contents\": [\n    {\n      \"contentid\": 177588,\n      \"title\": \"Gateway Published Content Sample\",\n      \"abstract\": \"<p>Gateway Published Content Sample</p>\",\n      \"campaigncode\": \"CMP_CD_01\",\n      \"categories\": [\n        {\n          \"name\": \"All Webinars\"\n        },\n        {\n          \"name\": \"Encompass\"\n        },\n        {\n          \"name\": \"Utilization\"\n        }\n      ],\n      \"tags\": [\n        {\n          \"name\": \"Tag 1\"\n        },\n        {\n          \"name\": \"Tag 2\"\n        },\n        {\n          \"name\": \"Tag 3\"\n        }\n      ],\n      \"funnelstages\": [\n        {\n          \"name\": \"Awareness\"\n        },\n        {\n          \"name\": \"Consideration\"\n        },\n        {\n          \"name\": \"Evaluation\"\n        },\n        {\n          \"name\": \"Retention\"\n        }\n      ],\n      \"filtergroups\": [\n        {\n          \"name\": \"Filter Group 1\",\n          \"filters\": [\n            {\n              \"name\": \"Filter 1\"\n            },\n            {\n              \"name\": \"Filter 2\"\n            },\n            {\n              \"name\": \"Filter 3\"\n            }\n          ]\n        },\n        {\n          \"name\": \"Filter Group 2\",\n          \"filters\": [\n            {\n              \"name\": \"Filter A\"\n            },\n            {\n              \"name\": \"Filter B\"\n            },\n            {\n              \"name\": \"Filter C\"\n            }\n          ]\n        }\n      ],\n      \"thumbnail\": \"http://gateway.on24.com/event/14/30/43/9/rt/1/images/thumbnail/sample.png\",\n      \"contenttype\": \"webcast\",\n      \"url\": \"https://gateway.on24.com/wcc/gateway/integrationdevs/5001240\",\n      \"livestart\": \"2016-09-09T10:00:23-07:00\",\n      \"liveend\": \"2016-09-09T10:00:23-07:00\",\n      \"archivestart\": \"2016-09-09T10:00:23-07:00\",\n      \"archiveend\": \"2016-09-09T10:00:23-07:00\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ff3b240d-b700-4bba-807f-610ba6a14fbd",
+              "name": "AccessTokenKey and AccessTokenSecret are wrong or invalid.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "ehub",
+                    ":gatewayId",
+                    "content"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "gatewayId",
+                      "description": "(Required) The gateway id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "08d9883b-e127-47a0-befc-e42f207b0416",
+              "name": "The client id {clientId} is inactive. | You have reached the maximum number of calls for this api.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "ehub",
+                    ":gatewayId",
+                    "content"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "gatewayId",
+                      "description": "(Required) The gateway id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "fc892dc8-90c7-4f4c-868a-dc99805ca160",
+              "name": "The Engagement Hub {gatewayId} doesn't exist.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "ehub",
+                    ":gatewayId",
+                    "content"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<number>",
+                      "key": "gatewayId",
+                      "description": "(Required) The gateway id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "b9ed0397-8084-4932-a640-f4f74f768c91",
+          "name": "Media Manager Derivative Content",
+          "request": {
+            "name": "Media Manager Derivative Content",
+            "description": {
+              "content": "Retrieves the metadata for derivative content in Media Manager.\n\nOnly returns content from the clientId specified in the request, and does not pull content from sub-accounts.\n\nThere is a limit of 100 contents per page.\n\nDerivative content includes, and is limited to:\n\n- Nurture Page\n- Autogenerated Ebook\n- Autogenerated Blog Post\n- Autogenerated Key Takeaways\n- Transcript\n\nContent of type \"Nurture Page\" will always have a *contentid*.\n\nContent of type \"Nurture Page\" will never have a *mediaid*.\n\nContent of types \"Autogenerated Ebook\", \"Autogenerated Blog Post\", \"Autogenerated Key Takeaways\", and \"Transcript\" will always have a *mediaid*.\n\nContent of types \"Autogenerated Ebook\", \"Autogenerated Blog Post\", \"Autogenerated Key Takeaways\", and \"Transcript\" will only have a *contentid* after they are published for the first time.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "mediamanager"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "startdate",
+                  "value": "90 days before current date",
+                  "description": "Limit results to those contents created after startDate. Max range between start and end dates can be up to 6 months."
+                },
+                {
+                  "disabled": false,
+                  "key": "enddate",
+                  "value": "current date",
+                  "description": "Limit results to those contents created before endDate. Max range between start and end dates can be up to 6 months."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageoffset",
+                  "value": "0",
+                  "description": "Selects the page to retrieve"
+                },
+                {
+                  "disabled": false,
+                  "key": "itemsperpage",
+                  "value": "100",
+                  "description": "Number of items to be retrieved per page"
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) The client id"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Security Parameter",
+                "key": "accessTokenKey",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) Security Parameter",
+                "key": "accessTokenSecret",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "37e4416f-e48a-4534-862d-78fa3151497a",
+              "name": "Return list of content",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "mediamanager"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startdate",
+                      "value": "2007-12-03"
+                    },
+                    {
+                      "key": "enddate",
+                      "value": "2007-12-05"
+                    },
+                    {
+                      "key": "pageoffset",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsperpage",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"totalcontent\": 5,\n  \"pagecount\": 1,\n  \"currentpage\": 0,\n  \"contents\": [\n    {\n      \"contenttype\": \"Nurture Page\",\n      \"title\": \"This is a title\",\n      \"contentid\": 1775881,\n      \"sourceeventid\": 2478889,\n      \"sourceeventtitle\": \"Some Webinar Name\",\n      \"createddate\": \"2023-02-02T03:20:00-08:00\",\n      \"createdby\": \"Joe Smith\",\n      \"thumbnail\": \"http://gateway.on24.com/event/17/75/88/1/rt/1/images/thumbnail/sample.png\",\n      \"url\": \"https://gateway.on24.com/wcc/nurture/1775881/95D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\",\n      \"tags\": [\n        {\n          \"name\": \"Tag 1\"\n        },\n        {\n          \"name\": \"Tag 2\"\n        },\n        {\n          \"name\": \"Tag 3\"\n        }\n      ],\n      \"funnelstages\": [\n        {\n          \"name\": \"Awareness\"\n        },\n        {\n          \"name\": \"Consideration\"\n        },\n        {\n          \"name\": \"Evaluation\"\n        },\n        {\n          \"name\": \"Retention\"\n        }\n      ]\n    },\n    {\n      \"contenttype\": \"Autogenerated Ebook\",\n      \"title\": \"This is a title\",\n      \"contentid\": 83316436,\n      \"mediaid\": 2775881,\n      \"sourceeventid\": 2478889,\n      \"sourceeventtitle\": \"Some Webinar Name\",\n      \"createddate\": \"2023-02-02T03:20:00-08:00\",\n      \"createdby\": \"Joe Smith\",\n      \"thumbnail\": \"http://gateway.on24.com/event/27/75/88/1/rt/1/images/thumbnail/sample.png\",\n      \"urls\": [\n        {\n          \"parentid\": 1245667,\n          \"url\": \"https://gateway.on24.com/wcc/nurture/2775881/25D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\"\n        },\n        {\n          \"parentid\": 9876441,\n          \"url\": \"https://gateway.on24.com/wcc/nurture/9775881/95D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\"\n        }\n      ],\n      \"tags\": [\n        {\n          \"name\": \"Tag 1\"\n        },\n        {\n          \"name\": \"Tag 2\"\n        },\n        {\n          \"name\": \"Tag 3\"\n        }\n      ],\n      \"funnelstages\": [\n        {\n          \"name\": \"Awareness\"\n        },\n        {\n          \"name\": \"Consideration\"\n        },\n        {\n          \"name\": \"Evaluation\"\n        },\n        {\n          \"name\": \"Retention\"\n        }\n      ]\n    },\n    {\n      \"contenttype\": \"Autogenerated Blog Post\",\n      \"title\": \"This is a title\",\n      \"mediaid\": 3775881,\n      \"sourceeventid\": 2478889,\n      \"sourceeventtitle\": \"Some Webinar Name\",\n      \"createddate\": \"2023-02-02T03:20:00-08:00\",\n      \"createdby\": \"Joe Smith\",\n      \"thumbnail\": \"http://gateway.on24.com/event/37/75/88/1/rt/1/images/thumbnail/sample.png\",\n      \"urls\": [\n        {\n          \"parentid\": 1245667,\n          \"url\": \"https://gateway.on24.com/wcc/nurture/2775881/25D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\"\n        },\n        {\n          \"parentid\": 9876441,\n          \"url\": \"https://gateway.on24.com/wcc/nurture/9775881/95D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\"\n        }\n      ],\n      \"tags\": [\n        {\n          \"name\": \"Tag 1\"\n        },\n        {\n          \"name\": \"Tag 2\"\n        },\n        {\n          \"name\": \"Tag 3\"\n        }\n      ],\n      \"funnelstages\": [\n        {\n          \"name\": \"Awareness\"\n        },\n        {\n          \"name\": \"Consideration\"\n        },\n        {\n          \"name\": \"Evaluation\"\n        },\n        {\n          \"name\": \"Retention\"\n        }\n      ]\n    },\n    {\n      \"contenttype\": \"Autogenerated Key Takeaways\",\n      \"title\": \"This is a title\",\n      \"contentid\": 83334439,\n      \"mediaid\": 4775881,\n      \"sourceeventid\": 2478889,\n      \"sourceeventtitle\": \"Some Webinar Name\",\n      \"createddate\": \"2023-02-02T03:20:00-08:00\",\n      \"createdby\": \"Joe Smith\",\n      \"thumbnail\": \"http://gateway.on24.com/event/47/75/88/1/rt/1/images/thumbnail/sample.png\",\n      \"urls\": [\n        {\n          \"parentid\": 1245667,\n          \"url\": \"https://gateway.on24.com/wcc/nurture/2775881/25D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\"\n        },\n        {\n          \"parentid\": 9876441,\n          \"url\": \"https://gateway.on24.com/wcc/nurture/9775881/95D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\"\n        }\n      ],\n      \"tags\": [\n        {\n          \"name\": \"Tag 1\"\n        },\n        {\n          \"name\": \"Tag 2\"\n        },\n        {\n          \"name\": \"Tag 3\"\n        }\n      ],\n      \"funnelstages\": [\n        {\n          \"name\": \"Awareness\"\n        },\n        {\n          \"name\": \"Consideration\"\n        },\n        {\n          \"name\": \"Evaluation\"\n        },\n        {\n          \"name\": \"Retention\"\n        }\n      ]\n    },\n    {\n      \"contenttype\": \"Transcript\",\n      \"title\": \"This is a title\",\n      \"mediaid\": 5775881,\n      \"sourceeventid\": 2478889,\n      \"sourceeventtitle\": \"Some Webinar Name\",\n      \"createddate\": \"2023-02-02T03:20:00-08:00\",\n      \"createdby\": \"Joe Smith\",\n      \"thumbnail\": \"http://gateway.on24.com/event/57/75/88/1/rt/1/images/thumbnail/sample.png\",\n      \"urls\": [\n        {\n          \"parentid\": 1245667,\n          \"url\": \"https://gateway.on24.com/wcc/nurture/2775881/25D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\"\n        },\n        {\n          \"parentid\": 9876441,\n          \"url\": \"https://gateway.on24.com/wcc/nurture/9775881/95D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\"\n        }\n      ],\n      \"tags\": [\n        {\n          \"name\": \"Tag 1\"\n        },\n        {\n          \"name\": \"Tag 2\"\n        },\n        {\n          \"name\": \"Tag 3\"\n        }\n      ],\n      \"funnelstages\": [\n        {\n          \"name\": \"Awareness\"\n        },\n        {\n          \"name\": \"Consideration\"\n        },\n        {\n          \"name\": \"Evaluation\"\n        },\n        {\n          \"name\": \"Retention\"\n        }\n      ]\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "92f87ce1-1850-4b44-a89b-e344d690a0da",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "mediamanager"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startdate",
+                      "value": "2007-12-03"
+                    },
+                    {
+                      "key": "enddate",
+                      "value": "2007-12-05"
+                    },
+                    {
+                      "key": "pageoffset",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsperpage",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "6a60752c-e84c-48ff-874f-de0c67466871",
+              "name": "AccessTokenKey and AccessTokenSecret are wrong or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "mediamanager"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startdate",
+                      "value": "2007-12-03"
+                    },
+                    {
+                      "key": "enddate",
+                      "value": "2007-12-05"
+                    },
+                    {
+                      "key": "pageoffset",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsperpage",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "c720db7a-fbe3-4ade-9868-6d46c649e535",
+              "name": "You do not have permission to perform the requested operation | You have reached the maximum number of calls for this api | The client id {clientId} is inactive",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "mediamanager"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startdate",
+                      "value": "2007-12-03"
+                    },
+                    {
+                      "key": "enddate",
+                      "value": "2007-12-05"
+                    },
+                    {
+                      "key": "pageoffset",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsperpage",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9f3e7847-bcf8-4207-b7f1-fd0c48bc8d72",
+              "name": "The client {clientId} doesn't exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "mediamanager"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "startdate",
+                      "value": "2007-12-03"
+                    },
+                    {
+                      "key": "enddate",
+                      "value": "2007-12-05"
+                    },
+                    {
+                      "key": "pageoffset",
+                      "value": "1"
+                    },
+                    {
+                      "key": "itemsperpage",
+                      "value": "25"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "d1ce05bd-6115-4f7d-8f54-6e8fbff50cf2",
+          "name": "Media Manager Derivative Content Text",
+          "request": {
+            "name": "Media Manager Derivative Content Text",
+            "description": {
+              "content": "Retrieves the metadata for a particular derivative content in Media Manager, identified by *mediaId*.\n\n**Derivative content supported:**\n\n- Autogenerated Ebook\n- Autogenerated Blog Post\n- Autogenerated Key Takeaways\n- Transcript",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "client",
+                ":clientId",
+                "mediamanager",
+                ":mediaId"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "clientId",
+                  "description": "(Required) The client id"
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<string>",
+                  "key": "mediaId",
+                  "description": "(Required) The media id of the content requested"
+                }
+              ]
+            },
+            "header": [
+              {
+                "disabled": false,
+                "description": "(Required) Security Parameter",
+                "key": "accessTokenKey",
+                "value": "<string>"
+              },
+              {
+                "disabled": false,
+                "description": "(Required) Security Parameter",
+                "key": "accessTokenSecret",
+                "value": "<string>"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a716789c-90c7-47f1-b410-f581e65a277a",
+              "name": "Returns content metadata",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "mediamanager",
+                    ":mediaId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "mediaId",
+                      "description": "(Required) The media id of the content requested"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"contenttype\": \"Transcript\",\n  \"title\": \"This is a title\",\n  \"mediaid\": 5775881,\n  \"sourceeventid\": 2478889,\n  \"sourceeventtitle\": \"Some Webinar Name\",\n  \"createddate\": \"2023-02-02T03:20:00-08:00\",\n  \"createdby\": \"Joe Smith\",\n  \"thumbnail\": \"http://gateway.on24.com/event/57/75/88/1/rt/1/images/thumbnail/sample.png\",\n  \"urls\": [\n    {\n      \"parentid\": 1245667,\n      \"url\": \"https://gateway.on24.com/wcc/nurture/2775881/25D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\"\n    },\n    {\n      \"parentid\": 9876441,\n      \"url\": \"https://gateway.on24.com/wcc/nurture/9775881/95D40D5588A0B7BF420C5976C78DE19B/some-webinar-name\"\n    }\n  ],\n  \"tags\": [\n    {\n      \"name\": \"Tag 1\"\n    },\n    {\n      \"name\": \"Tag 2\"\n    },\n    {\n      \"name\": \"Tag 3\"\n    }\n  ],\n  \"funnelstages\": [\n    {\n      \"name\": \"Awareness\"\n    },\n    {\n      \"name\": \"Consideration\"\n    },\n    {\n      \"name\": \"Evaluation\"\n    },\n    {\n      \"name\": \"Retention\"\n    }\n  ],\n  \"text\": \"<p><h1>Lorem ipsum dolor sit amet,</h1> consectetur adipisci elit, sed eiusmod tempor incidunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur. Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint obcaecat cupiditat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c6488762-980b-4f5a-b568-d5616fc363fe",
+              "name": "Bad request",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "mediamanager",
+                    ":mediaId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "mediaId",
+                      "description": "(Required) The media id of the content requested"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "4dca0afa-2976-46a8-8998-933d6712c61a",
+              "name": "AccessTokenKey and AccessTokenSecret are wrong or invalid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "mediamanager",
+                    ":mediaId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "mediaId",
+                      "description": "(Required) The media id of the content requested"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "9dab6df7-1d17-4d0b-8e0a-30f821d6e6a5",
+              "name": "You do not have permission to perform the requested operation | You have reached the maximum number of calls for this api | The client id {clientId} is inactive",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "mediamanager",
+                    ":mediaId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "mediaId",
+                      "description": "(Required) The media id of the content requested"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a5b90d13-d9a2-4309-be95-a2f4c3a87c54",
+              "name": "The client {clientId} doesn't exist | The content identified by {mediaId} doesn't exist",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "client",
+                    ":clientId",
+                    "mediamanager",
+                    ":mediaId"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "clientId",
+                      "description": "(Required) The client id"
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<string>",
+                      "key": "mediaId",
+                      "description": "(Required) The media id of the content requested"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "AccessTokenKey",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenKey",
+                    "value": "63129107067A520E6B7DE18D5E1CB2BF"
+                  },
+                  {
+                    "disabled": false,
+                    "description": "(Required) Security Parameter",
+                    "key": "accessTokenSecret",
+                    "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.on24.com/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "AccessTokenKey"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "d0f22e0e-18b5-48f8-b888-4777212de32b",
+    "name": "ON24 WCC API v2 — Content Listings",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "ON24 Webinar & Content Center REST API v2. All secured endpoints require two request headers: AccessTokenKey and AccessTokenSecret. Both headers must be supplied together — providing only one is not sufficient.",
+      "type": "text/plain"
+    }
+  }
+}

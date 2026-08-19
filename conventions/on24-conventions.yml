@@ -1,59 +1,110 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
-source: >-
-  https://apidoc.on24.com/ plus the confirmed request/response shape from the
-  node-on24 community client (github.com/the-automaton/node-on24). ON24 does not
-  publish an OpenAPI, so cross-cutting conventions are captured from the docs and
-  a live client, not derived from a spec.
-description: >-
-  How ON24's REST API behaves across its Registration, Analytics/Reporting,
-  Event Management, and User Management surfaces: base path, authentication,
-  resource scoping, error envelope, and rate-limit posture.
-
-base_url: https://api.on24.com/v2/client/{clientId}
-api_style: REST over HTTPS, JSON responses
-
+source: https://api.on24.com/v2/openapi.json (OpenAPI 3.0.1, 67 operations, harvested to openapi/_original/on24-openapi.json),
+  https://apidoc.on24.com/, https://support.on24.com/hc/en-us/articles/21420786301083-REST-API-Integrations-Overview,
+  https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens, and live probes of api.on24.com.
+description: 'Cross-cutting semantics of the ON24 Webinar & Content Center (WCC) REST API v2 across its six surfaces:
+  Client Level Analytics, Event Level Analytics, Event Management, REST Registration, Content Listings and Helpers.'
+base_url: https://api.on24.com/v2
+base_url_eu: https://api.eu.on24.com/v2
+base_url_note: 'The published OpenAPI declares a RELATIVE server, "/wcc/api/v2", with the note "The /wcc context
+  root may differ per deployment environment" — it does not name a host. The real public hosts were confirmed by
+  probe: GET https://api.on24.com/v2/client/1234/event returns 401 "Header must contain both accessTokenKey and
+  accessTokenSecret" (endpoint exists, auth required) while https://api.on24.com/wcc/api/v2/... returns 404. The
+  EU host serves a byte-identical spec.'
+api_style: REST over HTTPS; JSON responses; form-encoded (application/x-www-form-urlencoded) and multipart request
+  bodies
+transport_note: ON24 requires all API calls to be made server-to-server; client-side/browser JavaScript calls are
+  not supported.
 authentication:
-  scheme: apiKey headers (accessTokenKey + accessTokenSecret) with client id in path
+  scheme: two apiKey headers — AccessTokenKey + AccessTokenSecret, both required together
+  global: Declared as a global security requirement on all 67 operations.
   detail: authentication/on24-authentication.yml
   docs: https://apidoc.on24.com/
-
 resource_scoping:
-  client: >-
-    Every request is scoped to a numeric client (account) id in the path:
-    /v2/client/{clientId}/...
-  event: >-
-    Event-level resources hang off /event/{eventId} (registrants, analytics,
-    registration fields).
-
+  client: Every one of the 58 path templates begins /client/{clientId} — a numeric account id.
+  event: Event-scoped resources hang off /client/{clientId}/event/{eventId}/...
+  person: 'Registrants, attendees and leads are addressed by EMAIL, not by an opaque id: /registrant/{email}, /attendee/{email},
+    /lead/{email}.'
+  subaccounts: Parent accounts reach child clients via includesubaccounts / subaccounts / excludesubaccounts query
+    parameters.
 pagination:
-  style: query-parameter filters
-  notes: >-
-    Analytics list endpoints accept filter query parameters (e.g. startDate,
-    endDate, partnerref) rather than a documented cursor/offset envelope. Refer
-    to apidoc.on24.com for per-endpoint defaults.
-
+  style: offset
+  supported_operations: 8
+  params:
+  - name: pageoffset
+    in: query
+    description: Zero-based page offset.
+  - name: itemsperpage
+    in: query
+    description: Number of items to be retrieved per page.
+  notes: Offset pagination is only available on 8 of 67 operations. On GET /client/{clientId}/event pagination becomes
+    REQUIRED (and the response schema CHANGES) when includesubaccounts=Y. There is no cursor, no Link header and
+    no next-page token; response bodies carry total counts (e.g. totalevents) that a client must combine with itemsperpage
+    itself.
+  response_fields:
+  - totalevents
+  - totalregistrants
+  - totalattendees
+filtering:
+  date:
+  - name: startdate
+  - name: enddate
+  - name: datefiltermode
+  - name: dateInterval
+  - name: dateIntervalOffset
+  - name: dateIntervalTimezone
+  other:
+  - partnerref
+  - userstatus
+  - excludeanonymous
+  - excludelive
+  - noshow
+  - filterorder
+  - includeinactive
+  - realtimeonly
+  notes: Filtering is per-endpoint query parameters; there is no generic filter/expand/sparse-fieldset grammar.
+field_expansion:
+  supported: false
+  notes: No expand / include / fields parameter. Related objects require separate calls.
+metadata:
+  supported: false
+  notes: No customer-defined metadata bag on API objects; client-level tagging exists as a separate resource (customaccounttag).
+request_id_tracing:
+  supported: false
+  notes: No request-id / correlation-id header is documented in the spec or returned on observed responses.
 idempotency:
   supported: false
-  notes: >-
-    ON24 does not document an idempotency-key mechanism. Registrant creation is
-    upsert-like (create/update by email), but no dedicated Idempotency-Key
-    header is published.
-
+  notes: ON24 publishes NO idempotency-key mechanism — the string "idempoten" does not appear anywhere in the 67-operation
+    OpenAPI. Registration is effectively upsert-by-email (POST .../registrant creates, PATCH .../registrant updates
+    the same person keyed by email), which limits duplicate damage on retry, but there is no Idempotency-Key header,
+    no replay window and no documented retention. Non-registration writes (Create/Copy a Webinar, Upload Slides,
+    Media Manager uploads) are NOT safe to blind-retry. No Idempotency pointer is emitted for this provider.
 error_envelope:
-  transport: HTTP status codes (400, 401, 404, 5xx)
-  body: >-
-    Error responses carry a JSON body that may include a human-readable message;
-    clients read statusCode + body.message.
-  format: vendor-specific (not RFC 9457 problem+json)
-
-rate_limits:
-  documented: false
-  notes: >-
-    No published rate-limit numbers or standard rate-limit response headers were
-    found in the ON24 API documentation.
-
+  transport: 'HTTP status codes: 400, 401, 403, 404, 410, 412, 500'
+  body: Plain JSON object with a single human-readable `message` string.
+  format: vendor-specific — NOT RFC 9457 application/problem+json
+  observed:
+    url: https://api.on24.com/v2/client/1234/event
+    status: 401
+    body:
+      message: Header must contain both accessTokenKey and accessTokenSecret.
+  detail: errors/on24-problem-types.yml
+rate_limit_signaling:
+  documented_numbers: false
+  exhaustion_status: 403
+  notes: Quota exhaustion returns 403, not 429, and carries no Retry-After or RateLimit-* header. See rate-limits/on24-rate-limits.yml
+    — this is the single most agent-hostile convention in the API.
+content_negotiation:
+  notes: An `accept` header parameter is declared on 20 operations with possible values Application/xml or Application/json;
+    the OpenAPI itself only declares application/json response content.
 versioning:
   scheme: uri-path
   current: v2
   detail: lifecycle/on24-lifecycle.yml
+cross_links:
+- errors/on24-problem-types.yml
+- lifecycle/on24-lifecycle.yml
+- authentication/on24-authentication.yml
+- rate-limits/on24-rate-limits.yml
+- data-model/on24-data-model.yml

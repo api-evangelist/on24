@@ -1,0 +1,154 @@
+{
+  "operationId": "EventManagement.CreateAWebinar",
+  "method": "POST",
+  "path": "/client/{clientId}/event",
+  "status": 200,
+  "media_type": "application/json",
+  "source": "https://api.on24.com/v2/openapi.json (verbatim response examples published by ON24)",
+  "examples": {
+    "Create a Webinar": {
+      "wccevent": {
+        "eventId": 1418636,
+        "title": "Event created from API",
+        "eventAbstract": "Event Abstract Sample",
+        "promotionalSummary": "Event Promotional Summary Sample",
+        "liveStart": "12/20/2017 08:45 AM",
+        "liveDuration": 3600,
+        "liveEnd": "12/20/2017 10:00 AM",
+        "archiveStart": "12/20/2017 10:30 AM",
+        "archiveEnd": "12/20/2018 10:30 AM",
+        "clientId": 4467,
+        "timeZone": "America/Los_Angeles",
+        "eventType": "webcam",
+        "goodAfter": "12/20/2017 09:00 AM",
+        "audienceUrl": "https://event.on24.com/wcc/r/1418636/15545789BB2677BD0FB3F6FAA3F8B557",
+        "reportsUrl": "https://api.on24.com/webcast/report?e=1418636&k=93263D3E106F0243316315BE767D8550",
+        "previewUrl": "http://api.on24.com/webcast/previewlobby?e=1418636&k=93263D3E106F0243316315BE767D8550",
+        "archiveDuration": 525600,
+        "shortTimeZone": "PST",
+        "isLiveStartPast": false,
+        "isLiveEndPast": false,
+        "archiveEndInPast": false,
+        "monthsAvailableToExtend": -1,
+        "canExtendArchive": false,
+        "archiveAvailable": true,
+        "autoArchiveProcessed": false,
+        "canManipulateArchive": false,
+        "canToggleArchiveAvailability": true,
+        "showFaaBridgeNumber": true,
+        "showColossusLink": true,
+        "languageCd": "en",
+        "countryCd": "UK",
+        "sourceEventId": 0,
+        "rolloverAudio": false,
+        "rolloverAudioDisabled": false,
+        "tags": [
+          "tag1",
+          "tag2"
+        ],
+        "customaccounttags": [
+          {
+            "groupid": 101,
+            "groupname": "Group 1",
+            "tagid": 741,
+            "tagname": "Option 1-A"
+          },
+          {
+            "groupid": 102,
+            "groupname": "Group 2",
+            "tagid": 744,
+            "tagname": "Option 2-A"
+          }
+        ],
+        "defaultPlayerConsoleTemplateId": 0,
+        "simuliveWaitingMode": false,
+        "PMUrl": "https://api.on24.com/webcast/present?e=1418636&k=93263D3E106F0243316315BE767D8550",
+        "simuliveEPMode": true,
+        "simuliveMode": false,
+        "hybrid": "Y",
+        "venue": "Test Venue",
+        "address": "Test Address",
+        "testevent": "Y"
+      }
+    },
+    "Copy a Webinar": {
+      "wccevent": {
+        "eventId": 1418636,
+        "title": "Copy of Event Created from API",
+        "eventAbstract": "Event Abstract Sample",
+        "promotionalSummary": "Event Promotional Summary Sample",
+        "liveStart": "12/20/2017 08:45 AM",
+        "liveDuration": 3600,
+        "liveEnd": "12/20/2017 10:00 AM",
+        "archiveStart": "12/20/2017 10:30 AM",
+        "archiveEnd": "12/20/2018 10:30 AM",
+        "clientId": 4467,
+        "timeZone": "America/Los_Angeles",
+        "eventType": "webcam",
+        "goodAfter": "12/20/2017 09:00 AM",
+        "audienceUrl": "https://event.on24.com/wcc/r/1418636/15545789BB2677BD0FB3F6FAA3F8B557",
+        "reportsUrl": "https://api.on24.com/webcast/report?e=1418636&k=93263D3E106F0243316315BE767D8550",
+        "previewUrl": "http://api.on24.com/webcast/previewlobby?e=1418636&k=93263D3E106F0243316315BE767D8550",
+        "archiveDuration": 525600,
+        "shortTimeZone": "PST",
+        "isLiveStartPast": false,
+        "isLiveEndPast": false,
+        "archiveEndInPast": false,
+        "monthsAvailableToExtend": -1,
+        "canExtendArchive": false,
+        "archiveAvailable": true,
+        "autoArchiveProcessed": false,
+        "canManipulateArchive": false,
+        "canToggleArchiveAvailability": true,
+        "showFaaBridgeNumber": true,
+        "showColossusLink": true,
+        "languageCd": "en",
+        "countryCd": "",
+        "sourceEventId": 0,
+        "rolloverAudio": false,
+        "rolloverAudioDisabled": false,
+        "tags": [
+          "tag1",
+          "tag2"
+        ],
+        "customaccounttags": [
+          {
+            "groupid": 101,
+            "groupname": "Group 1",
+            "tagid": 741,
+            "tagname": "Option 1-A"
+          },
+          {
+            "groupid": 102,
+            "groupname": "Group 2",
+            "tagid": 744,
+            "tagname": "Option 2-A"
+          }
+        ],
+        "defaultPlayerConsoleTemplateId": 0,
+        "simuliveWaitingMode": false,
+        "PMUrl": "https://api.on24.com/webcast/present?e=1418636&k=93263D3E106F0243316315BE767D8550",
+        "simuliveEPMode": true,
+        "simuliveMode": false,
+        "hybrid": "Y",
+        "venue": "Test Venue",
+        "address": "Test Address",
+        "testevent": "Y"
+      }
+    },
+    "Broadcast Video (encoder fragment)": {
+      "encoders": [
+        {
+          "encoder": "Encoder A",
+          "url": "rtmp://fmseosa.on24.com/liveeosa",
+          "streamid": "5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_A"
+        },
+        {
+          "encoder": "Encoder B",
+          "url": "rtmp://fmseosb.on24.com/liveeosb",
+          "streamid": "5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_B"
+        }
+      ]
+    }
+  }
+}

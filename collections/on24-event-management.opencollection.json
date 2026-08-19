@@ -1,0 +1,597 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ON24 WCC API v2 — Event Management",
+    "version": "2"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "AccessTokenKey",
+      "value": "{{AccessTokenKey}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Event Management",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create/Copy a Webinar",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/event",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "content-type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "18091",
+                "type": "path",
+                "description": "The event will be created under this client id"
+              },
+              {
+                "name": "eventsource",
+                "value": "13658130",
+                "type": "query",
+                "description": "The id of an existing event from which fields for the new event will be copied"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Creates a new Webinar or Forum. When an existing event id is provided in query parameter **eventsource**, a copy of that event is created instead.\n\n- When an existing event id is provided in query parameter **eventsource**, the new event created by this Endpoint will copy all the other fields from this existing event except the **liveStart** and **liveDuration**.\n- Any of the parameters can be overridden, all parameters in the Event Creation are accepted.\n- Required form parameters: **liveDurati"
+        },
+        {
+          "info": {
+            "name": "Update a Webinar",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "content-type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Updates a webinar.\n\n- **liveDuration** parameter conditions:\n  - When copying a webinar, users are able to provide a liveDuration value in 15 minute increments (e.g. 15, 30, 45, 60, etc.) up to 120 minutes.\n  - Above 120 minutes, increments will be 30 minutes up to 480 minutes.\n  - The maximum allowed liveDuration is 480 minutes.\n- **liveStart** accepted date/time formats:\n  - **MM/DD/YYYY hh:mm a** (08/26/2016 09:00 AM)\n  - **YYYY-MM-DDThh:mm:ss** Default timezone will be Pacific Time. (2016-08"
+        },
+        {
+          "info": {
+            "name": "Delete Webinar",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes a webinar."
+        },
+        {
+          "info": {
+            "name": "Update Email Calendar Reminder",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/calendarreminder",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Updates the Email Calendar Reminder for a particular event.\n\n- **reminder** parameter conditions:\n  - Cannot be updated if the event has already started.\n  - Accpeted values:\n    - None\n    - 0 Minutes\n    - 5 Minutes\n    - 10 Minutes\n    - 15 Minutes\n    - 30 Minutes\n    - 1 Hour\n    - 2 Hours\n    - 3 Hours\n    - 4 Hours\n    - 5 Hours\n    - 6 Hours\n    - 12 Hours\n    - 1 Day"
+        },
+        {
+          "info": {
+            "name": "Update Email Notification",
+            "type": "http"
+          },
+          "http": {
+            "method": "PUT",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/email/:emailId",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "emailId",
+                "value": "7055969",
+                "type": "path",
+                "description": "The email id"
+              },
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Updates an Email Notification for a particular event.\n\n- **fromLabel** validations:\n  - Only alphanumeric characters and a maximum of 50 characters are allowed.\n  - International characters or email addresses are not allowed.\n- **whentosend** accepted values:\n  - 2 Weeks Before Event\n  - 1 Week Before Event\n  - 5 Days Before Event\n  - Days Before Event\n  - 2 Days Before Event\n  - 1 Day Before Event\n  - 12 Hours Before Event\n  - 6 Hours Before Event\n  - 5 Hours Before Event\n  - 4 Hours Before Eve"
+        },
+        {
+          "info": {
+            "name": "Create Related Content",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/relatedcontent",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "Content-Type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "This endpoint will upload files and links to a Webinar's Related Content widget.\n\n### Supported File Types\n\n- .doc\n- .docx\n- .xls\n- .xlsx\n- .pdf\n- .ppt\n- .pptx\n- .mp3\n- .mp4\n\n### File Max Size\n\n- 50 MB"
+        },
+        {
+          "info": {
+            "name": "Slide Listing",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/slides",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Returns information about event slides."
+        },
+        {
+          "info": {
+            "name": "Upload Slides",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/slides",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Uploads slides to a webinar."
+        },
+        {
+          "info": {
+            "name": "Create Speaker Bio",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/speakerbio",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "content-type",
+                "value": "multipart/form-data"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Creates a new speaker bio element in the Speaker Bio widget of a webinar.\n\n- A Speaker Bio widget must already exist in the webinar. If a Speaker Bio widget does not exist, a 404 response will be returned.\n\n### Supported File Types for Speaker Bio Image\n\n- .jpg\n- .gif\n- .png\n\n### Required 'metadata' JSON key-value pairs\n\n- name\n- email\n\n### 'metadata' restrictions\n\n- Only up to three (3) among \"email\", \"twitter\", \"linkedin\", \"website\", and \"facebook\" can be provided. Providing more than three wi"
+        },
+        {
+          "info": {
+            "name": "Delete Speaker Bio",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/speakerbio",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "accept",
+                "value": "application/json"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes all speaker bio data for specific event webinar."
+        },
+        {
+          "info": {
+            "name": "Create Survey Questions and Answers",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/surveyquestions",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "content-type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates one or several survey questions and their answers for a particular webinar.\n\n- A Take Survey widget must already exist in the webinar. If a Take Survey widget does not exist, a 404 response will be returned."
+        },
+        {
+          "info": {
+            "name": "Update Text With Banner Widget",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/textwithbanner",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              },
+              {
+                "name": "content-type",
+                "value": "application/x-www-form-urlencoded"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "form-urlencoded",
+              "data": []
+            }
+          },
+          "docs": "Updates the text content of a webinar's Text With Banner widget.\n\n- At least one Text With Banner widget must already exist in the webinar. If a Text With Banner widget does not exist, a 404 response will be returned.\n- The \"matchname\" metadata field value must be the same as the Text With Banner widget name. If a Text With Banner widget does not exist with the \"matchname\" value, a 404 response will be returned.\n- After successfully executing this endpoint, the previously existing text content o"
+        },
+        {
+          "info": {
+            "name": "Delete VTT Files",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.on24.com/v2/client/:clientId/event/:eventId/vtt",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "eventId",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Deletes all vtt files for specific event webinar."
+        },
+        {
+          "info": {
+            "name": "Media Manager Upload Document",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/mediamanager/document",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a document to Media Manager.\n\n### Supported File Types\n\n- .pdf\n- .jpg\n- .jpeg\n- .png\n\n### File Max Size\n\n- 10 GB"
+        },
+        {
+          "info": {
+            "name": "Media Manager Upload Video",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.on24.com/v2/client/:clientId/mediamanager/uploadvideo",
+            "headers": [
+              {
+                "name": "accessTokenKey",
+                "value": "63129107067A520E6B7DE18D5E1CB2BF"
+              },
+              {
+                "name": "accessTokenSecret",
+                "value": "072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438"
+              }
+            ],
+            "params": [
+              {
+                "name": "clientId",
+                "value": "15448",
+                "type": "path",
+                "description": "The client id"
+              }
+            ],
+            "body": {
+              "type": "multipart-form",
+              "data": []
+            }
+          },
+          "docs": "Upload a video to Media Manager.\n\n### Supported File Types\n\n- .mp4\n- .wmv\n- .mov\n- .mp3\n- .flv\n- .avi\n\n### File Max Size\n\n- 10gb"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

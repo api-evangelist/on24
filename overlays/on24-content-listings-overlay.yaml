@@ -1,0 +1,33 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements — ON24 WCC API v2 (Content Listings)
+  version: 1.0.0
+extends: openapi/on24-content-listings-openapi.yml
+x-generated: '2026-08-13'
+x-method: generated
+x-source: Records the transformations API Evangelist applied to the verbatim ON24 spec harvested from https://api.on24.com/v2/openapi.json
+  (kept unmodified at openapi/_original/on24-openapi.json).
+actions:
+- target: $.servers
+  description: Replace the relative server "/wcc/api/v2" published by ON24 with the two absolute production hosts
+    confirmed by live probe (401 on .../v2/client/1234/event vs 404 on .../wcc/api/v2/...). The original spec names
+    no host, so it is not directly callable.
+  update:
+  - url: https://api.on24.com/v2
+    description: North America (production)
+  - url: https://api.eu.on24.com/v2
+    description: European Union (production)
+- target: $.info
+  description: Scope info.title to the Content Listings tag slice of the 67-operation source document.
+  update:
+    title: ON24 WCC API v2 — Content Listings
+- target: $.paths.*.*
+  description: NOT APPLIED — recorded as a known gap. No operation in the ON24 spec declares a response `schema`;
+    all 67 200-responses carry examples only. API Evangelist does not synthesise response schemas, so downstream
+    codegen against this contract remains untyped. This is a provider fix.
+  x-gap: no-response-schemas
+- target: $.paths.*.*.responses['403']
+  description: NOT APPLIED — recorded as a known gap. Quota exhaustion is returned as 403 rather than 429 and shares
+    the status code with permission and inactive-client errors. Splitting it would change the contract, so it is
+    documented in rate-limits/on24-rate-limits.yml instead.
+  x-gap: quota-signalled-as-403

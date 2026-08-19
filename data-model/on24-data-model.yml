@@ -1,0 +1,228 @@
+generated: '2026-08-13'
+method: derived
+source: openapi/_original/on24-openapi.json — entity graph derived from the 58 path templates, their {clientId}/{eventId}/{email}/{mediaId}/{gatewayId}
+  identifier segments, and the 23 components.schemas request forms.
+notes: 'ON24 models everything under a single numeric CLIENT (account) root. Every path begins /client/{clientId}.
+  Events hang off the client; registrants, attendees and all engagement objects hang off the event. EMAIL is the
+  natural key for a person: registrants and attendees are addressed by {email}, not by an opaque id, which is why
+  the GDPR forget operations are also keyed by email. There are no id-prefixed opaque identifiers in this API —
+  identifiers are bare numerics (clientId, eventId, emailId, mediaId) and email addresses. No response schemas are
+  declared in the spec (all 200 responses carry examples but no `schema`), so field-level attributes below are read
+  from the published response EXAMPLES, not from a schema.'
+identifiers:
+- name: clientId
+  shape: numeric
+  scope: account/tenant root
+  in: path
+- name: eventId
+  shape: numeric
+  scope: webinar/event
+  in: path
+- name: email
+  shape: email address
+  scope: registrant/attendee/lead natural key
+  in: path
+- name: emailId
+  shape: numeric
+  scope: event email notification
+  in: path
+- name: mediaId
+  shape: numeric
+  scope: Media Manager asset
+  in: path
+- name: gatewayId
+  shape: numeric
+  scope: Engagement Hub gateway
+  in: path
+entities:
+- name: client
+  description: ON24 account/tenant. Root of every path; may own sub-accounts (child clients).
+  root: true
+- name: event
+  description: A webinar / on-demand content experience (Webinar & Content Center event).
+- name: registrant
+  description: A person registered for an event; keyed by email.
+- name: attendee
+  description: A registrant who consumed the event live or on demand; carries engagement analytics.
+- name: attendee_session
+  description: One viewing session by an attendee (live or archive minutes).
+- name: lead
+  description: Prospect Engagement Profile (PEP) — cross-event engagement rollup for a person.
+- name: engaged_account
+  description: Account-level (company) engagement rollup used for ABM.
+- name: poll
+  description: In-event poll and its responses.
+- name: survey
+  description: In-event survey and its responses.
+- name: survey_library_item
+  description: Reusable client-level survey definition.
+- name: presenter
+  description: Event presenter.
+- name: speaker_bio
+  description: Speaker biography attached to an event.
+- name: slide
+  description: Presentation slide asset uploaded to an event.
+- name: resource
+  description: Downloadable resource offered in the console; tracked as "resources viewed".
+- name: cta
+  description: Call-to-action widget and its click activity.
+- name: certification
+  description: Certification/credit record earned at an event.
+- name: email_notification
+  description: Event email notification (invite/reminder/follow-up) and its statistics.
+- name: calendar_reminder
+  description: Calendar reminder email configuration for an event.
+- name: group_chat_message
+  description: Group chat activity in the event console.
+- name: registration_field
+  description: Registration form field configuration for an event.
+- name: related_content
+  description: Content related to an event, surfaced in the console.
+- name: media_asset
+  description: Media Manager video/document asset and its derivative content (incl. transcript text).
+- name: engagement_hub
+  description: Engagement Hub gateway and its content listing.
+- name: user
+  description: Platform user of the client account (incl. account managers, event managers, sales/technical/signal
+    reps).
+- name: custom_account_tag
+  description: Client-defined account tag used to segment engagement.
+- name: event_profile
+  description: Reusable event profile/template configuration.
+relationships:
+- from: client
+  to: event
+  type: has_many
+  via: clientId path segment /client/{clientId}/event
+- from: client
+  to: client
+  type: has_many
+  via: sub-accounts (GET /client/{clientId}, subaccounts / includesubaccounts parameters)
+- from: event
+  to: registrant
+  type: has_many
+  via: /client/{clientId}/event/{eventId}/registrant
+- from: event
+  to: attendee
+  type: has_many
+  via: /client/{clientId}/event/{eventId}/attendee
+- from: attendee
+  to: attendee_session
+  type: has_many
+  via: /event/{eventId}/attendeesession (viewing sessions)
+- from: event
+  to: poll
+  type: has_many
+  via: /event/{eventId}/poll
+- from: event
+  to: survey
+  type: has_many
+  via: /event/{eventId}/survey
+- from: event
+  to: presenter
+  type: has_many
+  via: /event/{eventId}/presenter
+- from: event
+  to: speaker_bio
+  type: has_many
+  via: POST/DELETE /event/{eventId}/speakerbio
+- from: event
+  to: slide
+  type: has_many
+  via: /event/{eventId}/slides
+- from: event
+  to: resource
+  type: has_many
+  via: /event/{eventId}/resource
+- from: event
+  to: cta
+  type: has_many
+  via: /event/{eventId}/cta
+- from: event
+  to: certification
+  type: has_many
+  via: /event/{eventId}/certifications
+- from: event
+  to: email_notification
+  type: has_many
+  via: /event/{eventId}/email and /email/{emailId}
+- from: event
+  to: calendar_reminder
+  type: has_one
+  via: /event/{eventId}/calendarreminder
+- from: event
+  to: group_chat_message
+  type: has_many
+  via: /event/{eventId}/groupchat
+- from: event
+  to: registration_field
+  type: has_many
+  via: /event/{eventId}/regfield
+- from: event
+  to: related_content
+  type: has_many
+  via: POST /event/{eventId}/relatedcontent
+- from: registrant
+  to: event
+  type: has_many
+  via: /registrant/{email}/allevents (cross-event view keyed by email)
+- from: attendee
+  to: event
+  type: has_many
+  via: /attendee/{email}/allevents
+- from: client
+  to: lead
+  type: has_many
+  via: /client/{clientId}/lead and /lead/{email} (Prospect Engagement Profile)
+- from: client
+  to: engaged_account
+  type: has_many
+  via: /client/{clientId}/engagedaccount
+- from: client
+  to: media_asset
+  type: has_many
+  via: /client/{clientId}/mediamanager and /mediamanager/{mediaId}
+- from: client
+  to: engagement_hub
+  type: has_many
+  via: /client/{clientId}/ehub/{gatewayId}/content
+- from: client
+  to: user
+  type: has_many
+  via: /client/{clientId}/users
+- from: client
+  to: survey_library_item
+  type: has_many
+  via: /client/{clientId}/surveylibrary
+- from: client
+  to: custom_account_tag
+  type: has_many
+  via: /client/{clientId}/customaccounttag
+- from: client
+  to: event_profile
+  type: has_many
+  via: /client/{clientId}/eventprofile
+request_schemas:
+- AddEventForm
+- AddRegistrantForm
+- BodyPart
+- CalendarReminderForm
+- ContentDisposition
+- CreateRelatedContentForm
+- CreateSpeakerBioForm
+- CreateSurveyQuestionForm
+- ForgetRegistrantForm
+- FormDataBodyPart
+- FormDataContentDisposition
+- FormDataMultiPart
+- MessageBodyWorkers
+- MultiPart
+- ParameterizedHeader
+- UpdateEmailNotificationForm
+- UpdateEventForm
+- UpdateRegistrantClientLevelForm
+- UpdateRegistrantForm
+- UpdateTextWithBannerForm
+- UploadDocumentForm
+- UploadSlidesForm
+- UploadVideoForm

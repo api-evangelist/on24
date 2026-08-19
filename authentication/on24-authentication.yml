@@ -1,39 +1,67 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
-source: >-
-  https://apidoc.on24.com/ (ON24 API documentation portal) and the ON24 client
-  contract confirmed in the community node-on24 client source
-  (github.com/the-automaton/node-on24, src/client-base.ts). ON24 publishes no
-  first-party OpenAPI, so the auth model is captured from the docs + a live
-  client rather than derived from a spec.
-docs: https://apidoc.on24.com/
+source: https://api.on24.com/v2/openapi.json (components.securitySchemes, now harvested), https://apidoc.on24.com/,
+  and https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens
+docs: https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens
 summary:
   types:
   - apiKey
   api_key_in:
   - header
-  notes: >-
-    ON24 authenticates every request with a numeric client id embedded in the
-    URL path plus a token key/secret pair sent as HTTP request headers. There is
-    no OAuth 2.0 / OIDC surface documented.
+  notes: 'ON24 authenticates every request with a PAIR of apiKey headers, AccessTokenKey and AccessTokenSecret.
+    Both must be supplied together — the spec description says so explicitly and a live probe confirms it (401 "Header
+    must contain both accessTokenKey and accessTokenSecret"). Header names are matched case-insensitively: the spec
+    declares AccessTokenKey/AccessTokenSecret while the operation-level parameters and ON24''s own curl example
+    use lowercase accesstokenkey/accesstokensecret. A numeric client id in the URL path scopes every call. There
+    is no OAuth 2.0 / OIDC surface and therefore no scope model.'
 schemes:
-- name: accessTokenKey
+- name: AccessTokenKey
   type: apiKey
   in: header
-  key_name: accessTokenKey
-  description: >-
-    Per-client API token key issued in the ON24 platform (Account > Integrations
-    / API access). Sent as the `accessTokenKey` request header.
-- name: accessTokenSecret
+  key_name: AccessTokenKey
+  description: API access token key issued by the ON24 platform. Must be supplied together with AccessTokenSecret.
+- name: AccessTokenSecret
   type: apiKey
   in: header
-  key_name: accessTokenSecret
-  description: >-
-    Secret paired with accessTokenKey. Sent as the `accessTokenSecret` request
-    header alongside accessTokenKey.
+  key_name: AccessTokenSecret
+  description: API access token secret corresponding to the AccessTokenKey. Must be supplied together with AccessTokenKey.
+applied:
+  global: true
+  operations_covered: 67
+  operations_total: 67
+  note: Declared as a root-level `security` requirement, so all 67 operations are covered.
 client_scope:
   in: path
   parameter: clientId
-  description: >-
-    Numeric ON24 client (account) id scoping every call; forms part of the base
-    path https://api.on24.com/v2/client/{clientId}/...
+  description: Numeric ON24 client (account) id scoping every call; forms part of the base path https://api.on24.com/v2/client/{clientId}/...
+provisioning:
+  gated: true
+  requires_product: Connect
+  permission: Manage Integrations
+  ui_path: Platform Tools > Integrations > API Tokens
+  access_choice: All endpoints (selected at provisioning time; the token is bound to a chosen platform login)
+  one_per_login: Provisioning is only enabled when no token already exists for that producer login.
+  notes: 'Credentials are sales/contract-gated: the contract must include "Connect" before a token can be provisioned
+    at all. Ten operations additionally require the Elite tier (403 "The client id is not an Elite user").'
+  source: https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens
+rotation:
+  inactivity_disable_days: 60
+  warning_emails: true
+  re_enable: self-service in the platform
+  notes: Tokens unused for 60 days are automatically disabled; the counter resets on any activity.
+transport:
+  server_to_server_only: true
+  notes: ON24 states all API calls must be performed server to server and not client-side from a browser.
+oauth2: false
+oidc: false
+mtls: false
+failure_modes:
+- status: 401
+  condition: One or both headers missing
+  message: Header must contain both accessTokenKey and accessTokenSecret.
+- status: 401
+  condition: Token pair wrong, invalid, not found, or deactivated
+  message: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+- status: 403
+  condition: Token valid but not entitled to the client/endpoint
+  message: You do not have permission to perform the requested operation.

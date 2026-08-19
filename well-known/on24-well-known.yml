@@ -1,6 +1,8 @@
-generated: '2026-07-20'
-method: searched
-source: live probes of ON24 hosts (curl, 2026-07-20)
+generated: '2026-08-13'
+method: probed
+source: 'live probes of every ON24 host (curl, 2026-08-13): api.on24.com, api.eu.on24.com, apidoc.on24.com, www.on24.com,
+  on24.com, trust.on24.com'
+hit_count: 0
 hosts:
 - host: https://api.on24.com
   documents:
@@ -10,16 +12,156 @@ hosts:
     status: 404
   - path: /.well-known/oauth-authorization-server
     status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
   - path: /.well-known/api-catalog
     status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://api.eu.on24.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://apidoc.on24.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    note: SOFT 200 — NOT A DOCUMENT. The HelpIQ single-page docs app answers 200 with the same 5,349-byte HTML shell
+      (<!DOCTYPE html>, <title>ON24 REST API</title>) for EVERY path, including nonsense ones. Treated as a miss.
+  - path: /.well-known/openid-configuration
+    status: 404
+    note: JSON 404 from the docs application.
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    note: JSON 404 from the docs application.
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    note: JSON 404 from the docs application.
+  - path: /.well-known/api-catalog
+    status: 200
+    note: SOFT 200 — NOT A DOCUMENT. The HelpIQ single-page docs app answers 200 with the same 5,349-byte HTML shell
+      (<!DOCTYPE html>, <title>ON24 REST API</title>) for EVERY path, including nonsense ones. Treated as a miss.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    note: SOFT 200 — NOT A DOCUMENT. The HelpIQ single-page docs app answers 200 with the same 5,349-byte HTML shell
+      (<!DOCTYPE html>, <title>ON24 REST API</title>) for EVERY path, including nonsense ones. Treated as a miss.
+  - path: /.well-known/agent-card.json
+    status: 200
+    note: SOFT 200 — NOT A DOCUMENT. The HelpIQ single-page docs app answers 200 with the same 5,349-byte HTML shell
+      (<!DOCTYPE html>, <title>ON24 REST API</title>) for EVERY path, including nonsense ones. Treated as a miss.
+  - path: /.well-known/agent.json
+    status: 200
+    note: SOFT 200 — NOT A DOCUMENT. The HelpIQ single-page docs app answers 200 with the same 5,349-byte HTML shell
+      (<!DOCTYPE html>, <title>ON24 REST API</title>) for EVERY path, including nonsense ones. Treated as a miss.
 - host: https://www.on24.com
   documents:
   - path: /.well-known/security.txt
     status: 403
-    note: >-
-      www.on24.com is behind bot protection and returns 403 to automated
-      requests; absence could not be confirmed either way.
-notes: >-
-  No /.well-known discovery documents are served from the api.on24.com API host.
-  No OpenID Connect or OAuth authorization-server metadata is published (ON24
-  uses apiKey header auth, not OAuth/OIDC).
+    note: Bot protection returns a 103-byte "403 Forbidden" stub to all automated requests; presence could not be
+      confirmed either way.
+  - path: /.well-known/openid-configuration
+    status: 403
+    note: Bot protection returns a 103-byte "403 Forbidden" stub to all automated requests; presence could not be
+      confirmed either way.
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+    note: Bot protection returns a 103-byte "403 Forbidden" stub to all automated requests; presence could not be
+      confirmed either way.
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+    note: Bot protection returns a 103-byte "403 Forbidden" stub to all automated requests; presence could not be
+      confirmed either way.
+  - path: /.well-known/api-catalog
+    status: 403
+    note: Bot protection returns a 103-byte "403 Forbidden" stub to all automated requests; presence could not be
+      confirmed either way.
+  - path: /.well-known/ai-plugin.json
+    status: 403
+    note: Bot protection returns a 103-byte "403 Forbidden" stub to all automated requests; presence could not be
+      confirmed either way.
+  - path: /.well-known/agent-card.json
+    status: 403
+    note: Bot protection returns a 103-byte "403 Forbidden" stub to all automated requests; presence could not be
+      confirmed either way.
+  - path: /.well-known/agent.json
+    status: 403
+    note: Bot protection returns a 103-byte "403 Forbidden" stub to all automated requests; presence could not be
+      confirmed either way.
+- host: https://on24.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+    note: Same bot protection as www.
+  - path: /.well-known/openid-configuration
+    status: 403
+    note: Same bot protection as www.
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+    note: Same bot protection as www.
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+    note: Same bot protection as www.
+  - path: /.well-known/api-catalog
+    status: 403
+    note: Same bot protection as www.
+  - path: /.well-known/ai-plugin.json
+    status: 403
+    note: Same bot protection as www.
+  - path: /.well-known/agent-card.json
+    status: 403
+    note: Same bot protection as www.
+  - path: /.well-known/agent.json
+    status: 403
+    note: Same bot protection as www.
+- host: https://trust.on24.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 403
+    note: Vendor-hosted trust portal returns 403 to automated requests.
+  - path: /.well-known/openid-configuration
+    status: 403
+    note: Vendor-hosted trust portal returns 403 to automated requests.
+  - path: /.well-known/oauth-authorization-server
+    status: 403
+    note: Vendor-hosted trust portal returns 403 to automated requests.
+  - path: /.well-known/oauth-protected-resource
+    status: 403
+    note: Vendor-hosted trust portal returns 403 to automated requests.
+  - path: /.well-known/api-catalog
+    status: 403
+    note: Vendor-hosted trust portal returns 403 to automated requests.
+  - path: /.well-known/ai-plugin.json
+    status: 403
+    note: Vendor-hosted trust portal returns 403 to automated requests.
+  - path: /.well-known/agent-card.json
+    status: 403
+    note: Vendor-hosted trust portal returns 403 to automated requests.
+  - path: /.well-known/agent.json
+    status: 403
+    note: Vendor-hosted trust portal returns 403 to automated requests.
+notes: NO /.well-known discovery document is served by ON24 on any host. Both API hosts return a hard 404 on all
+  eight paths. The docs host returns a soft 200 HTML shell for every path — the classic SPA catch-all false positive
+  — and is recorded as a MISS, not a hit. No security.txt (RFC 9116), no OpenID Connect or OAuth authorization-server
+  metadata (consistent with apiKey-header auth), no api-catalog, no ai-plugin, and no A2A agent card at either the
+  canonical /.well-known/agent-card.json or the legacy /.well-known/agent.json. BECAUSE EVERY PATH MISSED, NO WellKnown
+  OR SecurityTxt POINTER IS EMITTED IN apis.yml — this file records a verified absence, and an absence must not
+  be scored as a presence. The previous round wired a WellKnown pointer against this same all-404 result; that pointer
+  has been removed.

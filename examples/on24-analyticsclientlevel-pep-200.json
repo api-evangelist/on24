@@ -1,0 +1,123 @@
+{
+  "operationId": "AnalyticsClientLevel.PEP",
+  "method": "GET",
+  "path": "/client/{clientId}/lead/{email}",
+  "status": 200,
+  "media_type": "application/json",
+  "source": "https://api.on24.com/v2/openapi.json (verbatim response examples published by ON24)",
+  "examples": {
+    "when lead has attended at least one webinar": {
+      "company": "test company",
+      "email": "ddd@inbfw.co",
+      "lastname": "Y",
+      "firstname": "John Doe",
+      "lifetimeactivity": {
+        "resources": 1,
+        "engagementlevel": "HIGH",
+        "totalengagementminutes": 60,
+        "totalengagementseconds": 3615,
+        "totaltouches": 5,
+        "webinarsattended": 4,
+        "videoswatched": 0,
+        "documentsread": 0,
+        "webpagesviewed": 0
+      },
+      "businessinterests": {
+        "keywords": [
+          "Widget",
+          "Webcast",
+          "Yahoo",
+          "Polls",
+          "Slidefromslide",
+          "Status",
+          "Send",
+          "Push",
+          "Cbnfgxhjgj",
+          "Asnwer"
+        ],
+        "lastupdated": "2018-09-27T03:15:32-07:00"
+      },
+      "jobtitle": "Senior Manager",
+      "workphone": "52162345664465465",
+      "notes": "example notes ",
+      "recentactivities": [
+        {
+          "eventid": 11094647,
+          "liveseconds": 3800,
+          "livetime": 63,
+          "ondemandtime": 0,
+          "ondemandseconds": 0,
+          "eventtitle": "Widget Report",
+          "attendedarchive": "N",
+          "attendedlive": "Y",
+          "lastactivity": "2018-08-27T04:33:14-07:00",
+          "registrationdate": "2018-08-27T02:33:43-07:00",
+          "totalpages": 0,
+          "resourcesdownloaded": 2,
+          "askedquestions": 1,
+          "answeredpolls": 1,
+          "answeredsurveys": 1,
+          "ctasaccessed": 3,
+          "resources": [
+            {
+              "resourcename": "facebook"
+            },
+            {
+              "resourcename": "google"
+            }
+          ],
+          "questions": [
+            {
+              "question": "first question",
+              "answer": "Unanswered"
+            }
+          ],
+          "polls": [
+            {
+              "question": "\u0431\u0435\u0437\u043f\u043b\u0430\u0442\u043d\u0430 \u0443\u0441\u043b\u0443\u0433\u0430 Google \u043f\u0440\u0435\u0432\u0435\u0436\u0434\u0430 \u043d\u0435\u0437\u0430\u0431\u0430\u0432\u043d\u043e \u0434\u0443\u043c\u0438, \u0444\u0440\u0430\u0437\u0438 \u0438 \u0443\u0435\u0431 \u0441\u0442\u0440\u0430\u043d\u0438\u0446\u0438 \u043c\u0435\u0436\u0434\u0443 \u0430\u043d\u0433\u043b\u0438\u0439\u0441\u043a\u0438 \u0438.",
+              "answer": "FGHJKL"
+            }
+          ],
+          "surveys": [
+            {
+              "question": "ghjgyuikuoy",
+              "answer": "365"
+            }
+          ],
+          "calltoactions": [
+            {
+              "ctaid": "83970357",
+              "ctaname": "Call To Action 1",
+              "clicks": "3",
+              "date": "2015-05-19T11:10:00-07:00"
+            }
+          ],
+          "eventuserid": 224094098,
+          "exteventusercd": "1521"
+        }
+      ]
+    },
+    "no webinar attended": {
+      "company": "on24",
+      "email": "esteban.mora+testing-pep-predictive-engagement@on24.com",
+      "lastname": "mora",
+      "firstname": "Zapier client T-1",
+      "lifetimeactivity": {
+        "resources": 0,
+        "totalengagementminutes": 0,
+        "totaltouches": 0,
+        "webinarsattended": 0,
+        "videoswatched": 0,
+        "documentsread": 0,
+        "webpagesviewed": 0,
+        "engagementprediction": "MEDIUM"
+      },
+      "businessinterests": {
+        "keywords": []
+      },
+      "jobtitle": "developer",
+      "workphone": "998324239847",
+      "recentactivities": []
+    }
+  }
+}

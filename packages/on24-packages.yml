@@ -1,9 +1,8 @@
-generated: '2026-07-20'
+generated: '2026-08-13'
 method: searched
-source: >-
-  npm registry search + GitHub. ON24 publishes no first-party client SDKs; the
-  packages below are community / third-party clients and integration taps for
-  the ON24 API. None are official.
+source: 'registry.npmjs.org (package metadata + text search), pypi.org/pypi/*/json, and api.github.com repo metadata,
+  queried 2026-08-13. Also checked: Maven Central, NuGet, pkg.go.dev, RubyGems, Packagist, crates.io.'
+official_count: 0
 packages:
 - language: javascript
   registry: npm
@@ -11,21 +10,53 @@ packages:
   url: https://www.npmjs.com/package/node-on24
   install: npm install node-on24
   official: false
-  description: >-
-    Community Node.js/TypeScript client for the ON24 Webinar Engagement
-    platform (Registration, Analytics, Event Management). Source:
-    github.com/the-automaton/node-on24. Implementation is partial.
+  version: 0.1.3
+  published: '2020-06-20'
+  repository: https://github.com/the-automaton/node-on24
+  repo_last_push: '2023-01-06'
+  description: Community Node.js/TypeScript client for the ON24 Webinar Engagement platform (Registration, Analytics,
+    Event Management). Implementation is partial.
+  note: 'ABANDONMENT SIGNAL: the last npm release is 0.1.3 from 2020-06-20 — six years old, and four releases total.
+    It predates the current published v2 contract; the repository itself has not been pushed since 2023-01-06. Any
+    consumer picking this up is wrapping a 2020 view of a 67-operation API.'
 - language: python
   registry: github
   name: tap-on24
   url: https://github.com/The-Daily-Upside/tap-on24
   install: pip install git+https://github.com/The-Daily-Upside/tap-on24.git
   official: false
-  description: >-
-    Third-party Singer tap that extracts ON24 analytics/registration data for
-    ELT pipelines.
-notes: >-
-  No official ON24 SDK was found on npm, PyPI, Maven Central, NuGet,
-  pkg.go.dev, RubyGems, Packagist, or crates.io. Because no library is
-  first-party, no `type: SDKs` pointer is emitted (the sdk_count check requires
-  an official client library).
+  version: null
+  published: null
+  repo_last_push: '2026-03-02'
+  description: Third-party Singer tap that extracts ON24 analytics/registration data for ELT pipelines.
+  note: 'Not published to PyPI — pypi.org/pypi/tap-on24/json returns 404 — so there is no registry metadata endpoint
+    and no released version to read. version/published recorded as null: checked, nothing to record. The GitHub
+    repository was last pushed 2026-03-02, which is the only currency signal available.'
+registries_checked:
+- registry: npm
+  query: on24
+  result: 1 match (node-on24, community)
+- registry: pypi
+  queries:
+  - on24
+  - tap-on24
+  - on24-api
+  - pyon24
+  result: all 404
+- registry: maven-central
+  result: no first-party artifact
+- registry: nuget
+  result: no first-party artifact
+- registry: pkg.go.dev
+  result: no first-party module
+- registry: rubygems
+  result: no first-party gem
+- registry: packagist
+  result: no first-party package
+- registry: crates.io
+  result: no first-party crate
+notes: 'ON24 ships NO first-party client SDK in any language, and has no GitHub organization (https://api.github.com/orgs/on24
+  -> 404; github.com/on24 is an empty user account with 0 public repos). Both packages listed are third-party. Because
+  no library is first-party, NO `type: SDKs` pointer is emitted — the sdk_count check requires an official client
+  library, and crediting a six-year-old community wrapper as an ON24 SDK would be false. This is notable given ON24
+  publishes a complete 67-operation OpenAPI: the contract to generate SDKs from exists, the SDKs do not.'

@@ -1,0 +1,489 @@
+{
+  "operationId": "AnalyticsClientLevel.Events",
+  "method": "GET",
+  "path": "/client/{clientId}/event",
+  "status": 200,
+  "media_type": "application/json",
+  "source": "https://api.on24.com/v2/openapi.json (verbatim response examples published by ON24)",
+  "examples": {
+    "includesubaccounts is not passed or if includesubaccounts = N": {
+      "totalevents": 9,
+      "events": [
+        {
+          "eventanalytics": {
+            "totalregistrants": 1,
+            "totalattendees": 1,
+            "liveattendees": 1,
+            "ondemandattendees": 1,
+            "averageliveminutes": 1,
+            "averagecumulativeliveminutes": 1,
+            "averagearchiveminutes": 1,
+            "averagecumulativearchiveminutes": 1,
+            "totalcumulativeliveminutes": 36,
+            "totalcumulativearchiveminutes": 0,
+            "totalcumulativeminutes": 36,
+            "totalmediaplayerminutes": 36,
+            "totallivemediaplayerminutes": 36,
+            "totalarchivemediaplayerminutes": 0
+          },
+          "eventid": 9922511,
+          "clientid": 22950,
+          "goodafter": "2017-02-02T03:35:00-08:00",
+          "isactive": true,
+          "regrequired": true,
+          "description": "New Live event on 2 FEB 2017",
+          "promotionalsummary": "Promotional Summary Sample",
+          "regnotificationrequired": true,
+          "displaytimezonecd": "America/Los_Angeles",
+          "eventtype": "Live PC Mic",
+          "category": "Marketing",
+          "createtimestamp": "2017-02-02T03:27:47-08:00",
+          "localelanguagecd": "zh",
+          "localecountrycd": "TW",
+          "lastmodified": "2017-02-02T03:27:47-08:00",
+          "lastupdated": "2017-02-02T03:29:00-08:00",
+          "iseliteexpired": "N",
+          "application": "Investor Relations",
+          "livestart": "2017-02-02T03:20:00-08:00",
+          "liveend": "2017-02-02T04:05:00-08:00",
+          "archivestart": "2017-02-02T04:35:00-08:00",
+          "archiveend": "2018-02-02T04:35:00-08:00",
+          "audienceurl": "https://eventqa.on24.com/wcc/r/9922511/130A59F68EA9F7E1E2FE9B7FBBA54A9F",
+          "scheduledeventduration": 60,
+          "eventprofile": "Stonehenge Profile (918)",
+          "streamtype": "whitepaper",
+          "audiencekey": "130A59F68EA9F7E1E2FE9B7FBBA54A9F",
+          "extaudienceurl": "www.google.com",
+          "reporturl": "https://dataqa.on24.com/webcast/report?e=9922511&k=A8EBCD7A76D8BF36D71DCFEBED688237",
+          "uploadurl": "https://wcc.on24.com/webcast/login",
+          "pmurl": "https://wcc.on24.com/webcast/present?e=9922511&k=A8EBCD7A76D8BF36D71DCFEBED688237",
+          "previewurl": "http://eventqa.on24.com/webcast/previewlobby?e=9922511&k=A8EBCD7A76D8BF36D71DCFEBED688237",
+          "contenttype": "webcast",
+          "campaigncode": "campaignCode31536770910802",
+          "eventlocation": "campaignCode31536770910802",
+          "createdby": "Joe Smith",
+          "ishybridevent": true,
+          "partnerrefstats": [
+            {
+              "code": "-",
+              "count": 2
+            }
+          ],
+          "tags": [
+            "custom tag 1",
+            "custom tag 2",
+            "custom tag 3"
+          ],
+          "funnelstages": [
+            "Consideration",
+            "Awareness",
+            "Evaluation"
+          ],
+          "speakers": [
+            {
+              "name": "Matthew Parfitt",
+              "title": "President",
+              "company": "Vulture US",
+              "description": "As President of Vuture in North America, Matt focuses on marketing communications in the legal sector which 4 years ago saw him launch Vuture in the USA. Matt is a regular speaker and active member of the LMA and has been chair the New York CRM group for the last 3 years."
+            },
+            {
+              "name": "Samantha McKenna",
+              "title": "Director of Sales",
+              "company": "ON24 Inc.",
+              "description": "As Director of Sales, Samantha McKenna heads up the strategy behind ON24's legal presence. A thought leader in the legal industry, Sam works directly with ON24's legal clients on their go-to-market strategy for webinars, thought leadership events, virtual learning environments and virtual communications for alumni relations. She has served the legal community by attending the last seven Legal Marketing Association annual conferences, supporting several LMA chapters with sponsorships and by working directly with LMA on their national webinars as of 2015."
+            }
+          ],
+          "eventstd1": "EF1",
+          "eventstd2": "EF2",
+          "eventstd3": "EF3",
+          "eventstd4": "EF4",
+          "eventstd5": "EF5",
+          "istestevent": true,
+          "surveyurls": [
+            "https://eventqa.on24.com/eventManager/presentation/survey.jsp?eventId=9922511&sessionid=1&key=C9E1154B35A0AE0F3AF2858E25EA5509&survey=survey1"
+          ],
+          "customaccounttags": [
+            {
+              "groupid": 103,
+              "groupname": "Group 3",
+              "tagid": 747,
+              "tagname": "Option 3-A"
+            }
+          ],
+          "customeventfields": [
+            {
+              "name": "custom1",
+              "label": "Region",
+              "value": "North America"
+            },
+            {
+              "name": "custom2",
+              "label": "Org",
+              "value": "Research"
+            },
+            {
+              "name": "custom3",
+              "label": "CRM Campaign Code",
+              "value": "111"
+            },
+            {
+              "name": "custom4",
+              "label": "MAP Campaign Code",
+              "value": "222"
+            },
+            {
+              "name": "custom5",
+              "label": "Product",
+              "value": "Computer"
+            }
+          ],
+          "media": {
+            "audios": [
+              "http://eventqa.on24.com/media_qa/news/corporatevideo/events/58/81/61/9/rt/demo_audio.wav"
+            ],
+            "videos": [
+              "http://pmqa.on24.com/media_qa/cv/events/58/81/61/9/rt/1_fhvideo1_demo_video.mp4"
+            ],
+            "slides": [
+              "http://eventqa.on24.com/event/58/72/14/5/rt/1/slide/slide/demo_slide.jpg"
+            ],
+            "videoclips": [
+              "http://eventqa.on24.com/media_qa/news/corporatevideo/events/58/72/14/5/rt/1/flashdemo/flashdemo/demo_clip.mp4"
+            ],
+            "urls": [
+              "http://www.hotmail.com",
+              "http://www.on24.com"
+            ],
+            "polls": [
+              "http://eventqa.on24.com/eventManager/EventQuestionServlet?mode=get&eventid=9922511&mediaurlid=91997329",
+              "http://eventqa.on24.com/eventManager/EventQuestionServlet?mode=get&eventid=9922511&mediaurlid=92221593"
+            ]
+          }
+        }
+      ]
+    },
+    "includesubaccounts = Y": {
+      "pagecount": 2,
+      "totalevents": 105,
+      "currentpage": 1,
+      "events": [
+        {
+          "eventanalytics": {
+            "totalregistrants": 1,
+            "totalattendees": 1,
+            "liveattendees": 1,
+            "ondemandattendees": 1,
+            "averageliveminutes": 1,
+            "averagecumulativeliveminutes": 1,
+            "averagearchiveminutes": 1,
+            "averagecumulativearchiveminutes": 1,
+            "totalcumulativeliveminutes": 36,
+            "totalcumulativearchiveminutes": 0,
+            "totalcumulativeminutes": 36,
+            "totalmediaplayerminutes": 36,
+            "totallivemediaplayerminutes": 36,
+            "totalarchivemediaplayerminutes": 0
+          },
+          "eventid": 9922511,
+          "clientid": 22950,
+          "goodafter": "2017-02-02T03:35:00-08:00",
+          "isactive": true,
+          "regrequired": true,
+          "description": "New Live event on 2 FEB 2017",
+          "promotionalsummary": "Promotional Summary Sample",
+          "regnotificationrequired": true,
+          "displaytimezonecd": "Asia/Kolkata",
+          "eventtype": "Live PC Mic",
+          "category": "Marketing",
+          "createtimestamp": "2017-02-02T03:27:47-08:00",
+          "localelanguagecd": "fr",
+          "lastmodified": "2017-02-02T03:27:47-08:00",
+          "lastupdated": "2017-02-02T03:29:00-08:00",
+          "iseliteexpired": "N",
+          "application": "Investor Relations",
+          "livestart": "2017-02-02T03:20:00-08:00",
+          "liveend": "2017-02-02T04:05:00-08:00",
+          "archivestart": "2017-02-02T04:35:00-08:00",
+          "archiveend": "2018-02-02T04:35:00-08:00",
+          "audienceurl": "https://eventqa.on24.com/wcc/r/9922511/130A59F68EA9F7E1E2FE9B7FBBA54A9F",
+          "eventprofile": "Stonehenge Profile (918)",
+          "streamtype": "whitepaper",
+          "audiencekey": "130A59F68EA9F7E1E2FE9B7FBBA54A9F",
+          "extaudienceurl": "www.google.com",
+          "reporturl": "https://dataqa.on24.com/webcast/report?e=9922511&k=A8EBCD7A76D8BF36D71DCFEBED688237",
+          "uploadurl": "https://wcc.on24.com/webcast/login",
+          "pmurl": "https://pmqa.on24.com/presentationManager/login.jsp?eventid=9922511&sessionid=1&key=A8EBCD7A76D8BF36D71DCFEBED688237",
+          "previewurl": "http://eventqa.on24.com/webcast/previewlobby?e=9922511&k=A8EBCD7A76D8BF36D71DCFEBED688237",
+          "contenttype": "webcast",
+          "campaigncode": "campaignCode31536770910802",
+          "eventlocation": "campaignCode31536770910802",
+          "ishybridevent": true,
+          "istestevent": true,
+          "partnerrefstats": [
+            {
+              "code": "-",
+              "count": 2
+            }
+          ],
+          "tags": [
+            "custom tag 1",
+            "custom tag 2",
+            "custom tag 3"
+          ],
+          "funnelstages": [
+            "Consideration",
+            "Awareness",
+            "Evaluation"
+          ],
+          "speakers": [
+            {
+              "name": "Matthew Parfitt",
+              "title": "President",
+              "company": "Vulture US",
+              "description": "As President of Vuture in North America, Matt focuses on marketing communications in the legal sector which 4 years ago saw him launch Vuture in the USA. Matt is a regular speaker and active member of the LMA and has been chair the New York CRM group for the last 3 years."
+            },
+            {
+              "name": "Samantha McKenna",
+              "title": "Director of Sales",
+              "company": "ON24 Inc.",
+              "description": "As Director of Sales, Samantha McKenna heads up the strategy behind ON24's legal presence. A thought leader in the legal industry, Sam works directly with ON24's legal clients on their go-to-market strategy for webinars, thought leadership events, virtual learning environments and virtual communications for alumni relations. She has served the legal community by attending the last seven Legal Marketing Association annual conferences, supporting several LMA chapters with sponsorships and by working directly with LMA on their national webinars as of 2015."
+            }
+          ],
+          "eventstd1": "EF1",
+          "eventstd2": "EF2",
+          "eventstd3": "EF3",
+          "eventstd4": "EF4",
+          "eventstd5": "EF5",
+          "surveyurls": [
+            "https://eventqa.on24.com/eventManager/presentation/survey.jsp?eventId=9922511&sessionid=1&key=C9E1154B35A0AE0F3AF2858E25EA5509&survey=survey1"
+          ],
+          "customaccounttags": [
+            {
+              "groupid": 103,
+              "groupname": "Group 3",
+              "tagid": 747,
+              "tagname": "Option 3-A"
+            }
+          ],
+          "media": {
+            "audios": [
+              "http://eventqa.on24.com/media_qa/news/corporatevideo/events/58/81/61/9/rt/demo_audio.wav"
+            ],
+            "videos": [
+              "http://pmqa.on24.com/media_qa/cv/events/58/81/61/9/rt/1_fhvideo1_demo_video.mp4"
+            ],
+            "slides": [
+              "http://eventqa.on24.com/event/58/72/14/5/rt/1/slide/slide/demo_slide.jpg"
+            ],
+            "videoclips": [
+              "http://eventqa.on24.com/media_qa/news/corporatevideo/events/58/72/14/5/rt/1/flashdemo/flashdemo/demo_clip.mp4"
+            ],
+            "urls": [
+              "http://www.hotmail.com",
+              "http://www.on24.com"
+            ],
+            "polls": [
+              "http://eventqa.on24.com/eventManager/EventQuestionServlet?mode=get&eventid=9922511&mediaurlid=91997329",
+              "http://eventqa.on24.com/eventManager/EventQuestionServlet?mode=get&eventid=9922511&mediaurlid=92221593"
+            ]
+          }
+        }
+      ]
+    },
+    "VE Account": {
+      "totalevents": 5,
+      "events": [
+        {
+          "eventid": 14031264,
+          "clientid": 22957,
+          "goodafter": "2016-10-18T04:35:00-07:00",
+          "isactive": true,
+          "regrequired": true,
+          "description": "Test VE Event",
+          "promotionalsummary": "Promotional Summary Sample",
+          "displaytimezonecd": "America/Los_Angeles",
+          "createtimestamp": "2016-10-18T04:34:06-07:00",
+          "lastmodified": "2016-10-18T04:34:06-07:00",
+          "lastupdated": "2016-10-20T09:58:12-07:00",
+          "livestart": "2017-02-02T03:20:00-08:00",
+          "liveend": "2017-02-02T04:05:00-08:00",
+          "archivestart": "2017-02-02T04:35:00-08:00",
+          "archiveend": "2018-02-02T04:35:00-08:00",
+          "audienceurl": "https://event.on24.com/wcc/r/14031264/9AB4ABD834D841E9E5ED9124D266848B",
+          "reporturl": "https://data.on24.com/webcast/report?e=14031264&k=A8EBCD7A76D8BF36D71DCFEBED688237",
+          "contenttype": "virtualenvironment",
+          "campaigncode": "campaignCode31536770910802",
+          "eventlocation": "campaignCode31536770910802",
+          "istestevent": true,
+          "partnerrefstats": [
+            {
+              "code": "-",
+              "count": 2
+            }
+          ]
+        }
+      ]
+    },
+    "Go Live": {
+      "totalevents": 1,
+      "events": [
+        {
+          "eventid": 6622151,
+          "clientid": 32120,
+          "goodafter": "2021-10-01T03:35:00-07:00",
+          "isactive": true,
+          "regrequired": false,
+          "description": "aosorio_golive_test",
+          "promotionalsummary": "aosorio_golive_test",
+          "regnotificationrequired": true,
+          "displaytimezonecd": "America/Los_Angeles",
+          "eventtype": "Go Live",
+          "createtimestamp": "2021-09-01T03:27:47-08:00",
+          "localelanguagecd": "en",
+          "lastupdated": "2021-09-01T03:27:47-08:00",
+          "livestart": "2021-10-01T03:35:00-07:00",
+          "liveend": "2021-10-01T03:35:00-07:00",
+          "archivestart": "2021-10-01T03:35:00-07:00",
+          "archiveend": "2021-10-01T03:35:00-07:00",
+          "audienceurl": "https://goliveqa.on24.com/event/6622151",
+          "previewurl": "https://goliveqa.on24.com/event/6622151?previewmode=true",
+          "contenttype": "golive",
+          "campaigncode": "campaignCode315",
+          "eventlocation": "campaignCode315",
+          "istestevent": true,
+          "partnerrefstats": [
+            {
+              "code": "-",
+              "count": 28
+            }
+          ],
+          "categories": [
+            "category 1",
+            "category 2",
+            "category 3"
+          ],
+          "tracks": [
+            "track 1",
+            "track 2",
+            "track 3"
+          ],
+          "categoriesdata": [
+            {
+              "id": 21,
+              "name": "category 1"
+            },
+            {
+              "id": 22,
+              "name": "category 2"
+            },
+            {
+              "id": 23,
+              "name": "category 3"
+            }
+          ],
+          "trackdata": [
+            {
+              "id": 11,
+              "name": "track 1"
+            },
+            {
+              "id": 12,
+              "name": "track 2"
+            },
+            {
+              "id": 13,
+              "name": "track 3"
+            }
+          ],
+          "livedays": [
+            {
+              "id": 66,
+              "title": "LIVE DAY 1",
+              "livestarttime": "2021-10-01T03:35:00-07:00",
+              "liveendtime": "2021-10-01T03:40:00-07:00"
+            }
+          ],
+          "contents": [
+            {
+              "title": "content name",
+              "type": "Keynote",
+              "status": "published",
+              "resourceid": 6793591,
+              "externalurl": "http://www.on24.com"
+            },
+            {
+              "title": "Opening Keynote",
+              "type": "webcast",
+              "status": "Published",
+              "resourceid": 1234567,
+              "sessionstarttime": "2026-04-02T08:15:00-07:00",
+              "eventid": 4567890,
+              "livedayid": 1001,
+              "tracks": [
+                {
+                  "id": 11,
+                  "name": "track 1"
+                },
+                {
+                  "id": 12,
+                  "name": "track 2"
+                }
+              ],
+              "categories": [
+                {
+                  "id": 21,
+                  "name": "category 1"
+                },
+                {
+                  "id": 22,
+                  "name": "category 2"
+                }
+              ]
+            }
+          ],
+          "speakers": [
+            {
+              "name": "Speaker Sample",
+              "title": "Mr.",
+              "company": "CO",
+              "description": "Description sample."
+            }
+          ],
+          "sponsors": [
+            {
+              "id": 135125,
+              "name": "Sponsor A",
+              "staff": [
+                {
+                  "firstname": "Jim",
+                  "lastname": "Darnald",
+                  "company": "Company Name",
+                  "title": "Sr. Manager",
+                  "email": "jim.darnald@test.com",
+                  "roles": [
+                    "Admin",
+                    "Rep"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "Broadcast Video (encoder fragment)": {
+      "encoders": [
+        {
+          "encoder": "Encoder A",
+          "url": "rtmp://fmseosa.on24.com/liveeosa",
+          "streamid": "5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_A"
+        },
+        {
+          "encoder": "Encoder B",
+          "url": "rtmp://fmseosb.on24.com/liveeosb",
+          "streamid": "5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_B"
+        }
+      ]
+    }
+  }
+}

@@ -1,27 +1,56 @@
 # ON24
 
-> ON24 (NYSE: ONTF) is a digital engagement and webinar platform for webinars, virtual events, and always-on content experiences. Its REST API (documented at apidoc.on24.com, served from api.on24.com) covers Registration, Analytics/Reporting, Event Management, and User Management, letting customers automate registrant creation, pull attendee engagement analytics into CRM/MAP systems, and integrate the platform with marketing-automation and data-warehouse workflows. Requests use apiKey headers (accessTokenKey + accessTokenSecret) with a client id in the path.
+> ON24 (NYSE: ONTF) is a digital engagement and webinar platform for webinars, virtual events, and always-on content experiences. Its REST API — the Webinar & Content Center (WCC) API v2 — covers Registration, Client- and Event-Level Analytics, Event Management, Content Listings and Helper lookups, letting customers automate registrant creation, pull attendee engagement analytics into CRM/MAP systems, and integrate the platform with marketing-automation and data-warehouse workflows. A complete machine-readable OpenAPI 3.0.1 describing all 67 operations is published anonymously at https://api.on24.com/v2/openapi.json.
 
 ## APIs
 
-- [ON24 Platform API](https://apidoc.on24.com/): REST API — base https://api.on24.com/v2/client/{clientId}. Registration, Analytics, Event Management, User Management.
+- [ON24 Platform API (WCC API v2)](https://apidoc.on24.com/): REST, 58 paths / 67 operations across 6 tags. Base https://api.on24.com/v2 (North America) or https://api.eu.on24.com/v2 (European Union).
+- [OpenAPI 3.0.1 (machine-readable)](https://api.on24.com/v2/openapi.json): the authoritative contract. Note the spec declares only a RELATIVE server (/wcc/api/v2) and names no host — use the absolute bases above.
+
+## Authentication
+
+- Two apiKey headers, both required together: `accesstokenkey` + `accesstokensecret`.
+- Every path is scoped by a numeric `{clientId}` account id.
+- No OAuth 2.0, no OIDC, no scopes. Server-to-server calls only; browser-side calls are not supported.
+- Token provisioning requires the "Connect" product in the ON24 contract; some endpoints require the Elite tier.
+- Tokens unused for 60 days are automatically disabled.
+- See [API Tokens](https://support.on24.com/hc/en-us/articles/21420840502555-API-Tokens).
+
+## What an agent must know before calling
+
+- **Rate limits are undocumented and exhaustion returns HTTP 403, not 429**, with no `Retry-After` and no `RateLimit-*` headers. 403 is shared with permission-denied and inactive-client errors, so quota can only be detected by string-matching "maximum number of calls" in the `message` field. Back-off must be blind.
+- **No idempotency keys.** Registration is upsert-by-email; webinar creation and uploads are not safe to blind-retry.
+- **No response schemas.** All 67 200-responses carry examples but declare no `schema`.
+- **Errors** are `{"message": "..."}` — vendor JSON, not RFC 9457 problem+json.
+- **Pagination** is offset-based (`pageoffset` + `itemsperpage`) on only 8 of 67 operations, and becomes required — with a different response shape — when `includesubaccounts=Y`.
+- **Data lags**: registrant ~15 min; live attendance 30 min–2 h after the event; on-demand 4–12 h.
 
 ## Docs
 
-- [API Documentation Portal](https://apidoc.on24.com/): full ON24 API reference (React SPA)
-- [Authentication](authentication/on24-authentication.yml): apiKey headers accessTokenKey + accessTokenSecret, client id in path
-- [Conventions](conventions/on24-conventions.yml): base path, resource scoping, error envelope, rate-limit posture
+- [API Documentation Portal](https://apidoc.on24.com/): the ON24 REST API reference (JS-rendered HelpIQ app)
+- [REST API Integrations Overview](https://support.on24.com/hc/en-us/articles/21420786301083-REST-API-Integrations-Overview)
+- [Getting Started with Connect Integrations](https://support.on24.com/hc/en-us/articles/21420794723739-Getting-Started-with-Connect-Integrations)
+- [Support (Zendesk help center)](https://support.on24.com/hc/en-us)
+- [Release Notes](https://support.on24.com/hc/en-us/sections/32095215415067-2025-Release-Notes) — product-wide, monthly-ish; newest published is July 2025
+- [Status](https://on24.statuspage.io/)
 - [Trust Center](https://trust.on24.com/): SOC 2 Type 2, ISO/IEC 27001, ISO/IEC 27701:2019, APEC PRP
 
 ## Artifacts
 
-- [Packages](packages/on24-packages.yml): community clients (node-on24, tap-on24) — no official SDK
-- [MCP (candidate)](mcp/on24-mcp.yml): proposed MCP tool surface derived from documented operations
-- [Conformance](conformance/on24-conformance.yml): compliance + technical standards posture
-- [Lifecycle](lifecycle/on24-lifecycle.yml): uri-path versioning, current v2
-- [Well-Known](well-known/on24-well-known.yml): /.well-known probe results
-- [Domain Security](security/on24-domain-security.yml): TLS/HSTS/DNS posture
-- [Trust Center](security/on24-trust-center.yml): certifications
+- [OpenAPI (verbatim)](openapi/_original/on24-openapi.json) and six per-tag refined specs in `openapi/`
+- [Authentication](authentication/on24-authentication.yml): apiKey header pair, provisioning and 60-day expiry
+- [Conventions](conventions/on24-conventions.yml): base paths, scoping, pagination, error envelope, rate-limit posture
+- [Errors](errors/on24-problem-types.yml): 12 problem types derived from every 4xx/5xx in the contract
+- [Rate Limits](rate-limits/on24-rate-limits.yml): the 403-not-429 anomaly, in detail
+- [Data Model](data-model/on24-data-model.yml): 26 entities, 28 relationships, client → event → person
+- [Examples](examples/_index.yml): verbatim response examples for marquee operations
+- [Agent Skills](skills/_index.yml): register an attendee, pull engagement analytics, create a webinar, honour an erasure request
+- [MCP (candidate)](mcp/on24-mcp.yml) and [Tool Crosswalk](mcp/on24-tool-crosswalk.yml): proposed 35-tool surface; ON24 ships no MCP server
+- [Lifecycle](lifecycle/on24-lifecycle.yml) · [Changelog](changelog/on24-changelog.yml) · [Conformance](conformance/on24-conformance.yml)
+- [Packages](packages/on24-packages.yml): community clients only — ON24 ships no first-party SDK
+- [Plans](plans/on24-plans-pricing.yml): no public pricing; contract-gated
+- [Well-Known](well-known/on24-well-known.yml): verified absence on every host
+- [Domain Security](security/on24-domain-security.yml) · [Trust Center](security/on24-trust-center.yml)
 
 ## Optional
 
