@@ -71,47 +71,20 @@ tags_raw:
 - Event Management
 - Martech
 apis:
-- name: ON24 Platform API
-  description: >-
-    ON24's REST API for automating registration, pulling event and attendee
-    analytics, managing events, and syncing engagement data with external
-    marketing, CRM, and data-warehouse systems.
+- aid: on24:on24-client-level-analytics-api
+  name: On24 Client Level Analytics API
+  description: The Client Level Analytics API from On24 — 14 operation(s) for client level analytics.
   humanURL: https://apidoc.on24.com/
   baseURL: https://api.on24.com/v2/
   tags:
-  - Webinars
-  - Registration
-  - Analytics
-  - Event Management
+  - Client Level Analytics
   properties:
+  - type: OpenAPI
+    url: openapi/on24-client-level-analytics-api-openapi.yml
   - type: Documentation
     url: https://apidoc.on24.com/
   - type: APIReference
     url: https://apidoc.on24.com/
-  - type: OpenAPI
-    url: openapi/on24-client-level-analytics-openapi.yml
-  - type: OpenAPI
-    url: openapi/on24-event-level-analytics-openapi.yml
-  - type: OpenAPI
-    url: openapi/on24-event-management-openapi.yml
-  - type: OpenAPI
-    url: openapi/on24-rest-registration-openapi.yml
-  - type: OpenAPI
-    url: openapi/on24-content-listings-openapi.yml
-  - type: OpenAPI
-    url: openapi/on24-helpers-openapi.yml
-  - type: Overlay
-    url: overlays/on24-client-level-analytics-overlay.yaml
-  - type: Overlay
-    url: overlays/on24-event-level-analytics-overlay.yaml
-  - type: Overlay
-    url: overlays/on24-event-management-overlay.yaml
-  - type: Overlay
-    url: overlays/on24-rest-registration-overlay.yaml
-  - type: Overlay
-    url: overlays/on24-content-listings-overlay.yaml
-  - type: Overlay
-    url: overlays/on24-helpers-overlay.yaml
   - type: Examples
     url: examples/_index.yml
   - type: Authentication
@@ -124,8 +97,146 @@ apis:
     url: rate-limits/on24-rate-limits.yml
   - type: DataModel
     url: data-model/on24-data-model.yml
-  - type: MCPServer
-    url: mcp/on24-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/on24-tool-crosswalk.yml
+- aid: on24:on24-content-listings-api
+  name: On24 Content Listings API
+  description: The Content Listings API from On24 — 3 operation(s) for content listings.
+  humanURL: https://apidoc.on24.com/
+  baseURL: https://api.on24.com/v2/
+  tags:
+  - Content Listings
+  properties:
+  - type: OpenAPI
+    url: openapi/on24-content-listings-api-openapi.yml
+  - type: Documentation
+    url: https://apidoc.on24.com/
+  - type: APIReference
+    url: https://apidoc.on24.com/
+  - type: Examples
+    url: examples/_index.yml
+  - type: Authentication
+    url: authentication/on24-authentication.yml
+  - type: Conventions
+    url: conventions/on24-conventions.yml
+  - type: ErrorCatalog
+    url: errors/on24-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/on24-rate-limits.yml
+  - type: DataModel
+    url: data-model/on24-data-model.yml
+  - type: ToolCrosswalk
+    url: mcp/on24-tool-crosswalk.yml
+- aid: on24:on24-event-level-analytics-api
+  name: On24 Event Level Analytics API
+  description: The Event Level Analytics API from On24 — 16 operation(s) for event level analytics.
+  humanURL: https://apidoc.on24.com/
+  baseURL: https://api.on24.com/v2/
+  tags:
+  - Event Level Analytics
+  properties:
+  - type: OpenAPI
+    url: openapi/on24-event-level-analytics-api-openapi.yml
+  - type: Documentation
+    url: https://apidoc.on24.com/
+  - type: APIReference
+    url: https://apidoc.on24.com/
+  - type: Examples
+    url: examples/_index.yml
+  - type: Authentication
+    url: authentication/on24-authentication.yml
+  - type: Conventions
+    url: conventions/on24-conventions.yml
+  - type: ErrorCatalog
+    url: errors/on24-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/on24-rate-limits.yml
+  - type: DataModel
+    url: data-model/on24-data-model.yml
+  - type: ToolCrosswalk
+    url: mcp/on24-tool-crosswalk.yml
+- aid: on24:on24-event-management-api
+  name: On24 Event Management API
+  description: The Event Management API from On24 — 12 operation(s) for event management.
+  humanURL: https://apidoc.on24.com/
+  baseURL: https://api.on24.com/v2/
+  tags:
+  - Event Management
+  properties:
+  - type: OpenAPI
+    url: openapi/on24-event-management-api-openapi.yml
+  - type: Documentation
+    url: https://apidoc.on24.com/
+  - type: APIReference
+    url: https://apidoc.on24.com/
+  - type: Examples
+    url: examples/_index.yml
+  - type: Authentication
+    url: authentication/on24-authentication.yml
+  - type: Conventions
+    url: conventions/on24-conventions.yml
+  - type: ErrorCatalog
+    url: errors/on24-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/on24-rate-limits.yml
+  - type: DataModel
+    url: data-model/on24-data-model.yml
+  - type: ToolCrosswalk
+    url: mcp/on24-tool-crosswalk.yml
+- aid: on24:on24-helpers-api
+  name: On24 Helpers API
+  description: The Helpers API from On24 — 13 operation(s) for helpers.
+  humanURL: https://apidoc.on24.com/
+  baseURL: https://api.on24.com/v2/
+  tags:
+  - Helpers
+  properties:
+  - type: OpenAPI
+    url: openapi/on24-helpers-api-openapi.yml
+  - type: Documentation
+    url: https://apidoc.on24.com/
+  - type: APIReference
+    url: https://apidoc.on24.com/
+  - type: Examples
+    url: examples/_index.yml
+  - type: Authentication
+    url: authentication/on24-authentication.yml
+  - type: Conventions
+    url: conventions/on24-conventions.yml
+  - type: ErrorCatalog
+    url: errors/on24-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/on24-rate-limits.yml
+  - type: DataModel
+    url: data-model/on24-data-model.yml
+  - type: ToolCrosswalk
+    url: mcp/on24-tool-crosswalk.yml
+- aid: on24:on24-rest-registration-api
+  name: On24 REST Registration API
+  description: The REST Registration API from On24 — 5 operation(s) for rest registration.
+  humanURL: https://apidoc.on24.com/
+  baseURL: https://api.on24.com/v2/
+  tags:
+  - REST Registration
+  properties:
+  - type: OpenAPI
+    url: openapi/on24-rest-registration-api-openapi.yml
+  - type: Documentation
+    url: https://apidoc.on24.com/
+  - type: APIReference
+    url: https://apidoc.on24.com/
+  - type: Examples
+    url: examples/_index.yml
+  - type: Authentication
+    url: authentication/on24-authentication.yml
+  - type: Conventions
+    url: conventions/on24-conventions.yml
+  - type: ErrorCatalog
+    url: errors/on24-problem-types.yml
+  - type: RateLimits
+    url: rate-limits/on24-rate-limits.yml
+  - type: DataModel
+    url: data-model/on24-data-model.yml
   - type: ToolCrosswalk
     url: mcp/on24-tool-crosswalk.yml
 maintainers:
@@ -134,6 +245,18 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/on24-client-level-analytics-overlay.yaml
+- type: Overlay
+  url: overlays/on24-event-level-analytics-overlay.yaml
+- type: Overlay
+  url: overlays/on24-event-management-overlay.yaml
+- type: Overlay
+  url: overlays/on24-rest-registration-overlay.yaml
+- type: Overlay
+  url: overlays/on24-content-listings-overlay.yaml
+- type: Overlay
+  url: overlays/on24-helpers-overlay.yaml
 - type: TrustCenter
   url: security/on24-trust-center.yml
 - type: Website
