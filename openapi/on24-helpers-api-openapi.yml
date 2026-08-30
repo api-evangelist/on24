@@ -1,0 +1,1985 @@
+openapi: 3.2.0
+info:
+  title: ON24 WCC API v2 Helpers API
+  description: 'ON24 Webinar & Content Center REST API v2. All secured endpoints require two request headers: AccessTokenKey and AccessTokenSecret. Both headers must be supplied together — providing only one is not sufficient.'
+  version: '2'
+servers:
+- url: https://api.on24.com/v2
+  description: North America (production)
+- url: https://api.eu.on24.com/v2
+  description: European Union (production)
+security:
+- AccessTokenKey: []
+- AccessTokenSecret: []
+tags:
+- name: Helpers
+paths:
+  /client/{clientId}/accountmanager:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Account Managers
+      description: Retrieves Account Manager Contacts.
+      operationId: Helpers.RetrieveAccountManagers
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600
+      - name: clientId
+        in: path
+        description: The account managers will be retrieved based on the client id
+        required: true
+        schema:
+          type: number
+        example: 18901
+      - name: accept
+        in: header
+        description: 'Output format: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                accountmanagers:
+                - accountmangerid: 162260
+                  firstname: Abhijeet
+                  lastname: Joshi
+                  email: xxxxxxxx@gmail.com
+                  primaryphone: '14324324234'
+                  secondaryphone: 415-369-8000
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached the maximum number of calls for this endpoint
+  /client/{clientId}/customaccounttag:
+    get:
+      tags:
+      - Helpers
+      summary: Custom Account Tags
+      description: Retrieves the account's custom tag information.
+      operationId: Helpers.CustomAccountTags
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: number
+        example: 18901
+      - name: accessTokenKey
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                customaccounttags:
+                - groupid: 101
+                  groupname: The group Name
+                  tags:
+                  - tagid: 741
+                    tagname: The tag Name
+                  - tagid: 742
+                    tagname: The other tag Name
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | The client id {clientId} is inactive. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The client {clientId} doesn't exist.
+  /client/{clientId}/event/{eventId}/regfield:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Registration Fields
+      description: Retrieves registration field information for a particular event
+      operationId: Helpers.RetrieveRegistrationFields
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600
+      - name: accept
+        in: header
+        description: 'Output format: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                registrationfields:
+                - fieldid: firstname
+                  fieldcaption: First Name
+                  fieldtype: textbox
+                  validationtype: none
+                  required: Y
+                - fieldid: lastname
+                  fieldcaption: Last Name
+                  fieldtype: textbox
+                  validationtype: none
+                  required: Y
+                - fieldid: email
+                  fieldcaption: Email
+                  fieldtype: textbox
+                  validationtype: email
+                  required: Y
+                - fieldid: company
+                  fieldcaption: Company
+                  fieldtype: textbox
+                  validationtype: none
+                  required: Y
+                - fieldid: job_title
+                  fieldcaption: Title
+                  fieldtype: listbox
+                  validationtype: none
+                  required: Y
+                  options:
+                  - Manager
+                  - Senior Manager
+                  - Director
+                  - Senior Director
+                  - CMO
+                  - CFO
+                  - CEO
+                  - CTO
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached the maximum number of calls for this endpoint
+        '404':
+          description: The event id is not found under this client account
+  /client/{clientId}/eventmanager:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Event Managers
+      description: Retrieves Event Manager Contacts.
+      operationId: Helpers.RetrieveEventManagers
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600
+      - name: clientId
+        in: path
+        description: The event managers will be retrieved based on the client id
+        required: true
+        schema:
+          type: number
+        example: 18901
+      - name: accept
+        in: header
+        description: 'Output format: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                eventmanagers:
+                - adminid: '162295'
+                  firstname: Amber
+                  lastname: Mahajan
+                  email: xxxxxxxx@inbfw.com
+                  primaryphone: '9713124248'
+                  secondaryphone: 415-369-8000
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached the maximum number of calls for this endpoint
+  /client/{clientId}/eventprofile:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Event Profiles
+      description: Retrieves event profiles.
+      operationId: Helpers.RetrieveEventProfiles
+      parameters:
+      - name: clientId
+        in: path
+        description: The event profiles will be retrieved based on the client id
+        required: true
+        schema:
+          type: number
+        example: 18901
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: accept
+        in: header
+        description: 'Output format: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                eventprofiles:
+                - eventprofileid: '918'
+                  eventprofilename: Stonehenge Profile (918)
+                - eventprofileid: '1200'
+                  eventprofilename: Stonehenge Profile (1200)
+                - eventprofileid: '1215'
+                  eventprofilename: Stonehenge Profile (1215)
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached the maximum number of calls for this endpoint
+  /client/{clientId}/eventtypes:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Event Types
+      description: Retrieves event types for the given client account.
+      operationId: Helpers.RetrieveEventTypes
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600
+      - name: clientId
+        in: path
+        description: The event types will be retrieved based on the client id
+        required: true
+        schema:
+          type: string
+        example: 18091
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                eventtypes:
+                - label: Live Video and Audio
+                  value: fav
+                - label: Simu-live
+                  value: simulive
+                - label: Sim-2-live
+                  value: sim2live
+                - label: Broadcast Video
+                  value: encodeonsite
+                - label: On Demand
+                  value: ondemand
+                - label: forum
+                  value: forum
+                - label: Engagement Hub
+                  value: Engagement Hub
+                - label: experience
+                  value: experience
+                - label: Go Live
+                  value: Go Live
+                - label: Go Live Session
+                  value: Go Live Session
+                - label: Go Live Content
+                  value: Go Live Content
+                - label: Go Live Location
+                  value: Go Live Location
+                - label: Recurring Simulive
+                  value: Recurring Simulive
+                - label: article
+                  value: article
+                - label: image
+                  value: image
+                - label: pdf
+                  value: pdf
+                - label: podcast
+                  value: podcast
+                - label: video
+                  value: video
+                - label: webpage
+                  value: webpage
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached the maximum number of calls for this endpoint
+  /client/{clientId}/languages:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Language Codes
+      description: Retrieves language codes.
+      operationId: Helpers.RetrieveLanguageCodes
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600
+      - name: clientId
+        in: path
+        description: The language codes will be retrieved based on the client id
+        required: true
+        schema:
+          type: number
+        example: 18901
+      - name: accept
+        in: header
+        description: 'Output format: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                languagecodes:
+                - label: English (UK)
+                  countrycd: UK
+                  languagecd: en
+                - label: Portuguese
+                  languagecd: pt
+                - label: Chinese (Simplified)
+                  countrycd: CN
+                  languagecd: zh
+                - label: Chinese (Traditional)
+                  countrycd: TW
+                  languagecd: zh
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached the maximum number of calls for this endpoint
+  /client/{clientId}/salesrep:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Sales Rep Contacts
+      description: Retrieves Sales Representatives.
+      operationId: Helpers.RetrieveSalesRepContacts
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600
+      - name: clientId
+        in: path
+        description: The sales contacts will be retrieved based on the client id
+        required: true
+        schema:
+          type: number
+        example: 18901
+      - name: accept
+        in: header
+        description: 'Output format: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                salesreps:
+                - salesrepid: '162260'
+                  firstname: Abhijeet
+                  lastname: Joshi
+                  email: xxxxxxxx@gmail.com
+                  primaryphone: '14324324234'
+                  secondaryphone: 415-369-8000
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached the maximum number of calls for this endpoint
+  /client/{clientId}/signalrep:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Signal Contacts
+      description: Retrieves Signal Contacts
+      operationId: Helpers.RetrieveSignalContacts
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600
+      - name: clientId
+        in: path
+        description: The signal contacts will be retrieved based on the client id
+        required: true
+        schema:
+          type: number
+        example: 18901
+      - name: accept
+        in: header
+        description: 'Output format: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                signalreps:
+                - signalrepid: '162260'
+                  firstname: Abhijeet
+                  lastname: Joshi
+                  email: xxxxxxxxx@gmail.com
+                  primaryphone: '14324324234'
+                  secondaryphone: 415-369-8000
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached the maximum number of calls for this endpoint
+  /client/{clientId}/technicalrep:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Technical Rep Contacts
+      description: Retrieves Technical Representatives.
+      operationId: Helpers.RetrieveTechnicalRepContacts
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600
+      - name: clientId
+        in: path
+        description: The technical contacts will be retrieved based on the client id
+        required: true
+        schema:
+          type: number
+        example: 18901
+      - name: accept
+        in: header
+        description: 'Output format: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                technicalcontacts:
+                - contactid: 162260
+                  contactname: Abhijeet Joshi
+                - contactid: 133227
+                  contactname: Allyson Frazier
+                - contactid: 145364
+                  contactname: Aya Ahmed
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached the maximum number of calls for this endpoint
+  /client/{clientId}/timezones:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Timezones Codes
+      description: Retrieves time zones for the given client account
+      operationId: Helpers.RetrieveTimezonesCodes
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b21600
+      - name: clientId
+        in: path
+        description: The time zones will be retrieved based on the client id
+        required: true
+        schema:
+          type: string
+        example: 18091
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              example:
+                timezones:
+                - label: (GMT -12:00) Etc/GMT+12
+                  value: Etc/GMT+12
+                - label: (GMT -11:00) Etc/GMT+11
+                  value: Etc/GMT+11
+                - label: (GMT -11:00) Pacific/Midway
+                  value: Pacific/Midway
+                - label: (GMT -11:00) Pacific/Niue
+                  value: Pacific/Niue
+                - label: (GMT -11:00) Pacific/Pago_Pago
+                  value: Pacific/Pago_Pago
+                - label: (GMT -11:00) Pacific/Samoa
+                  value: Pacific/Samoa
+                - label: (GMT -11:00) US/Samoa
+                  value: US/Samoa
+                - label: (GMT -10:00) America/Adak
+                  value: America/Adak
+                - label: (GMT -10:00) America/Atka
+                  value: America/Atka
+                - label: (GMT -10:00) Etc/GMT+10
+                  value: Etc/GMT+10
+                - label: (GMT -10:00) Pacific/Honolulu
+                  value: Pacific/Honolulu
+                - label: (GMT -10:00) Pacific/Johnston
+                  value: Pacific/Johnston
+                - label: (GMT -10:00) Pacific/Rarotonga
+                  value: Pacific/Rarotonga
+                - label: (GMT -10:00) Pacific/Tahiti
+                  value: Pacific/Tahiti
+                - label: (GMT -10:00) SystemV/HST10
+                  value: SystemV/HST10
+                - label: (GMT -10:00) US/Aleutian
+                  value: US/Aleutian
+                - label: (GMT -10:00) US/Hawaii
+                  value: US/Hawaii
+                - label: (GMT -9:30) Pacific/Marquesas
+                  value: Pacific/Marquesas
+                - label: (GMT -9:00) America/Anchorage
+                  value: America/Anchorage
+                - label: (GMT -9:00) America/Juneau
+                  value: America/Juneau
+                - label: (GMT -9:00) America/Metlakatla
+                  value: America/Metlakatla
+                - label: (GMT -9:00) America/Nome
+                  value: America/Nome
+                - label: (GMT -9:00) America/Sitka
+                  value: America/Sitka
+                - label: (GMT -9:00) America/Yakutat
+                  value: America/Yakutat
+                - label: (GMT -9:00) Etc/GMT+9
+                  value: Etc/GMT+9
+                - label: (GMT -9:00) Pacific/Gambier
+                  value: Pacific/Gambier
+                - label: (GMT -9:00) SystemV/YST9
+                  value: SystemV/YST9
+                - label: (GMT -9:00) SystemV/YST9YDT
+                  value: SystemV/YST9YDT
+                - label: (GMT -9:00) US/Alaska
+                  value: US/Alaska
+                - label: (GMT -8:00) America/Dawson
+                  value: America/Dawson
+                - label: (GMT -8:00) America/Ensenada
+                  value: America/Ensenada
+                - label: (GMT -8:00) America/Los_Angeles
+                  value: America/Los_Angeles
+                - label: (GMT -8:00) America/Santa_Isabel
+                  value: America/Santa_Isabel
+                - label: (GMT -8:00) America/Tijuana
+                  value: America/Tijuana
+                - label: (GMT -8:00) America/Vancouver
+                  value: America/Vancouver
+                - label: (GMT -8:00) America/Whitehorse
+                  value: America/Whitehorse
+                - label: (GMT -8:00) Canada/Pacific
+                  value: Canada/Pacific
+                - label: (GMT -8:00) Canada/Yukon
+                  value: Canada/Yukon
+                - label: (GMT -8:00) Etc/GMT+8
+                  value: Etc/GMT+8
+                - label: (GMT -8:00) Mexico/BajaNorte
+                  value: Mexico/BajaNorte
+                - label: (GMT -8:00) PST8PDT
+                  value: PST8PDT
+                - label: (GMT -8:00) Pacific/Pitcairn
+                  value: Pacific/Pitcairn
+                - label: (GMT -8:00) SystemV/PST8
+                  value: SystemV/PST8
+                - label: (GMT -8:00) SystemV/PST8PDT
+                  value: SystemV/PST8PDT
+                - label: (GMT -8:00) US/Pacific
+                  value: US/Pacific
+                - label: (GMT -7:00) America/Boise
+                  value: America/Boise
+                - label: (GMT -7:00) America/Cambridge_Bay
+                  value: America/Cambridge_Bay
+                - label: (GMT -7:00) America/Chihuahua
+                  value: America/Chihuahua
+                - label: (GMT -7:00) America/Creston
+                  value: America/Creston
+                - label: (GMT -7:00) America/Dawson_Creek
+                  value: America/Dawson_Creek
+                - label: (GMT -7:00) America/Denver
+                  value: America/Denver
+                - label: (GMT -7:00) America/Edmonton
+                  value: America/Edmonton
+                - label: (GMT -7:00) America/Fort_Nelson
+                  value: America/Fort_Nelson
+                - label: (GMT -7:00) America/Hermosillo
+                  value: America/Hermosillo
+                - label: (GMT -7:00) America/Inuvik
+                  value: America/Inuvik
+                - label: (GMT -7:00) America/Mazatlan
+                  value: America/Mazatlan
+                - label: (GMT -7:00) America/Ojinaga
+                  value: America/Ojinaga
+                - label: (GMT -7:00) America/Phoenix
+                  value: America/Phoenix
+                - label: (GMT -7:00) America/Shiprock
+                  value: America/Shiprock
+                - label: (GMT -7:00) America/Yellowknife
+                  value: America/Yellowknife
+                - label: (GMT -7:00) Canada/Mountain
+                  value: Canada/Mountain
+                - label: (GMT -7:00) Etc/GMT+7
+                  value: Etc/GMT+7
+                - label: (GMT -7:00) MST7MDT
+                  value: MST7MDT
+                - label: (GMT -7:00) Mexico/BajaSur
+                  value: Mexico/BajaSur
+                - label: (GMT -7:00) Navajo
+                  value: Navajo
+                - label: (GMT -7:00) SystemV/MST7
+                  value: SystemV/MST7
+                - label: (GMT -7:00) SystemV/MST7MDT
+                  value: SystemV/MST7MDT
+                - label: (GMT -7:00) US/Arizona
+                  value: US/Arizona
+                - label: (GMT -7:00) US/Mountain
+                  value: US/Mountain
+                - label: (GMT -6:00) America/Bahia_Banderas
+                  value: America/Bahia_Banderas
+                - label: (GMT -6:00) America/Belize
+                  value: America/Belize
+                - label: (GMT -6:00) America/Chicago
+                  value: America/Chicago
+                - label: (GMT -6:00) America/Costa_Rica
+                  value: America/Costa_Rica
+                - label: (GMT -6:00) America/El_Salvador
+                  value: America/El_Salvador
+                - label: (GMT -6:00) America/Guatemala
+                  value: America/Guatemala
+                - label: (GMT -6:00) America/Indiana/Knox
+                  value: America/Indiana/Knox
+                - label: (GMT -6:00) America/Indiana/Tell_City
+                  value: America/Indiana/Tell_City
+                - label: (GMT -6:00) America/Knox_IN
+                  value: America/Knox_IN
+                - label: (GMT -6:00) America/Managua
+                  value: America/Managua
+                - label: (GMT -6:00) America/Matamoros
+                  value: America/Matamoros
+                - label: (GMT -6:00) America/Menominee
+                  value: America/Menominee
+                - label: (GMT -6:00) America/Merida
+                  value: America/Merida
+                - label: (GMT -6:00) America/Mexico_City
+                  value: America/Mexico_City
+                - label: (GMT -6:00) America/Monterrey
+                  value: America/Monterrey
+                - label: (GMT -6:00) America/North_Dakota/Beulah
+                  value: America/North_Dakota/Beulah
+                - label: (GMT -6:00) America/North_Dakota/Center
+                  value: America/North_Dakota/Center
+                - label: (GMT -6:00) America/North_Dakota/New_Salem
+                  value: America/North_Dakota/New_Salem
+                - label: (GMT -6:00) America/Rainy_River
+                  value: America/Rainy_River
+                - label: (GMT -6:00) America/Rankin_Inlet
+                  value: America/Rankin_Inlet
+                - label: (GMT -6:00) America/Regina
+                  value: America/Regina
+                - label: (GMT -6:00) America/Resolute
+                  value: America/Resolute
+                - label: (GMT -6:00) America/Swift_Current
+                  value: America/Swift_Current
+                - label: (GMT -6:00) America/Tegucigalpa
+                  value: America/Tegucigalpa
+                - label: (GMT -6:00) America/Winnipeg
+                  value: America/Winnipeg
+                - label: (GMT -6:00) CST6CDT
+                  value: CST6CDT
+                - label: (GMT -6:00) Canada/Central
+                  value: Canada/Central
+                - label: (GMT -6:00) Canada/East-Saskatchewan
+                  value: Canada/East-Saskatchewan
+                - label: (GMT -6:00) Canada/Saskatchewan
+                  value: Canada/Saskatchewan
+                - label: (GMT -6:00) Chile/EasterIsland
+                  value: Chile/EasterIsland
+                - label: (GMT -6:00) Etc/GMT+6
+                  value: Etc/GMT+6
+                - label: (GMT -6:00) Mexico/General
+                  value: Mexico/General
+                - label: (GMT -6:00) Pacific/Easter
+                  value: Pacific/Easter
+                - label: (GMT -6:00) Pacific/Galapagos
+                  value: Pacific/Galapagos
+                - label: (GMT -6:00) SystemV/CST6
+                  value: SystemV/CST6
+                - label: (GMT -6:00) SystemV/CST6CDT
+                  value: SystemV/CST6CDT
+                - label: (GMT -6:00) US/Central
+                  value: US/Central
+                - label: (GMT -6:00) US/Indiana-Starke
+                  value: US/Indiana-Starke
+                - label: (GMT -5:00) America/Atikokan
+                  value: America/Atikokan
+                - label: (GMT -5:00) America/Bogota
+                  value: America/Bogota
+                - label: (GMT -5:00) America/Cancun
+                  value: America/Cancun
+                - label: (GMT -5:00) America/Cayman
+                  value: America/Cayman
+                - label: (GMT -5:00) America/Coral_Harbour
+                  value: America/Coral_Harbour
+                - label: (GMT -5:00) America/Detroit
+                  value: America/Detroit
+                - label: (GMT -5:00) America/Eirunepe
+                  value: America/Eirunepe
+                - label: (GMT -5:00) America/Fort_Wayne
+                  value: America/Fort_Wayne
+                - label: (GMT -5:00) America/Guayaquil
+                  value: America/Guayaquil
+                - label: (GMT -5:00) America/Havana
+                  value: America/Havana
+                - label: (GMT -5:00) America/Indiana/Indianapolis
+                  value: America/Indiana/Indianapolis
+                - label: (GMT -5:00) America/Indiana/Marengo
+                  value: America/Indiana/Marengo
+                - label: (GMT -5:00) America/Indiana/Petersburg
+                  value: America/Indiana/Petersburg
+                - label: (GMT -5:00) America/Indiana/Vevay
+                  value: America/Indiana/Vevay
+                - label: (GMT -5:00) America/Indiana/Vincennes
+                  value: America/Indiana/Vincennes
+                - label: (GMT -5:00) America/Indiana/Winamac
+                  value: America/Indiana/Winamac
+                - label: (GMT -5:00) America/Indianapolis
+                  value: America/Indianapolis
+                - label: (GMT -5:00) America/Iqaluit
+                  value: America/Iqaluit
+                - label: (GMT -5:00) America/Jamaica
+                  value: America/Jamaica
+                - label: (GMT -5:00) America/Kentucky/Louisville
+                  value: America/Kentucky/Louisville
+                - label: (GMT -5:00) America/Kentucky/Monticello
+                  value: America/Kentucky/Monticello
+                - label: (GMT -5:00) America/Lima
+                  value: America/Lima
+                - label: (GMT -5:00) America/Louisville
+                  value: America/Louisville
+                - label: (GMT -5:00) America/Montreal
+                  value: America/Montreal
+                - label: (GMT -5:00) America/Nassau
+                  value: America/Nassau
+                - label: (GMT -5:00) America/New_York
+                  value: America/New_York
+                - label: (GMT -5:00) America/Nipigon
+                  value: America/Nipigon
+                - label: (GMT -5:00) America/Panama
+                  value: America/Panama
+                - label: (GMT -5:00) America/Pangnirtung
+                  value: America/Pangnirtung
+                - label: (GMT -5:00) America/Port-au-Prince
+                  value: America/Port-au-Prince
+                - label: (GMT -5:00) America/Porto_Acre
+                  value: America/Porto_Acre
+                - label: (GMT -5:00) America/Rio_Branco
+                  value: America/Rio_Branco
+                - label: (GMT -5:00) America/Thunder_Bay
+                  value: America/Thunder_Bay
+                - label: (GMT -5:00) America/Toronto
+                  value: America/Toronto
+                - label: (GMT -5:00) Brazil/Acre
+                  value: Brazil/Acre
+                - label: (GMT -5:00) Canada/Eastern
+                  value: Canada/Eastern
+                - label: (GMT -5:00) Cuba
+                  value: Cuba
+                - label: (GMT -5:00) EST5EDT
+                  value: EST5EDT
+                - label: (GMT -5:00) Etc/GMT+5
+                  value: Etc/GMT+5
+                - label: (GMT -5:00) Jamaica
+                  value: Jamaica
+                - label: (GMT -5:00) SystemV/EST5
+                  value: SystemV/EST5
+                - label: (GMT -5:00) SystemV/EST5EDT
+                  value: SystemV/EST5EDT
+                - label: (GMT -5:00) US/East-Indiana
+                  value: US/East-Indiana
+                - label: (GMT -5:00) US/Eastern
+                  value: US/Eastern
+                - label: (GMT -5:00) US/Michigan
+                  value: US/Michigan
+                - label: (GMT -4:00) America/Anguilla
+                  value: America/Anguilla
+                - label: (GMT -4:00) America/Antigua
+                  value: America/Antigua
+                - label: (GMT -4:00) America/Aruba
+                  value: America/Aruba
+                - label: (GMT -4:00) America/Asuncion
+                  value: America/Asuncion
+                - label: (GMT -4:00) America/Barbados
+                  value: America/Barbados
+                - label: (GMT -4:00) America/Blanc-Sablon
+                  value: America/Blanc-Sablon
+                - label: (GMT -4:00) America/Boa_Vista
+                  value: America/Boa_Vista
+                - label: (GMT -4:00) America/Campo_Grande
+                  value: America/Campo_Grande
+                - label: (GMT -4:00) America/Caracas
+                  value: America/Caracas
+                - label: (GMT -4:00) America/Cuiaba
+                  value: America/Cuiaba
+                - label: (GMT -4:00) America/Curacao
+                  value: America/Curacao
+                - label: (GMT -4:00) America/Dominica
+                  value: America/Dominica
+                - label: (GMT -4:00) America/Glace_Bay
+                  value: America/Glace_Bay
+                - label: (GMT -4:00) America/Goose_Bay
+                  value: America/Goose_Bay
+                - label: (GMT -4:00) America/Grand_Turk
+                  value: America/Grand_Turk
+                - label: (GMT -4:00) America/Grenada
+                  value: America/Grenada
+                - label: (GMT -4:00) America/Guadeloupe
+                  value: America/Guadeloupe
+                - label: (GMT -4:00) America/Guyana
+                  value: America/Guyana
+                - label: (GMT -4:00) America/Halifax
+                  value: America/Halifax
+                - label: (GMT -4:00) America/Kralendijk
+                  value: America/Kralendijk
+                - label: (GMT -4:00) America/La_Paz
+                  value: America/La_Paz
+                - label: (GMT -4:00) America/Lower_Princes
+                  value: America/Lower_Princes
+                - label: (GMT -4:00) America/Manaus
+                  value: America/Manaus
+                - label: (GMT -4:00) America/Marigot
+                  value: America/Marigot
+                - label: (GMT -4:00) America/Martinique
+                  value: America/Martinique
+                - label: (GMT -4:00) America/Moncton
+                  value: America/Moncton
+                - label: (GMT -4:00) America/Montserrat
+                  value: America/Montserrat
+                - label: (GMT -4:00) America/Port_of_Spain
+                  value: America/Port_of_Spain
+                - label: (GMT -4:00) America/Porto_Velho
+                  value: America/Porto_Velho
+                - label: (GMT -4:00) America/Puerto_Rico
+                  value: America/Puerto_Rico
+                - label: (GMT -4:00) America/Santiago
+                  value: America/Santiago
+                - label: (GMT -4:00) America/Santo_Domingo
+                  value: America/Santo_Domingo
+                - label: (GMT -4:00) America/St_Barthelemy
+                  value: America/St_Barthelemy
+                - label: (GMT -4:00) America/St_Kitts
+                  value: America/St_Kitts
+                - label: (GMT -4:00) America/St_Lucia
+                  value: America/St_Lucia
+                - label: (GMT -4:00) America/St_Thomas
+                  value: America/St_Thomas
+                - label: (GMT -4:00) America/St_Vincent
+                  value: America/St_Vincent
+                - label: (GMT -4:00) America/Thule
+                  value: America/Thule
+                - label: (GMT -4:00) America/Tortola
+                  value: America/Tortola
+                - label: (GMT -4:00) America/Virgin
+                  value: America/Virgin
+                - label: (GMT -4:00) Antarctica/Palmer
+                  value: Antarctica/Palmer
+                - label: (GMT -4:00) Atlantic/Bermuda
+                  value: Atlantic/Bermuda
+                - label: (GMT -4:00) Brazil/West
+                  value: Brazil/West
+                - label: (GMT -4:00) Canada/Atlantic
+                  value: Canada/Atlantic
+                - label: (GMT -4:00) Chile/Continental
+                  value: Chile/Continental
+                - label: (GMT -4:00) Etc/GMT+4
+                  value: Etc/GMT+4
+                - label: (GMT -4:00) SystemV/AST4
+                  value: SystemV/AST4
+                - label: (GMT -4:00) SystemV/AST4ADT
+                  value: SystemV/AST4ADT
+                - label: (GMT -3:30) America/St_Johns
+                  value: America/St_Johns
+                - label: (GMT -3:30) Canada/Newfoundland
+                  value: Canada/Newfoundland
+                - label: (GMT -3:00) America/Araguaina
+                  value: America/Araguaina
+                - label: (GMT -3:00) America/Argentina/Buenos_Aires
+                  value: America/Argentina/Buenos_Aires
+                - label: (GMT -3:00) America/Argentina/Catamarca
+                  value: America/Argentina/Catamarca
+                - label: (GMT -3:00) America/Argentina/ComodRivadavia
+                  value: America/Argentina/ComodRivadavia
+                - label: (GMT -3:00) America/Argentina/Cordoba
+                  value: America/Argentina/Cordoba
+                - label: (GMT -3:00) America/Argentina/Jujuy
+                  value: America/Argentina/Jujuy
+                - label: (GMT -3:00) America/Argentina/La_Rioja
+                  value: America/Argentina/La_Rioja
+                - label: (GMT -3:00) America/Argentina/Mendoza
+                  value: America/Argentina/Mendoza
+                - label: (GMT -3:00) America/Argentina/Rio_Gallegos
+                  value: America/Argentina/Rio_Gallegos
+                - label: (GMT -3:00) America/Argentina/Salta
+                  value: America/Argentina/Salta
+                - label: (GMT -3:00) America/Argentina/San_Juan
+                  value: America/Argentina/San_Juan
+                - label: (GMT -3:00) America/Argentina/San_Luis
+                  value: America/Argentina/San_Luis
+                - label: (GMT -3:00) America/Argentina/Tucuman
+                  value: America/Argentina/Tucuman
+                - label: (GMT -3:00) America/Argentina/Ushuaia
+                  value: America/Argentina/Ushuaia
+                - label: (GMT -3:00) America/Bahia
+                  value: America/Bahia
+                - label: (GMT -3:00) America/Belem
+                  value: America/Belem
+                - label: (GMT -3:00) America/Buenos_Aires
+                  value: America/Buenos_Aires
+                - label: (GMT -3:00) America/Catamarca
+                  value: America/Catamarca
+                - label: (GMT -3:00) America/Cayenne
+                  value: America/Cayenne
+                - label: (GMT -3:00) America/Cordoba
+                  value: America/Cordoba
+                - label: (GMT -3:00) America/Fortaleza
+                  value: America/Fortaleza
+                - label: (GMT -3:00) America/Godthab
+                  value: America/Godthab
+                - label: (GMT -3:00) America/Jujuy
+                  value: America/Jujuy
+                - label: (GMT -3:00) America/Maceio
+                  value: America/Maceio
+                - label: (GMT -3:00) America/Mendoza
+                  value: America/Mendoza
+                - label: (GMT -3:00) America/Miquelon
+                  value: America/Miquelon
+                - label: (GMT -3:00) America/Montevideo
+                  value: America/Montevideo
+                - label: (GMT -3:00) America/Paramaribo
+                  value: America/Paramaribo
+                - label: (GMT -3:00) America/Recife
+                  value: America/Recife
+                - label: (GMT -3:00) America/Rosario
+                  value: America/Rosario
+                - label: (GMT -3:00) America/Santarem
+                  value: America/Santarem
+                - label: (GMT -3:00) America/Sao_Paulo
+                  value: America/Sao_Paulo
+                - label: (GMT -3:00) Antarctica/Rothera
+                  value: Antarctica/Rothera
+                - label: (GMT -3:00) Atlantic/Stanley
+                  value: Atlantic/Stanley
+                - label: (GMT -3:00) Brazil/East
+                  value: Brazil/East
+                - label: (GMT -3:00) Etc/GMT+3
+                  value: Etc/GMT+3
+                - label: (GMT -2:00) America/Noronha
+                  value: America/Noronha
+                - label: (GMT -2:00) Atlantic/South_Georgia
+                  value: Atlantic/South_Georgia
+                - label: (GMT -2:00) Brazil/DeNoronha
+                  value: Brazil/DeNoronha
+                - label: (GMT -2:00) Etc/GMT+2
+                  value: Etc/GMT+2
+                - label: (GMT -1:00) America/Scoresbysund
+                  value: America/Scoresbysund
+                - label: (GMT -1:00) Atlantic/Azores
+                  value: Atlantic/Azores
+                - label: (GMT -1:00) Atlantic/Cape_Verde
+                  value: Atlantic/Cape_Verde
+                - label: (GMT -1:00) Etc/GMT+1
+                  value: Etc/GMT+1
+                - label: (GMT) Africa/Abidjan
+                  value: Africa/Abidjan
+                - label: (GMT) Africa/Accra
+                  value: Africa/Accra
+                - label: (GMT) Africa/Bamako
+                  value: Africa/Bamako
+                - label: (GMT) Africa/Banjul
+                  value: Africa/Banjul
+                - label: (GMT) Africa/Bissau
+                  value: Africa/Bissau
+                - label: (GMT) Africa/Casablanca
+                  value: Africa/Casablanca
+                - label: (GMT) Africa/Conakry
+                  value: Africa/Conakry
+                - label: (GMT) Africa/Dakar
+                  value: Africa/Dakar
+                - label: (GMT) Africa/El_Aaiun
+                  value: Africa/El_Aaiun
+                - label: (GMT) Africa/Freetown
+                  value: Africa/Freetown
+                - label: (GMT) Africa/Lome
+                  value: Africa/Lome
+                - label: (GMT) Africa/Monrovia
+                  value: Africa/Monrovia
+                - label: (GMT) Africa/Nouakchott
+                  value: Africa/Nouakchott
+                - label: (GMT) Africa/Ouagadougou
+                  value: Africa/Ouagadougou
+                - label: (GMT) Africa/Sao_Tome
+                  value: Africa/Sao_Tome
+                - label: (GMT) Africa/Timbuktu
+                  value: Africa/Timbuktu
+                - label: (GMT) America/Danmarkshavn
+                  value: America/Danmarkshavn
+                - label: (GMT) Antarctica/Troll
+                  value: Antarctica/Troll
+                - label: (GMT) Atlantic/Canary
+                  value: Atlantic/Canary
+                - label: (GMT) Atlantic/Faeroe
+                  value: Atlantic/Faeroe
+                - label: (GMT) Atlantic/Faroe
+                  value: Atlantic/Faroe
+                - label: (GMT) Atlantic/Madeira
+                  value: Atlantic/Madeira
+                - label: (GMT) Atlantic/Reykjavik
+                  value: Atlantic/Reykjavik
+                - label: (GMT) Atlantic/St_Helena
+                  value: Atlantic/St_Helena
+                - label: (GMT) Eire
+                  value: Eire
+                - label: (GMT) Etc/GMT
+                  value: Etc/GMT
+                - label: (GMT) Etc/GMT+0
+                  value: Etc/GMT+0
+                - label: (GMT) Etc/GMT-0
+                  value: Etc/GMT-0
+                - label: (GMT) Etc/GMT0
+                  value: Etc/GMT0
+                - label: (GMT) Etc/Greenwich
+                  value: Etc/Greenwich
+                - label: (GMT) Etc/UCT
+                  value: Etc/UCT
+                - label: (GMT) Etc/UTC
+                  value: Etc/UTC
+                - label: (GMT) Etc/Universal
+                  value: Etc/Universal
+                - label: (GMT) Etc/Zulu
+                  value: Etc/Zulu
+                - label: (GMT) Europe/Belfast
+                  value: Europe/Belfast
+                - label: (GMT) Europe/Dublin
+                  value: Europe/Dublin
+                - label: (GMT) Europe/Guernsey
+                  value: Europe/Guernsey
+                - label: (GMT) Europe/Isle_of_Man
+                  value: Europe/Isle_of_Man
+                - label: (GMT) Europe/Jersey
+                  value: Europe/Jersey
+                - label: (GMT) Europe/Lisbon
+                  value: Europe/Lisbon
+                - label: (GMT) Europe/London
+                  value: Europe/London
+                - label: (GMT) GB-Eire
+                  value: GB-Eire
+                - label: (GMT) GMT
+                  value: GMT
+                - label: (GMT) GMT0
+                  value: GMT0
+                - label: (GMT) Greenwich
+                  value: Greenwich
+                - label: (GMT) Iceland
+                  value: Iceland
+                - label: (GMT) Portugal
+                  value: Portugal
+                - label: (GMT) Universal
+                  value: Universal
+                - label: (GMT) Zulu
+                  value: Zulu
+                - label: (GMT +1:00) Africa/Algiers
+                  value: Africa/Algiers
+                - label: (GMT +1:00) Africa/Bangui
+                  value: Africa/Bangui
+                - label: (GMT +1:00) Africa/Brazzaville
+                  value: Africa/Brazzaville
+                - label: (GMT +1:00) Africa/Ceuta
+                  value: Africa/Ceuta
+                - label: (GMT +1:00) Africa/Douala
+                  value: Africa/Douala
+                - label: (GMT +1:00) Africa/Kinshasa
+                  value: Africa/Kinshasa
+                - label: (GMT +1:00) Africa/Lagos
+                  value: Africa/Lagos
+                - label: (GMT +1:00) Africa/Libreville
+                  value: Africa/Libreville
+                - label: (GMT +1:00) Africa/Luanda
+                  value: Africa/Luanda
+                - label: (GMT +1:00) Africa/Malabo
+                  value: Africa/Malabo
+                - label: (GMT +1:00) Africa/Ndjamena
+                  value: Africa/Ndjamena
+                - label: (GMT +1:00) Africa/Niamey
+                  value: Africa/Niamey
+                - label: (GMT +1:00) Africa/Porto-Novo
+                  value: Africa/Porto-Novo
+                - label: (GMT +1:00) Africa/Tunis
+                  value: Africa/Tunis
+                - label: (GMT +1:00) Africa/Windhoek
+                  value: Africa/Windhoek
+                - label: (GMT +1:00) Arctic/Longyearbyen
+                  value: Arctic/Longyearbyen
+                - label: (GMT +1:00) Atlantic/Jan_Mayen
+                  value: Atlantic/Jan_Mayen
+                - label: (GMT +1:00) Etc/GMT-1
+                  value: Etc/GMT-1
+                - label: (GMT +1:00) Europe/Amsterdam
+                  value: Europe/Amsterdam
+                - label: (GMT +1:00) Europe/Andorra
+                  value: Europe/Andorra
+                - label: (GMT +1:00) Europe/Belgrade
+                  value: Europe/Belgrade
+                - label: (GMT +1:00) Europe/Berlin
+                  value: Europe/Berlin
+                - label: (GMT +1:00) Europe/Bratislava
+                  value: Europe/Bratislava
+                - label: (GMT +1:00) Europe/Brussels
+                  value: Europe/Brussels
+                - label: (GMT +1:00) Europe/Budapest
+                  value: Europe/Budapest
+                - label: (GMT +1:00) Europe/Busingen
+                  value: Europe/Busingen
+                - label: (GMT +1:00) Europe/Copenhagen
+                  value: Europe/Copenhagen
+                - label: (GMT +1:00) Europe/Gibraltar
+                  value: Europe/Gibraltar
+                - label: (GMT +1:00) Europe/Ljubljana
+                  value: Europe/Ljubljana
+                - label: (GMT +1:00) Europe/Luxembourg
+                  value: Europe/Luxembourg
+                - label: (GMT +1:00) Europe/Madrid
+                  value: Europe/Madrid
+                - label: (GMT +1:00) Europe/Malta
+                  value: Europe/Malta
+                - label: (GMT +1:00) Europe/Monaco
+                  value: Europe/Monaco
+                - label: (GMT +1:00) Europe/Oslo
+                  value: Europe/Oslo
+                - label: (GMT +1:00) Europe/Paris
+                  value: Europe/Paris
+                - label: (GMT +1:00) Europe/Podgorica
+                  value: Europe/Podgorica
+                - label: (GMT +1:00) Europe/Prague
+                  value: Europe/Prague
+                - label: (GMT +1:00) Europe/Rome
+                  value: Europe/Rome
+                - label: (GMT +1:00) Europe/San_Marino
+                  value: Europe/San_Marino
+                - label: (GMT +1:00) Europe/Sarajevo
+                  value: Europe/Sarajevo
+                - label: (GMT +1:00) Europe/Skopje
+                  value: Europe/Skopje
+                - label: (GMT +1:00) Europe/Stockholm
+                  value: Europe/Stockholm
+                - label: (GMT +1:00) Europe/Tirane
+                  value: Europe/Tirane
+                - label: (GMT +1:00) Europe/Vaduz
+                  value: Europe/Vaduz
+                - label: (GMT +1:00) Europe/Vatican
+                  value: Europe/Vatican
+                - label: (GMT +1:00) Europe/Vienna
+                  value: Europe/Vienna
+                - label: (GMT +1:00) Europe/Warsaw
+                  value: Europe/Warsaw
+                - label: (GMT +1:00) Europe/Zagreb
+                  value: Europe/Zagreb
+                - label: (GMT +1:00) Europe/Zurich
+                  value: Europe/Zurich
+                - label: (GMT +1:00) Poland
+                  value: Poland
+                - label: (GMT +2:00) Africa/Blantyre
+                  value: Africa/Blantyre
+                - label: (GMT +2:00) Africa/Bujumbura
+                  value: Africa/Bujumbura
+                - label: (GMT +2:00) Africa/Cairo
+                  value: Africa/Cairo
+                - label: (GMT +2:00) Africa/Gaborone
+                  value: Africa/Gaborone
+                - label: (GMT +2:00) Africa/Harare
+                  value: Africa/Harare
+                - label: (GMT +2:00) Africa/Johannesburg
+                  value: Africa/Johannesburg
+                - label: (GMT +2:00) Africa/Kigali
+                  value: Africa/Kigali
+                - label: (GMT +2:00) Africa/Lubumbashi
+                  value: Africa/Lubumbashi
+                - label: (GMT +2:00) Africa/Lusaka
+                  value: Africa/Lusaka
+                - label: (GMT +2:00) Africa/Maputo
+                  value: Africa/Maputo
+                - label: (GMT +2:00) Africa/Maseru
+                  value: Africa/Maseru
+                - label: (GMT +2:00) Africa/Mbabane
+                  value: Africa/Mbabane
+                - label: (GMT +2:00) Africa/Tripoli
+                  value: Africa/Tripoli
+                - label: (GMT +2:00) Asia/Amman
+                  value: Asia/Amman
+                - label: (GMT +2:00) Asia/Beirut
+                  value: Asia/Beirut
+                - label: (GMT +2:00) Asia/Damascus
+                  value: Asia/Damascus
+                - label: (GMT +2:00) Asia/Gaza
+                  value: Asia/Gaza
+                - label: (GMT +2:00) Asia/Hebron
+                  value: Asia/Hebron
+                - label: (GMT +2:00) Asia/Jerusalem
+                  value: Asia/Jerusalem
+                - label: (GMT +2:00) Asia/Nicosia
+                  value: Asia/Nicosia
+                - label: (GMT +2:00) Asia/Tel_Aviv
+                  value: Asia/Tel_Aviv
+                - label: (GMT +2:00) Egypt
+                  value: Egypt
+                - label: (GMT +2:00) Etc/GMT-2
+                  value: Etc/GMT-2
+                - label: (GMT +2:00) Europe/Athens
+                  value: Europe/Athens
+                - label: (GMT +2:00) Europe/Bucharest
+                  value: Europe/Bucharest
+                - label: (GMT +2:00) Europe/Chisinau
+                  value: Europe/Chisinau
+                - label: (GMT +2:00) Europe/Helsinki
+                  value: Europe/Helsinki
+                - label: (GMT +2:00) Europe/Kaliningrad
+                  value: Europe/Kaliningrad
+                - label: (GMT +2:00) Europe/Kiev
+                  value: Europe/Kiev
+                - label: (GMT +2:00) Europe/Mariehamn
+                  value: Europe/Mariehamn
+                - label: (GMT +2:00) Europe/Nicosia
+                  value: Europe/Nicosia
+                - label: (GMT +2:00) Europe/Riga
+                  value: Europe/Riga
+                - label: (GMT +2:00) Europe/Sofia
+                  value: Europe/Sofia
+                - label: (GMT +2:00) Europe/Tallinn
+                  value: Europe/Tallinn
+                - label: (GMT +2:00) Europe/Tiraspol
+                  value: Europe/Tiraspol
+                - label: (GMT +2:00) Europe/Uzhgorod
+                  value: Europe/Uzhgorod
+                - label: (GMT +2:00) Europe/Vilnius
+                  value: Europe/Vilnius
+                - label: (GMT +2:00) Europe/Zaporozhye
+                  value: Europe/Zaporozhye
+                - label: (GMT +2:00) Israel
+                  value: Israel
+                - label: (GMT +2:00) Libya
+                  value: Libya
+                - label: (GMT +3:00) Africa/Addis_Ababa
+                  value: Africa/Addis_Ababa
+                - label: (GMT +3:00) Africa/Asmara
+                  value: Africa/Asmara
+                - label: (GMT +3:00) Africa/Asmera
+                  value: Africa/Asmera
+                - label: (GMT +3:00) Africa/Dar_es_Salaam
+                  value: Africa/Dar_es_Salaam
+                - label: (GMT +3:00) Africa/Djibouti
+                  value: Africa/Djibouti
+                - label: (GMT +3:00) Africa/Juba
+                  value: Africa/Juba
+                - label: (GMT +3:00) Africa/Kampala
+                  value: Africa/Kampala
+                - label: (GMT +3:00) Africa/Khartoum
+                  value: Africa/Khartoum
+                - label: (GMT +3:00) Africa/Mogadishu
+                  value: Africa/Mogadishu
+                - label: (GMT +3:00) Africa/Nairobi
+                  value: Africa/Nairobi
+                - label: (GMT +3:00) Antarctica/Syowa
+                  value: Antarctica/Syowa
+                - label: (GMT +3:00) Asia/Aden
+                  value: Asia/Aden
+                - label: (GMT +3:00) Asia/Baghdad
+                  value: Asia/Baghdad
+                - label: (GMT +3:00) Asia/Bahrain
+                  value: Asia/Bahrain
+                - label: (GMT +3:00) Asia/Famagusta
+                  value: Asia/Famagusta
+                - label: (GMT +3:00) Asia/Istanbul
+                  value: Asia/Istanbul
+                - label: (GMT +3:00) Asia/Kuwait
+                  value: Asia/Kuwait
+                - label: (GMT +3:00) Asia/Qatar
+                  value: Asia/Qatar
+                - label: (GMT +3:00) Asia/Riyadh
+                  value: Asia/Riyadh
+                - label: (GMT +3:00) Etc/GMT-3
+                  value: Etc/GMT-3
+                - label: (GMT +3:00) Europe/Istanbul
+                  value: Europe/Istanbul
+                - label: (GMT +3:00) Europe/Kirov
+                  value: Europe/Kirov
+                - label: (GMT +3:00) Europe/Minsk
+                  value: Europe/Minsk
+                - label: (GMT +3:00) Europe/Moscow
+                  value: Europe/Moscow
+                - label: (GMT +3:00) Europe/Simferopol
+                  value: Europe/Simferopol
+                - label: (GMT +3:00) Europe/Volgograd
+                  value: Europe/Volgograd
+                - label: (GMT +3:00) Indian/Antananarivo
+                  value: Indian/Antananarivo
+                - label: (GMT +3:00) Indian/Comoro
+                  value: Indian/Comoro
+                - label: (GMT +3:00) Indian/Mayotte
+                  value: Indian/Mayotte
+                - label: (GMT +3:00) Turkey
+                  value: Turkey
+                - label: (GMT +3:00) W-SU
+                  value: W-SU
+                - label: (GMT +3:30) Asia/Tehran
+                  value: Asia/Tehran
+                - label: (GMT +3:30) Iran
+                  value: Iran
+                - label: (GMT +4:00) Asia/Baku
+                  value: Asia/Baku
+                - label: (GMT +4:00) Asia/Dubai
+                  value: Asia/Dubai
+                - label: (GMT +4:00) Asia/Muscat
+                  value: Asia/Muscat
+                - label: (GMT +4:00) Asia/Tbilisi
+                  value: Asia/Tbilisi
+                - label: (GMT +4:00) Asia/Yerevan
+                  value: Asia/Yerevan
+                - label: (GMT +4:00) Etc/GMT-4
+                  value: Etc/GMT-4
+                - label: (GMT +4:00) Europe/Astrakhan
+                  value: Europe/Astrakhan
+                - label: (GMT +4:00) Europe/Samara
+                  value: Europe/Samara
+                - label: (GMT +4:00) Europe/Saratov
+                  value: Europe/Saratov
+                - label: (GMT +4:00) Europe/Ulyanovsk
+                  value: Europe/Ulyanovsk
+                - label: (GMT +4:00) Indian/Mahe
+                  value: Indian/Mahe
+                - label: (GMT +4:00) Indian/Mauritius
+                  value: Indian/Mauritius
+                - label: (GMT +4:00) Indian/Reunion
+                  value: Indian/Reunion
+                - label: (GMT +4:30) Asia/Kabul
+                  value: Asia/Kabul
+                - label: (GMT +5:00) Antarctica/Mawson
+                  value: Antarctica/Mawson
+                - label: (GMT +5:00) Asia/Aqtau
+                  value: Asia/Aqtau
+                - label: (GMT +5:00) Asia/Aqtobe
+                  value: Asia/Aqtobe
+                - label: (GMT +5:00) Asia/Ashgabat
+                  value: Asia/Ashgabat
+                - label: (GMT +5:00) Asia/Ashkhabad
+                  value: Asia/Ashkhabad
+                - label: (GMT +5:00) Asia/Atyrau
+                  value: Asia/Atyrau
+                - label: (GMT +5:00) Asia/Dushanbe
+                  value: Asia/Dushanbe
+                - label: (GMT +5:00) Asia/Karachi
+                  value: Asia/Karachi
+                - label: (GMT +5:00) Asia/Oral
+                  value: Asia/Oral
+                - label: (GMT +5:00) Asia/Samarkand
+                  value: Asia/Samarkand
+                - label: (GMT +5:00) Asia/Tashkent
+                  value: Asia/Tashkent
+                - label: (GMT +5:00) Asia/Yekaterinburg
+                  value: Asia/Yekaterinburg
+                - label: (GMT +5:00) Etc/GMT-5
+                  value: Etc/GMT-5
+                - label: (GMT +5:00) Indian/Kerguelen
+                  value: Indian/Kerguelen
+                - label: (GMT +5:00) Indian/Maldives
+                  value: Indian/Maldives
+                - label: (GMT +5:30) Asia/Calcutta
+                  value: Asia/Calcutta
+                - label: (GMT +5:30) Asia/Colombo
+                  value: Asia/Colombo
+                - label: (GMT +5:30) Asia/Kolkata
+                  value: Asia/Kolkata
+                - label: (GMT +5:45) Asia/Kathmandu
+                  value: Asia/Kathmandu
+                - label: (GMT +5:45) Asia/Katmandu
+                  value: Asia/Katmandu
+                - label: (GMT +6:00) Antarctica/Vostok
+                  value: Antarctica/Vostok
+                - label: (GMT +6:00) Asia/Almaty
+                  value: Asia/Almaty
+                - label: (GMT +6:00) Asia/Bishkek
+                  value: Asia/Bishkek
+                - label: (GMT +6:00) Asia/Dacca
+                  value: Asia/Dacca
+                - label: (GMT +6:00) Asia/Dhaka
+                  value: Asia/Dhaka
+                - label: (GMT +6:00) Asia/Kashgar
+                  value: Asia/Kashgar
+                - label: (GMT +6:00) Asia/Omsk
+                  value: Asia/Omsk
+                - label: (GMT +6:00) Asia/Qyzylorda
+                  value: Asia/Qyzylorda
+                - label: (GMT +6:00) Asia/Thimbu
+                  value: Asia/Thimbu
+                - label: (GMT +6:00) Asia/Thimphu
+                  value: Asia/Thimphu
+                - label: (GMT +6:00) Asia/Urumqi
+                  value: Asia/Urumqi
+                - label: (GMT +6:00) Etc/GMT-6
+                  value: Etc/GMT-6
+                - label: (GMT +6:00) Indian/Chagos
+                  value: Indian/Chagos
+                - label: (GMT +6:30) Asia/Rangoon
+                  value: Asia/Rangoon
+                - label: (GMT +6:30) Asia/Yangon
+                  value: Asia/Yangon
+                - label: (GMT +6:30) Indian/Cocos
+                  value: Indian/Cocos
+                - label: (GMT +7:00) Antarctica/Davis
+                  value: Antarctica/Davis
+                - label: (GMT +7:00) Asia/Bangkok
+                  value: Asia/Bangkok
+                - label: (GMT +7:00) Asia/Barnaul
+                  value: Asia/Barnaul
+                - label: (GMT +7:00) Asia/Ho_Chi_Minh
+                  value: Asia/Ho_Chi_Minh
+                - label: (GMT +7:00) Asia/Hovd
+                  value: Asia/Hovd
+                - label: (GMT +7:00) Asia/Jakarta
+                  value: Asia/Jakarta
+                - label: (GMT +7:00) Asia/Krasnoyarsk
+                  value: Asia/Krasnoyarsk
+                - label: (GMT +7:00) Asia/Novokuznetsk
+                  value: Asia/Novokuznetsk
+                - label: (GMT +7:00) Asia/Novosibirsk
+                  value: Asia/Novosibirsk
+                - label: (GMT +7:00) Asia/Phnom_Penh
+                  value: Asia/Phnom_Penh
+                - label: (GMT +7:00) Asia/Pontianak
+                  value: Asia/Pontianak
+                - label: (GMT +7:00) Asia/Saigon
+                  value: Asia/Saigon
+                - label: (GMT +7:00) Asia/Tomsk
+                  value: Asia/Tomsk
+                - label: (GMT +7:00) Asia/Vientiane
+                  value: Asia/Vientiane
+                - label: (GMT +7:00) Etc/GMT-7
+                  value: Etc/GMT-7
+                - label: (GMT +7:00) Indian/Christmas
+                  value: Indian/Christmas
+                - label: (GMT +8:00) Asia/Brunei
+                  value: Asia/Brunei
+                - label: (GMT +8:00) Asia/Choibalsan
+                  value: Asia/Choibalsan
+                - label: (GMT +8:00) Asia/Chongqing
+                  value: Asia/Chongqing
+                - label: (GMT +8:00) Asia/Chungking
+                  value: Asia/Chungking
+                - label: (GMT +8:00) Asia/Harbin
+                  value: Asia/Harbin
+                - label: (GMT +8:00) Asia/Hong_Kong
+                  value: Asia/Hong_Kong
+                - label: (GMT +8:00) Asia/Irkutsk
+                  value: Asia/Irkutsk
+                - label: (GMT +8:00) Asia/Kuala_Lumpur
+                  value: Asia/Kuala_Lumpur
+                - label: (GMT +8:00) Asia/Kuching
+                  value: Asia/Kuching
+                - label: (GMT +8:00) Asia/Macao
+                  value: Asia/Macao
+                - label: (GMT +8:00) Asia/Macau
+                  value: Asia/Macau
+                - label: (GMT +8:00) Asia/Makassar
+                  value: Asia/Makassar
+                - label: (GMT +8:00) Asia/Manila
+                  value: Asia/Manila
+                - label: (GMT +8:00) Asia/Shanghai
+                  value: Asia/Shanghai
+                - label: (GMT +8:00) Asia/Singapore
+                  value: Asia/Singapore
+                - label: (GMT +8:00) Asia/Taipei
+                  value: Asia/Taipei
+                - label: (GMT +8:00) Asia/Ujung_Pandang
+                  value: Asia/Ujung_Pandang
+                - label: (GMT +8:00) Asia/Ulaanbaatar
+                  value: Asia/Ulaanbaatar
+                - label: (GMT +8:00) Asia/Ulan_Bator
+                  value: Asia/Ulan_Bator
+                - label: (GMT +8:00) Australia/Perth
+                  value: Australia/Perth
+                - label: (GMT +8:00) Australia/West
+                  value: Australia/West
+                - label: (GMT +8:00) Etc/GMT-8
+                  value: Etc/GMT-8
+                - label: (GMT +8:00) Hongkong
+                  value: Hongkong
+                - label: (GMT +8:00) Singapore
+                  value: Singapore
+                - label: (GMT +8:30) Asia/Pyongyang
+                  value: Asia/Pyongyang
+                - label: (GMT +8:45) Australia/Eucla
+                  value: Australia/Eucla
+                - label: (GMT +9:00) Asia/Chita
+                  value: Asia/Chita
+                - label: (GMT +9:00) Asia/Dili
+                  value: Asia/Dili
+                - label: (GMT +9:00) Asia/Jayapura
+                  value: Asia/Jayapura
+                - label: (GMT +9:00) Asia/Khandyga
+                  value: Asia/Khandyga
+                - label: (GMT +9:00) Asia/Seoul
+                  value: Asia/Seoul
+                - label: (GMT +9:00) Asia/Tokyo
+                  value: Asia/Tokyo
+                - label: (GMT +9:00) Asia/Yakutsk
+                  value: Asia/Yakutsk
+                - label: (GMT +9:00) Etc/GMT-9
+                  value: Etc/GMT-9
+                - label: (GMT +9:00) Japan
+                  value: Japan
+                - label: (GMT +9:00) Pacific/Palau
+                  value: Pacific/Palau
+                - label: (GMT +9:30) Australia/Adelaide
+                  value: Australia/Adelaide
+                - label: (GMT +9:30) Australia/Broken_Hill
+                  value: Australia/Broken_Hill
+                - label: (GMT +9:30) Australia/Darwin
+                  value: Australia/Darwin
+                - label: (GMT +9:30) Australia/North
+                  value: Australia/North
+                - label: (GMT +9:30) Australia/South
+                  value: Australia/South
+                - label: (GMT +9:30) Australia/Yancowinna
+                  value: Australia/Yancowinna
+                - label: (GMT +10:00) Antarctica/DumontDUrville
+                  value: Antarctica/DumontDUrville
+                - label: (GMT +10:00) Asia/Ust-Nera
+                  value: Asia/Ust-Nera
+                - label: (GMT +10:00) Asia/Vladivostok
+                  value: Asia/Vladivostok
+                - label: (GMT +10:00) Australia/ACT
+                  value: Australia/ACT
+                - label: (GMT +10:00) Australia/Brisbane
+                  value: Australia/Brisbane
+                - label: (GMT +10:00) Australia/Canberra
+                  value: Australia/Canberra
+                - label: (GMT +10:00) Australia/Currie
+                  value: Australia/Currie
+                - label: (GMT +10:00) Australia/Hobart
+                  value: Australia/Hobart
+                - label: (GMT +10:00) Australia/Lindeman
+                  value: Australia/Lindeman
+                - label: (GMT +10:00) Australia/Melbourne
+                  value: Australia/Melbourne
+                - label: (GMT +10:00) Australia/NSW
+                  value: Australia/NSW
+                - label: (GMT +10:00) Australia/Queensland
+                  value: Australia/Queensland
+                - label: (GMT +10:00) Australia/Sydney
+                  value: Australia/Sydney
+                - label: (GMT +10:00) Australia/Tasmania
+                  value: Australia/Tasmania
+                - label: (GMT +10:00) Australia/Victoria
+                  value: Australia/Victoria
+                - label: (GMT +10:00) Etc/GMT-10
+                  value: Etc/GMT-10
+                - label: (GMT +10:00) Pacific/Chuuk
+                  value: Pacific/Chuuk
+                - label: (GMT +10:00) Pacific/Guam
+                  value: Pacific/Guam
+                - label: (GMT +10:00) Pacific/Port_Moresby
+                  value: Pacific/Port_Moresby
+                - label: (GMT +10:00) Pacific/Saipan
+                  value: Pacific/Saipan
+                - label: (GMT +10:00) Pacific/Truk
+                  value: Pacific/Truk
+                - label: (GMT +10:00) Pacific/Yap
+                  value: Pacific/Yap
+                - label: (GMT +10:30) Australia/LHI
+                  value: Australia/LHI
+                - label: (GMT +10:30) Australia/Lord_Howe
+                  value: Australia/Lord_Howe
+                - label: (GMT +11:00) Antarctica/Casey
+                  value: Antarctica/Casey
+                - label: (GMT +11:00) Antarctica/Macquarie
+                  value: Antarctica/Macquarie
+                - label: (GMT +11:00) Asia/Magadan
+                  value: Asia/Magadan
+                - label: (GMT +11:00) Asia/Sakhalin
+                  value: Asia/Sakhalin
+                - label: (GMT +11:00) Asia/Srednekolymsk
+                  value: Asia/Srednekolymsk
+                - label: (GMT +11:00) Etc/GMT-11
+                  value: Etc/GMT-11
+                - label: (GMT +11:00) Pacific/Bougainville
+                  value: Pacific/Bougainville
+                - label: (GMT +11:00) Pacific/Efate
+                  value: Pacific/Efate
+                - label: (GMT +11:00) Pacific/Guadalcanal
+                  value: Pacific/Guadalcanal
+                - label: (GMT +11:00) Pacific/Kosrae
+                  value: Pacific/Kosrae
+                - label: (GMT +11:00) Pacific/Norfolk
+                  value: Pacific/Norfolk
+                - label: (GMT +11:00) Pacific/Noumea
+                  value: Pacific/Noumea
+                - label: (GMT +11:00) Pacific/Pohnpei
+                  value: Pacific/Pohnpei
+                - label: (GMT +11:00) Pacific/Ponape
+                  value: Pacific/Ponape
+                - label: (GMT +12:00) Antarctica/McMurdo
+                  value: Antarctica/McMurdo
+                - label: (GMT +12:00) Antarctica/South_Pole
+                  value: Antarctica/South_Pole
+                - label: (GMT +12:00) Asia/Anadyr
+                  value: Asia/Anadyr
+                - label: (GMT +12:00) Asia/Kamchatka
+                  value: Asia/Kamchatka
+                - label: (GMT +12:00) Etc/GMT-12
+                  value: Etc/GMT-12
+                - label: (GMT +12:00) Kwajalein
+                  value: Kwajalein
+                - label: (GMT +12:00) Pacific/Auckland
+                  value: Pacific/Auckland
+                - label: (GMT +12:00) Pacific/Fiji
+                  value: Pacific/Fiji
+                - label: (GMT +12:00) Pacific/Funafuti
+                  value: Pacific/Funafuti
+                - label: (GMT +12:00) Pacific/Kwajalein
+                  value: Pacific/Kwajalein
+                - label: (GMT +12:00) Pacific/Majuro
+                  value: Pacific/Majuro
+                - label: (GMT +12:00) Pacific/Nauru
+                  value: Pacific/Nauru
+                - label: (GMT +12:00) Pacific/Tarawa
+                  value: Pacific/Tarawa
+                - label: (GMT +12:00) Pacific/Wake
+                  value: Pacific/Wake
+                - label: (GMT +12:00) Pacific/Wallis
+                  value: Pacific/Wallis
+                - label: (GMT +12:45) NZ-CHAT
+                  value: NZ-CHAT
+                - label: (GMT +12:45) Pacific/Chatham
+                  value: Pacific/Chatham
+                - label: (GMT +13:00) Etc/GMT-13
+                  value: Etc/GMT-13
+                - label: (GMT +13:00) Pacific/Apia
+                  value: Pacific/Apia
+                - label: (GMT +13:00) Pacific/Enderbury
+                  value: Pacific/Enderbury
+                - label: (GMT +13:00) Pacific/Fakaofo
+                  value: Pacific/Fakaofo
+                - label: (GMT +13:00) Pacific/Tongatapu
+                  value: Pacific/Tongatapu
+                - label: (GMT +14:00) Etc/GMT-14
+                  value: Etc/GMT-14
+                - label: (GMT +14:00) Pacific/Kiritimati
+                  value: Pacific/Kiritimati
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: The client id is not an Elite user/The adminId can not perform operations under client clientId; or You reached the maximum number of calls for this endpoint
+  /client/{clientId}/tokens:
+    get:
+      tags:
+      - Helpers
+      summary: Retrieve Replacement Tokens
+      description: Retrieves replacement tokens that can be used in contents like Email Templates.
+      operationId: Helpers.RetrieveReplacementTokens
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: number
+        example: 18901
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: context
+        in: query
+        description: Indicates where the token is supported
+        schema:
+          type: string
+          default: All
+        example: email
+      responses:
+        '200':
+          description: Return list of available tokens.
+          content:
+            application/json:
+              example:
+                replacementtokens:
+                - label: Webcast Title
+                  value: '#EVENTTITLE#'
+                  description: The event name
+                  context: summary
+                - label: Webcast Date
+                  value: '#EVENTDATE#'
+                  description: The event start date
+                  context: summary
+                - label: Email Address
+                  value: '#EMAIL#'
+                  description: The registrant email address
+                  context: email
+                - label: Help URL
+                  value: '#EVENTHELPURL#'
+                  description: The event help guide URL
+                  context: email
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | The client id {clientId} is inactive. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The client {clientId} doesn't exist.
+  /client/{clientId}/users:
+    get:
+      tags:
+      - Helpers
+      summary: Users
+      description: Returns a listing of users for a particular client, including their user's subclients.
+      operationId: Helpers.Users
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      responses:
+        '200':
+          description: Return list of users
+          content:
+            application/json:
+              example:
+                users:
+                - name: Yan KMSarn
+                  userName: yankm
+                  email: on24yan@gmail.com
+                  jobTitle: KM QA
+                  type: Platform Login
+                  account: yanKM
+                  lastLoginDate: '2025-05-12'
+                  clientId: 52625
+                  permissions:
+                    Manage Integrations: true
+                    Order Services: true
+                    Manage Target Experience: true
+                    Manage Audience Console Layout: true
+                    Manage Users: true
+                    Manage Brand Settings: true
+                    Manage Engagement Hub(s): true
+                    Account Analytics: true
+                    Manage Forums: true
+                    Workgroup Access (View and Edit all events): true
+                    Manage Forums Basic: true
+                    Create Events: true
+                    Manage Go Live: true
+                    Event Analytics: true
+                - name: Avadhi kanojia
+                  userName: AvadhiEhub
+                  email: avadhi.kanojia@lmsin.com
+                  jobTitle: Test
+                  type: Contributor
+                  account: yanKM
+                  lastLoginDate: '2023-09-21'
+                  clientId: 52625
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The client {clientId} doesn't exist.
+components:
+  securitySchemes:
+    AccessTokenKey:
+      type: apiKey
+      description: API access token key issued by the ON24 platform. Must be supplied together with AccessTokenSecret.
+      name: AccessTokenKey
+      in: header
+    AccessTokenSecret:
+      type: apiKey
+      description: API access token secret corresponding to the AccessTokenKey. Must be supplied together with AccessTokenKey.
+      name: AccessTokenSecret
+      in: header

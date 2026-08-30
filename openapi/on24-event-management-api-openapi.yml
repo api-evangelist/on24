@@ -1,0 +1,1554 @@
+openapi: 3.2.0
+info:
+  title: ON24 WCC API v2 Event Management API
+  description: 'ON24 Webinar & Content Center REST API v2. All secured endpoints require two request headers: AccessTokenKey and AccessTokenSecret. Both headers must be supplied together — providing only one is not sufficient.'
+  version: '2'
+servers:
+- url: https://api.on24.com/v2
+  description: North America (production)
+- url: https://api.eu.on24.com/v2
+  description: European Union (production)
+security:
+- AccessTokenKey: []
+- AccessTokenSecret: []
+tags:
+- name: Event Management
+paths:
+  /client/{clientId}/event:
+    post:
+      tags:
+      - Event Management
+      summary: Create/Copy a Webinar
+      description: "Creates a new Webinar or Forum. When an existing event id is provided in query parameter **eventsource**, a copy of that event is created instead.\n\n- When an existing event id is provided in query parameter **eventsource**, the new event created by this Endpoint will copy all the other fields from this existing event except the **liveStart** and **liveDuration**.\n- Any of the parameters can be overridden, all parameters in the Event Creation are accepted.\n- Required form parameters: **liveDuration** and **liveStart.**\n- The copy process will copy the event source's tags (funnel, campaign, sales) and resources uploaded to it (PDF,mp4, etc)\n- **liveDuration** parameter conditions:\n  - When copying a webinar, users are able to provide a liveDuration value in 15 minute increments (e.g. 15, 30, 45, 60, etc.) up to 120 minutes.\n  - Above 120 minutes, increments will be 30 minutes up to 480 minutes.\n  - The maximum allowed liveDuration is 480 minutes.\n- **liveStart** accepted date/time formats:\n  - **MM/DD/YYYY hh:mm a** (08/26/2016 09:00 AM)\n  - **YYYY-MM-DDThh:mm:ss** Default timezone will be Pacific Time. (2016-08-26T09:00:00)\n  - **YYYY-MM-DDThh:mm:ss±zz:zz** where ±zz:zz is timezone's offset (2016-08-26T09:00:00-07:00)\n  - JavaScript Date.toString() format is also supported (Wed Apr 04 2018 16:12:41 GMT+0200 (CEST) )\n- **tagCampaign** parameter conditions:\n  - When copying a webinar users are allowed to add up to 10 custom tags via the tagCampaign parameter.\n  - Every tag that is associated with the webinar should be available in the **tags** array field in the response.\n  - The following characters can not be used and will result in an error: £$!%&*()}{@#~?><',\"|=_+¬\n- **customAccountTag** parameter conditions:\n  - Supported only for client accounts with enabled custom account tags.\n  - When copying a webinar for an account with enabled custom account tags, users are allowed to add up to 3 tag IDs\n  - Provided values must match configured client account values.\n- **languageCd** / **countryCd** parameters conditions:\n  - Following are allowed pairs of language/country values when copying an event:\n    - Chinese (Simplified): languageCd=**\"zh\"**, countryCd=**\"CN\"**\n    - Chinese (Traditional): languageCd=**\"zh\"**, countryCd=**\"TW\"**\n    - English (UK): languageCd=**\"en\"**, countryCd=**\"UK\"**\n  - For other languages, No countryCd is allowed.\n- When copying a webinar, the following features will be copied from the source event unless their values are overriden:\n  - Title. *In the following format: 'Copy of' + [source event name]*\n  - Event Type\n  - Duration\n  - Language\n  - Funnel Tags\n  - Campaign Tags\n  - Custom Account Tags\n  - Registration page:\n    - Banner\n    - Registration fields\n    - Page design\n  - Email notifications configuration\n  - Videos and Slides\n  - Console customization\n- **Elements that are not copied:**\n  - Start time\n  - Archive configuration\n  - Security configuration"
+      operationId: EventManagement.CreateAWebinar
+      parameters:
+      - name: clientId
+        in: path
+        description: The event will be created under this client id
+        required: true
+        schema:
+          type: string
+        example: 18091
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: content-type
+        in: header
+        description: 'Possible values: "application/x-www-form-urlencoded" or "multipart/formdata"'
+        required: true
+        schema:
+          type: string
+        example: application/x-www-form-urlencoded
+      - name: eventsource
+        in: query
+        description: The id of an existing event from which fields for the new event will be copied
+        schema:
+          type: string
+        example: 13658130
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddEventForm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AddEventForm'
+      responses:
+        '200':
+          description: Event Created. | Event Copied.
+          content:
+            application/json:
+              examples:
+                Create a Webinar:
+                  description: Create a Webinar
+                  value:
+                    wccevent:
+                      eventId: 1418636
+                      title: Event created from API
+                      eventAbstract: Event Abstract Sample
+                      promotionalSummary: Event Promotional Summary Sample
+                      liveStart: 12/20/2017 08:45 AM
+                      liveDuration: 3600
+                      liveEnd: 12/20/2017 10:00 AM
+                      archiveStart: 12/20/2017 10:30 AM
+                      archiveEnd: 12/20/2018 10:30 AM
+                      clientId: 4467
+                      timeZone: America/Los_Angeles
+                      eventType: webcam
+                      goodAfter: 12/20/2017 09:00 AM
+                      audienceUrl: https://event.on24.com/wcc/r/1418636/15545789BB2677BD0FB3F6FAA3F8B557
+                      reportsUrl: https://api.on24.com/webcast/report?e=1418636&k=93263D3E106F0243316315BE767D8550
+                      previewUrl: http://api.on24.com/webcast/previewlobby?e=1418636&k=93263D3E106F0243316315BE767D8550
+                      archiveDuration: 525600
+                      shortTimeZone: PST
+                      isLiveStartPast: false
+                      isLiveEndPast: false
+                      archiveEndInPast: false
+                      monthsAvailableToExtend: -1
+                      canExtendArchive: false
+                      archiveAvailable: true
+                      autoArchiveProcessed: false
+                      canManipulateArchive: false
+                      canToggleArchiveAvailability: true
+                      showFaaBridgeNumber: true
+                      showColossusLink: true
+                      languageCd: en
+                      countryCd: UK
+                      sourceEventId: 0
+                      rolloverAudio: false
+                      rolloverAudioDisabled: false
+                      tags:
+                      - tag1
+                      - tag2
+                      customaccounttags:
+                      - groupid: 101
+                        groupname: Group 1
+                        tagid: 741
+                        tagname: Option 1-A
+                      - groupid: 102
+                        groupname: Group 2
+                        tagid: 744
+                        tagname: Option 2-A
+                      defaultPlayerConsoleTemplateId: 0
+                      simuliveWaitingMode: false
+                      PMUrl: https://api.on24.com/webcast/present?e=1418636&k=93263D3E106F0243316315BE767D8550
+                      simuliveEPMode: true
+                      simuliveMode: false
+                      hybrid: Y
+                      venue: Test Venue
+                      address: Test Address
+                      testevent: Y
+                Copy a Webinar:
+                  description: Copy a Webinar
+                  value:
+                    wccevent:
+                      eventId: 1418636
+                      title: Copy of Event Created from API
+                      eventAbstract: Event Abstract Sample
+                      promotionalSummary: Event Promotional Summary Sample
+                      liveStart: 12/20/2017 08:45 AM
+                      liveDuration: 3600
+                      liveEnd: 12/20/2017 10:00 AM
+                      archiveStart: 12/20/2017 10:30 AM
+                      archiveEnd: 12/20/2018 10:30 AM
+                      clientId: 4467
+                      timeZone: America/Los_Angeles
+                      eventType: webcam
+                      goodAfter: 12/20/2017 09:00 AM
+                      audienceUrl: https://event.on24.com/wcc/r/1418636/15545789BB2677BD0FB3F6FAA3F8B557
+                      reportsUrl: https://api.on24.com/webcast/report?e=1418636&k=93263D3E106F0243316315BE767D8550
+                      previewUrl: http://api.on24.com/webcast/previewlobby?e=1418636&k=93263D3E106F0243316315BE767D8550
+                      archiveDuration: 525600
+                      shortTimeZone: PST
+                      isLiveStartPast: false
+                      isLiveEndPast: false
+                      archiveEndInPast: false
+                      monthsAvailableToExtend: -1
+                      canExtendArchive: false
+                      archiveAvailable: true
+                      autoArchiveProcessed: false
+                      canManipulateArchive: false
+                      canToggleArchiveAvailability: true
+                      showFaaBridgeNumber: true
+                      showColossusLink: true
+                      languageCd: en
+                      countryCd: ''
+                      sourceEventId: 0
+                      rolloverAudio: false
+                      rolloverAudioDisabled: false
+                      tags:
+                      - tag1
+                      - tag2
+                      customaccounttags:
+                      - groupid: 101
+                        groupname: Group 1
+                        tagid: 741
+                        tagname: Option 1-A
+                      - groupid: 102
+                        groupname: Group 2
+                        tagid: 744
+                        tagname: Option 2-A
+                      defaultPlayerConsoleTemplateId: 0
+                      simuliveWaitingMode: false
+                      PMUrl: https://api.on24.com/webcast/present?e=1418636&k=93263D3E106F0243316315BE767D8550
+                      simuliveEPMode: true
+                      simuliveMode: false
+                      hybrid: Y
+                      venue: Test Venue
+                      address: Test Address
+                      testevent: Y
+                Broadcast Video (encoder fragment):
+                  description: 'If the event is configured as Broadcast Video type, the response will include encoder information similar as following sample fragment:'
+                  value:
+                    encoders:
+                    - encoder: Encoder A
+                      url: rtmp://fmseosa.on24.com/liveeosa
+                      streamid: 5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_A
+                    - encoder: Encoder B
+                      url: rtmp://fmseosb.on24.com/liveeosb
+                      streamid: 5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_B
+        '400':
+          description: Webinar was not created due to errors in the parameters
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | Creating an event in a Global Client Account is not allowed. | Copying an event into a Global Client Account is not allowed.
+        '404':
+          description: The client {clientId} doesn't exist.
+  /client/{clientId}/event/{eventId}:
+    put:
+      tags:
+      - Event Management
+      summary: Update a Webinar
+      description: "Updates a webinar.\n\n- **liveDuration** parameter conditions:\n  - When copying a webinar, users are able to provide a liveDuration value in 15 minute increments (e.g. 15, 30, 45, 60, etc.) up to 120 minutes.\n  - Above 120 minutes, increments will be 30 minutes up to 480 minutes.\n  - The maximum allowed liveDuration is 480 minutes.\n- **liveStart** accepted date/time formats:\n  - **MM/DD/YYYY hh:mm a** (08/26/2016 09:00 AM)\n  - **YYYY-MM-DDThh:mm:ss** Default timezone will be Pacific Time. (2016-08-26T09:00:00)\n  - **YYYY-MM-DDThh:mm:ss±zz:zz** where ±zz:zz is timezone's offset (2016-08-26T09:00:00-07:00)\n  - JavaScript Date.toString() format is also supported (Wed Apr 04 2018 16:12:41 GMT+0200 (CEST) )\n- **tagCampaign** parameter conditions:\n  - When copying a webinar users are allowed to add up to 10 custom tags via the tagCampaign parameter.\n  - Every tag that is associated with the webinar should be available in the **tags** array field in the response.\n  - The following characters can not be used and will result in an error: £$!%&*()}{@#~?><',\"|=_+¬\n- **customAccountTag** parameter conditions:\n  - Supported only for client accounts with enabled custom account tags.\n  - When copying a webinar for an account with enabled custom account tags, users are allowed to add up to 3 tag IDs\n  - Provided values must match configured client account values.\n- **languageCd** / **countryCd** parameters conditions:\n  - Following are allowed pairs of language/country values when copying an event:\n    - Chinese (Simplified): languageCd=**\"zh\"**, countryCd=**\"CN\"**\n    - Chinese (Traditional): languageCd=**\"zh\"**, countryCd=**\"TW\"**\n    - English (UK): languageCd=**\"en\"**, countryCd=**\"UK\"**\n  - For other languages, No countryCd is allowed."
+      operationId: EventManagement.UpdateAWebinar
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: content-type
+        in: header
+        description: 'Possible values: "application/x-www-form-urlencoded" or "multipart/formdata"'
+        required: true
+        schema:
+          type: string
+        example: application/x-www-form-urlencoded
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateEventForm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateEventForm'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              examples:
+                Update a Webinar:
+                  description: Update a Webinar
+                  value:
+                    wccevent:
+                      eventId: 10465031
+                      title: Update-webinar-sample
+                      eventAbstract: Event Abstract Sample
+                      promotionalSummary: Event Promotional Summary Sample
+                      liveStart: 01/18/2018 04:45 PM
+                      liveDuration: 28800
+                      liveEnd: 01/19/2018 01:00 AM
+                      archiveStart: 01/19/2018 01:30 AM
+                      archiveEnd: 01/19/2019 01:30 AM
+                      clientId: 22921
+                      timeZone: America/Bogota
+                      eventType: screenshare
+                      goodAfter: 01/18/2018 05:00 PM
+                      dialInNumber: 415-481-6017 (FAA - Other Number), 415-481-6017 (FAA)
+                      bridgeDialInNumber: 415-481-6020 (FAB - Other Number), 415-481-6020 (FAB)
+                      dialInPasscode: '92871'
+                      audienceUrl: https://eventqa.on24.com/wcc/r/10465031/0815FD5E87267F2622A1829961F89D5C
+                      reportsUrl: https://wccqa.on24.com/webcast/report?e=10465031&k=A1F5A9389875B909D496FED49C1581FE
+                      previewUrl: https://wccqa.on24.com/webcast/previewlobby?e=10465031&k=A1F5A9389875B909D496FED49C1581FE
+                      archiveDuration: 525600
+                      shortTimeZone: ' COT'
+                      isLiveStartPast: false
+                      isLiveEndPast: false
+                      archiveEndInPast: false
+                      monthsAvailableToExtend: -1
+                      canExtendArchive: false
+                      archiveAvailable: true
+                      autoArchiveProcessed: false
+                      canManipulateArchive: false
+                      canToggleArchiveAvailability: true
+                      showFaaBridgeNumber: false
+                      showColossusLink: false
+                      languageCd: en
+                      countryCd: UK
+                      campaignCode: Code Updated
+                      sourceEventId: 0
+                      rolloverAudio: false
+                      rolloverAudioDisabled: false
+                      tags:
+                      - tag1
+                      - tag2
+                      customaccounttags:
+                      - groupid: 101
+                        groupname: Group 1
+                        tagid: 741
+                        tagname: Option 1-A
+                      - groupid: 102
+                        groupname: Group 2
+                        tagid: 744
+                        tagname: Option 2-A
+                      defaultPlayerConsoleTemplateId: 0
+                      simuliveWaitingMode: false
+                      pmurl: https://wccqa.on24.com/webcast/present?e=10465031&k=A1F5A9389875B909D496FED49C1581FE
+                      simuliveEPMode: false
+                      simuliveMode: false
+                Broadcast Video (encoder fragment):
+                  description: 'If the event is configured as Broadcast Video type, the response will include encoder information similar as following sample fragment:'
+                  value:
+                    encoders:
+                    - encoder: Encoder A
+                      url: rtmp://fmseosa.on24.com/liveeosa
+                      streamid: 5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_A
+                    - encoder: Encoder B
+                      url: rtmp://fmseosb.on24.com/liveeosb
+                      streamid: 5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_B
+        '400':
+          description: Webinar was not created due to errors in the parameters
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist.
+    delete:
+      tags:
+      - Event Management
+      summary: Delete Webinar
+      description: Deletes a webinar.
+      operationId: EventManagement.DeleteWebinar
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Event Deleted.
+          content:
+            application/json:
+              example:
+                message: Event Successfully Deleted.
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: You don't have access to this client id; or You don't have ability to delete this event; or You reached the maximum number of calls for this endpoint
+        '404':
+          description: Event not found for this client or its children
+        '410':
+          description: Event has already been deleted
+        '412':
+          description: Event does not meet criteria for deletion
+  /client/{clientId}/event/{eventId}/calendarreminder:
+    put:
+      tags:
+      - Event Management
+      summary: Update Email Calendar Reminder
+      description: "Updates the Email Calendar Reminder for a particular event.\n\n- **reminder** parameter conditions:\n  - Cannot be updated if the event has already started.\n  - Accpeted values:\n    - None\n    - 0 Minutes\n    - 5 Minutes\n    - 10 Minutes\n    - 15 Minutes\n    - 30 Minutes\n    - 1 Hour\n    - 2 Hours\n    - 3 Hours\n    - 4 Hours\n    - 5 Hours\n    - 6 Hours\n    - 12 Hours\n    - 1 Day"
+      operationId: EventManagement.UpdateEmailCalendarReminder
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CalendarReminderForm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CalendarReminderForm'
+      responses:
+        '200':
+          description: Email Calendar Reminder Updated
+          content:
+            application/json:
+              example:
+                reminder: 30 Minutes
+                subject: 'Reminder - #EVENTTITLE#'
+                location: Webcast
+                body: 'Thank you for registering for #EVENTTITLE#.'
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/email/{emailId}:
+    put:
+      tags:
+      - Event Management
+      summary: Update Email Notification
+      description: "Updates an Email Notification for a particular event.\n\n- **fromLabel** validations:\n  - Only alphanumeric characters and a maximum of 50 characters are allowed.\n  - International characters or email addresses are not allowed.\n- **whentosend** accepted values:\n  - 2 Weeks Before Event\n  - 1 Week Before Event\n  - 5 Days Before Event\n  - Days Before Event\n  - 2 Days Before Event\n  - 1 Day Before Event\n  - 12 Hours Before Event\n  - 6 Hours Before Event\n  - 5 Hours Before Event\n  - 4 Hours Before Event\n  - 3 Hours Before Event\n  - 2 Hours Before Event\n  - 1 Hour Before Event\n  - 30 Minutes Before Event\n  - 15 Minutes Before Event\n  - 1 Hour After Event\n  - 2 Hours After Event\n  - 3 Hours After Event\n  - 4 Hours After Event\n  - 5 Hours After Event\n  - 6 Hours After Event\n  - 12 Hours After Event\n  - 1 Day After Event\n  - 2 Days After Event\n  - 3 Days After Event\n  - 5 Days After Event\n  - 1 Week After Event\n  - 2 Weeks After Event\n  - When Event Starts\n  - Custom Date And Time"
+      operationId: EventManagement.UpdateEmailNotification
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: emailId
+        in: path
+        description: The email id
+        required: true
+        schema:
+          type: string
+        example: 7055969
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateEmailNotificationForm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateEmailNotificationForm'
+      responses:
+        '200':
+          description: Email Notification Updated
+          content:
+            application/json:
+              example:
+                emailid: 177588
+                emailtype: 'Reminder Email #1'
+                activated: Y
+                whentosend: Custom Date and Time
+                goodafter: '2018-10-31T18:44:59-07:00'
+                from: do_not_reply@on24event.com
+                fromlabel: Webcast
+                replyto: do_not_reply@on24event.com
+                subject: 'Reminder - #EVENTTITLE#'
+                body: 'A friendly reminder that #EVENTTITLE# begins in two days.'
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event id {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist. | The email {emailId} doesn't exist
+  /client/{clientId}/event/{eventId}/relatedcontent:
+    post:
+      tags:
+      - Event Management
+      summary: Create Related Content
+      description: 'This endpoint will upload files and links to a Webinar''s Related Content widget.
+
+
+        ### Supported File Types
+
+
+        - .doc
+
+        - .docx
+
+        - .xls
+
+        - .xlsx
+
+        - .pdf
+
+        - .ppt
+
+        - .pptx
+
+        - .mp3
+
+        - .mp4
+
+
+        ### File Max Size
+
+
+        - 50 MB'
+      operationId: EventManagement.CreateRelatedContent
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: Content-Type
+        in: header
+        description: Must be "multipart/form-data".
+        required: true
+        schema:
+          type: string
+        example: multipart/form-data
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateRelatedContentForm'
+      responses:
+        '200':
+          description: Content processed
+          content:
+            application/json:
+              examples:
+                'type: Resource':
+                  description: 'type: Resource'
+                  value:
+                    message: RECEIVED
+                    resource:
+                      name: ON24 Whitepaper
+                      file: myfile.pdf
+                'type: URL':
+                  description: 'type: URL'
+                  value:
+                    message: RECEIVED
+                    resource:
+                      name: ON24 Website
+                      url: https://www.on24.com
+        '400':
+          description: File is not accepted filetype | More than one {matchname} for event {eventid}
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid | You do not have permission to perform the requested operation
+        '403':
+          description: You have reached the maximum number of calls for this api | The client id {clientId} is inactive | The event id {eventId} is inactive
+        '404':
+          description: The client {clientId} doesn't exist | The event {eventId} doesn't exist | {matchname} not found for event {eventid}
+  /client/{clientId}/event/{eventId}/slides:
+    get:
+      tags:
+      - Event Management
+      summary: Slide Listing
+      description: Returns information about event slides.
+      operationId: EventManagement.SlideListing
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Returns a list of slides
+          content:
+            application/json:
+              example:
+                eventid: 1111111
+                eventtitle: My Webcast
+                slides:
+                - mediaurlid: 144085980
+                  message: SUCCESS
+                  mediafile: myPresentation.pptx
+                - mediaurlid: 144085981
+                  message: SUCCESS
+                  mediafile: myPresentation2.pptx
+        '400':
+          description: Invalid filetype.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid
+        '403':
+          description: You do not have permission to perform the requested operation | You have reached the maximum number of calls for this api | The client id {clientId} is inactive | The client id {eventId} is inactive
+        '404':
+          description: The client {clientId} doesn't exist | The client {eventId} doesn't exist | No slides found
+    post:
+      tags:
+      - Event Management
+      summary: Upload Slides
+      description: Uploads slides to a webinar.
+      operationId: EventManagement.UploadSlides
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadSlidesForm'
+      responses:
+        '200':
+          description: File queued to be processed
+          content:
+            application/json:
+              example:
+                message: RECEIVED
+                mediafile: myPresentation.pptx
+        '400':
+          description: File is not a Power Point presentation
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid
+        '403':
+          description: You do not have permission to perform the requested operation | You have reached the maximum number of calls for this api | The client id {clientId} is inactive | The client id {eventId} is inactive
+        '404':
+          description: The client {clientId} doesn't exist | The client {eventId} doesn't exist
+  /client/{clientId}/event/{eventId}/speakerbio:
+    post:
+      tags:
+      - Event Management
+      summary: Create Speaker Bio
+      description: 'Creates a new speaker bio element in the Speaker Bio widget of a webinar.
+
+
+        - A Speaker Bio widget must already exist in the webinar. If a Speaker Bio widget does not exist, a 404 response will be returned.
+
+
+        ### Supported File Types for Speaker Bio Image
+
+
+        - .jpg
+
+        - .gif
+
+        - .png
+
+
+        ### Required ''metadata'' JSON key-value pairs
+
+
+        - name
+
+        - email
+
+
+        ### ''metadata'' restrictions
+
+
+        - Only up to three (3) among "email", "twitter", "linkedin", "website", and "facebook" can be provided. Providing more than three will result in a 400 *Invalid metadata* response.'
+      operationId: EventManagement.CreateSpeakerBio
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: content-type
+        in: header
+        description: 'It must be: "multipart/form-data"'
+        required: true
+        schema:
+          type: string
+        example: multipart/form-data
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateSpeakerBioForm'
+      responses:
+        '200':
+          description: Speaker Bio created.
+          content:
+            application/json:
+              example:
+                message: RECEIVED
+                speaker:
+                  id: 123
+                  file: myfile.jpg
+                  name: John Doe
+                  title: Product Manager
+                  company: ON24
+                  email: john.doe@on24.com
+                  linkedin: https://x
+                  website: https://x
+                  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        '400':
+          description: Invalid metadata or file is not accepted filetype.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist. | The Speaker Bio widget is not available for this event.
+    delete:
+      tags:
+      - Event Management
+      summary: Delete Speaker Bio
+      description: Deletes all speaker bio data for specific event webinar.
+      operationId: EventManagement.DeleteSpeakerBio
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Speaker bio data Deleted.
+          content:
+            application/json:
+              example:
+                message: Speaker bio data has been deleted.
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: You don't have access to this client id; or You don't have ability to delete this speaker bio; or You reached the maximum number of calls for this endpoint
+        '404':
+          description: Event not found for this client or its children
+  /client/{clientId}/event/{eventId}/surveyquestions:
+    post:
+      tags:
+      - Event Management
+      summary: Create Survey Questions and Answers
+      description: 'Creates one or several survey questions and their answers for a particular webinar.
+
+
+        - A Take Survey widget must already exist in the webinar. If a Take Survey widget does not exist, a 404 response will be returned.'
+      operationId: EventManagement.CreateSurveyQuestionsAndAnswers
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: content-type
+        in: header
+        description: 'It must be either "application/x-www-form-urlencoded" or "application/json" depending on the preferred way to send the metadata object: as a formData parameter or as the request body using Content-Type = "application/json".'
+        required: true
+        schema:
+          type: string
+        example: application/x-www-form-urlencoded
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateSurveyQuestionForm'
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSurveyQuestionForm'
+      responses:
+        '200':
+          description: Questions created.
+          content:
+            application/json:
+              example:
+                eventid: 82529344
+                surveyquestions:
+                - questiontype: multioption
+                  required: Y
+                  question: What industry are you in?
+                  surveyanswers:
+                  - answercode: choice1
+                    answer: Technology
+                  - answercode: choice2
+                    answer: HealthCare
+                  - answercode: choice3
+                    answer: Finance
+                  - answercode: choice4
+                    answer: Retail
+                  - answercode: choice5
+                    answer: Food & Beverage
+                - questiontype: singleoption
+                  required: N
+                  question: Would you like a 1:1 session with an expert?
+                  surveyanswers:
+                  - answercode: choice1
+                    answer: 'Yes'
+                  - answercode: choice2
+                    answer: 'No'
+                - questiontype: singletext
+                  required: N
+                  question: Describe yourself
+                  surveyanswers:
+                  - answercode: choice1
+                    answer: ''
+        '400':
+          description: Invalid metadata.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid. | You do not have permission to perform the requested operation.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist. | The Take Survey widget is not available for this event.
+  /client/{clientId}/event/{eventId}/textwithbanner:
+    post:
+      tags:
+      - Event Management
+      summary: Update Text With Banner Widget
+      description: "Updates the text content of a webinar's Text With Banner widget.\n\n- At least one Text With Banner widget must already exist in the webinar. If a Text With Banner widget does not exist, a 404 response will be returned.\n- The \"matchname\" metadata field value must be the same as the Text With Banner widget name. If a Text With Banner widget does not exist with the \"matchname\" value, a 404 response will be returned.\n- After successfully executing this endpoint, the previously existing text content of the widget will be overwritten.\n- **type** parameter options:\n  - \"text\" is intended for plain text content.\n  - \"table\" is intended for tabular information. All rows must have the same number of columns and these must be called column1 to columnN, otherwise a 400 response will be returned."
+      operationId: EventManagement.UpdateTextWithBannerWidget
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: content-type
+        in: header
+        description: 'It must be: "application/x-www-form-urlencoded"'
+        required: true
+        schema:
+          type: string
+        example: application/x-www-form-urlencoded
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateTextWithBannerForm'
+      responses:
+        '200':
+          description: Widget text content updated.
+          content:
+            application/json:
+              examples:
+                'type: "text"':
+                  description: 'type: "text"'
+                  value:
+                    message: RECEIVED
+                    content: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                'type: "table"':
+                  description: 'type: "table"'
+                  value:
+                    message: RECEIVED
+                    content:
+                    - column1: Speaker Name
+                      column2: Speaker Place of Work
+                      column3: Timing of session
+                      column4: Name of session
+                    - column1: Jared Chappin
+                      column2: ON24
+                      column3: 12:00 PM - 12:30 PM
+                      column4: This is my session name
+                    - column1: Mason Chappin
+                      column2: ON24
+                      column3: 12:30 PM - 1:00 PM
+                      column4: This is another session
+        '400':
+          description: Invalid metadata.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid. | You do not have permission to perform the requested operation.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist. | The Text With Banner widget doesn't exist.
+  /client/{clientId}/event/{eventId}/vtt:
+    delete:
+      tags:
+      - Event Management
+      summary: Delete VTT Files
+      description: Deletes all vtt files for specific event webinar.
+      operationId: EventManagement.DeleteVTTFiles
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          content:
+            application/json:
+              example:
+                message: VTT files have been deleted.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid | You do not have permission to perform the requested operation
+        '403':
+          description: You have reached the maximum number of calls for this api | The client id {clientId} is inactive | The event {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist | The event {eventId} doesn't exist.
+  /client/{clientId}/mediamanager/document:
+    post:
+      tags:
+      - Event Management
+      summary: Media Manager Upload Document
+      description: 'Upload a document to Media Manager.
+
+
+        ### Supported File Types
+
+
+        - .pdf
+
+        - .jpg
+
+        - .jpeg
+
+        - .png
+
+
+        ### File Max Size
+
+
+        - 10 GB'
+      operationId: EventManagement.MediaManagerUploadDocument
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadDocumentForm'
+      responses:
+        '200':
+          description: File queued to be processed
+          content:
+            application/json:
+              example:
+                message: RECEIVED
+                mediafile: myFile.pdf
+        '400':
+          description: File is not accepted filetype
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive
+        '404':
+          description: The client {clientId} doesn't exist
+        '500':
+          description: Response code from uploading service is not success
+  /client/{clientId}/mediamanager/uploadvideo:
+    post:
+      tags:
+      - Event Management
+      summary: Media Manager Upload Video
+      description: 'Upload a video to Media Manager.
+
+
+        ### Supported File Types
+
+
+        - .mp4
+
+        - .wmv
+
+        - .mov
+
+        - .mp3
+
+        - .flv
+
+        - .avi
+
+
+        ### File Max Size
+
+
+        - 10gb'
+      operationId: EventManagement.MediaManagerUploadVideo
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UploadVideoForm'
+      responses:
+        '200':
+          description: File queued to be processed
+          content:
+            application/json:
+              example:
+                message: RECEIVED
+                mediafile: myFile.mp4
+        '400':
+          description: File is not accepted filetype
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive
+        '404':
+          description: The client {clientId} doesn't exist
+        '500':
+          description: Response code from uploading service is not success
+components:
+  schemas:
+    UploadVideoForm:
+      required:
+      - file
+      type: object
+      properties:
+        file:
+          type: string
+          description: Video file to be uploaded
+          format: binary
+        metadata:
+          type: string
+          description: Json Body with extra data
+          example: '{"id":"e164529c-2ea2-4925-9ad5-0c443ec57","title":"This is a video name"}'
+      description: Parameters for uploading a video to Media Manager
+    CreateSurveyQuestionForm:
+      type: object
+      properties:
+        metadata:
+          type: string
+          description: JSON object containing all the survey questions data. It can be sent as a formData parameter using Content-Type = "application/x-www-form-urlencoded" or as the request body using Content-Type = "application/json".
+          example: '{"surveyquestions":[{"questiontype":"multioption","required":"Y","question":"What industry are you in?","surveyanswers":["Technology","HealthCare","Finance","Retail","Food & Beverage"]},{"questiontype":"singleoption","required":"N","question":"Would you like a 1:1 session with an expert?","surveyanswers":["Yes","No"]},{"questiontype":"singletext","required":"N","question":"Describe yourself"}]}'
+      description: Parameters for creating survey questions and answers
+    UpdateEmailNotificationForm:
+      type: object
+      properties:
+        activated:
+          type: string
+          description: Indicates if the email notification is active or not.
+          example: Y
+        body:
+          type: string
+          description: email notification body
+          example: 'Thank you for registering for #EVENTTITLE#. Save this email for details on the webcast.'
+        fromlabel:
+          type: string
+          description: The from label that will display in addition to the standard from address of <do_not_reply@on24event.com>
+          example: ON24Webcast
+          default: Webcast
+        goodafter:
+          type: string
+          description: specifies the date and time on which the notification should be sent
+          example: '2018-11-02T09:00:00-07:00'
+        replyto:
+          type: string
+          description: email notification reply to
+          example: do_not_reply@on24events.com
+        subject:
+          type: string
+          description: email notification subject
+          example: 'Reminder - #EVENTTITLE#'
+        whentosend:
+          type: string
+          description: When to send the email notification
+          example: 1 Day Before Event
+      description: Parameters for updating an email notification
+    CalendarReminderForm:
+      type: object
+      properties:
+        body:
+          type: string
+          description: email calendar reminder body
+          example: 'Thank you for registering for #EVENTTITLE#. \n\nLIVE WEBCAST DATE: #EVENTDATE#.'
+        location:
+          type: string
+          description: email calendar reminder location
+          example: Webcast
+        reminder:
+          type: string
+          description: The duration prior to start time that the reminder will trigger
+          example: 15 Minutes
+        subject:
+          type: string
+          description: email calendar reminder subject
+          example: 'Reminder - #EVENTTITLE#'
+      description: Parameters for updating an email calendar reminder
+    CreateSpeakerBioForm:
+      required:
+      - metadata
+      type: object
+      properties:
+        file:
+          type: string
+          description: Speaker bio image
+          format: binary
+        metadata:
+          type: string
+          description: JSON body with speaker data
+          example: '{"name":"John Doe","title":"Product Manager","company":"ON24","email":"john.doe@on24.com","twitter":"https://x","linkedin":"https://x","website":"https://x","facebook":"https://x","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}'
+      description: Parameters for creating a speaker bio
+    UpdateEventForm:
+      type: object
+      properties:
+        archiveAvailable:
+          type: string
+          description: Indicates if the Archive Option is Enabled or Disabled for this event.
+          example: N
+          default: Y
+        campaignCode:
+          type: string
+          description: Campaign code.
+          example: CAMP-2024-Q1
+        countryCd:
+          type: string
+          description: 'Country code. Required when languageCd is ''zh''. Values: CN, TW.'
+          example: CN
+        customAccountTag:
+          type: string
+          description: Custom account tag IDs configured for the account.
+          example: '701'
+        enableRegistration:
+          type: string
+          description: Enables/Disables registration. Accepted values are Y and N.
+          example: N
+        eventType:
+          type: string
+          description: Event type. Valid values returned by getEventTypes.
+          example: webcam
+        languageCd:
+          type: string
+          description: Language code. Valid values returned by getLanguageCodes.
+          example: en
+        liveDuration:
+          type: string
+          description: Event duration in minutes.
+          example: '90'
+        liveStart:
+          type: string
+          description: 'Event start date. Format: MM/dd/yyyy hh:mm a'
+          example: 08/26/2016 09:00 AM
+        promotionalSummary:
+          type: string
+          description: Promotional summary for the event.
+          example: Don't miss this exclusive event
+        tagCampaign:
+          type: string
+          description: Webinar's tag campaign. You can set up to 10 tags, providing multiple tagCampaign parameters with different values.
+        timeZone:
+          type: string
+          description: Time zone. Valid values retrieved by calling getTimeZones.
+          example: America/Los_Angeles
+        title:
+          type: string
+          description: Event title. Limited to 255 characters.
+          example: New Webcast
+      description: Parameters for updating an event
+    UpdateTextWithBannerForm:
+      type: object
+      properties:
+        metadata:
+          type: string
+          description: JSON object containing all the data needed to update the widget
+          example: '{"type":"text","matchname":"TWB_text","content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}'
+      description: Parameters for updating a Text With Banner widget
+    AddEventForm:
+      required:
+      - eventType
+      - languageCd
+      - liveDuration
+      - liveStart
+      - timeZone
+      - title
+      type: object
+      properties:
+        address:
+          type: string
+          description: When selecting Hybrid, this field can be used to store the in-person venue address.
+          example: 123 Beale St
+        archiveAvailable:
+          type: string
+          description: Indicates if the Archive Option is Enabled or Disabled for this event
+          example: N
+          default: Y
+        campaignCode:
+          type: string
+          description: Event's campaign code
+        countryCd:
+          type: string
+          description: Indicates linguistic variations associated with a specific country
+          example: CN
+        customAccountTag:
+          type: string
+          description: Client Account Tag. You can set up to 3 tags by providing multiple customAccountTag parameters with different values.
+          example: '701'
+        eventAbstract:
+          type: string
+          description: Event's description or summary. **Applies to event creation only.**
+        eventType:
+          type: string
+          description: The valid event types will be retrieved calling the api method 'getEventTypes'. **Applies to event creation only.**
+          example: encodeonsite
+        hybrid:
+          type: string
+          description: Indicating whether or not a webinar is a hybrid event
+          example: Y
+          default: N
+        languageCd:
+          type: string
+          description: Valid language codes will be retrieved by calling the api method 'getLanguageCodes'
+          example: en
+        liveDuration:
+          type: string
+          description: Event's duration in minutes. Range of values is 15-480 (in 15min increments up to 120 minutes. Above 120 minutes, only 30min increments are allowed)
+          example: '60'
+        liveStart:
+          type: string
+          description: Event's start date.
+          example: 08/26/2016 09:00 AM
+        promotionalSummary:
+          type: string
+          description: Event's promotional summary
+        tagCampaign:
+          type: string
+          description: Webinar's tag campaign. You can set up to 10 tags, providing multiple tagCampaign parameters with different values. See below for detailed information.
+        testevent:
+          type: string
+          description: Indicating whether or not a webinar is a Test Event.
+          example: Y
+          default: N
+        timeZone:
+          type: string
+          description: The valid Time Zones will be retrieved calling the api method 'getTimeZones'
+          example: America/Atka
+        title:
+          type: string
+          description: Event's name. Limited to less than 251 characters
+          example: Event's title sample
+        venue:
+          type: string
+          description: When selecting Hybrid, this field can be used to store the in-person venue name.
+          example: Moscone
+      description: Parameters for creating or copying an event
+    CreateRelatedContentForm:
+      required:
+      - matchname
+      - name
+      - type
+      type: object
+      properties:
+        file:
+          type: string
+          description: The file to be uploaded if type is "Resource". This parameter becomes mandatory when type is "Resource" and must not be sent at all when type is "URL".
+          format: binary
+        matchname:
+          type: string
+          description: Used to find the name of the existing Related Content widget
+          example: Related Content 1
+        name:
+          type: string
+          description: Display name of the resource being uploaded
+          example: ON24 Website
+        type:
+          type: string
+          description: 'Determines whether the resource being uploaded is either a file or a URL. Accepted values are: "Resource" for uploading a file and "URL" for uploading a URL. These values are case-sensitive.'
+          example: URL
+        url:
+          type: string
+          description: URL for the resource if type is "URL". This parameter becomes mandatory when type is "URL" and must not be sent at all when type is "Resource".
+          example: https://www.on24.com
+      description: Parameters for creating related content
+    UploadSlidesForm:
+      required:
+      - file
+      type: object
+      properties:
+        file:
+          type: string
+          description: Power Point presentation to be uploaded
+          format: binary
+      description: Parameters for uploading slides to an event
+    UploadDocumentForm:
+      required:
+      - file
+      type: object
+      properties:
+        file:
+          type: string
+          description: Video file to be uploaded
+          format: binary
+        metadata:
+          type: string
+          description: Json Body with extra data
+          example: '{"id":"e164529c-2ea2-4925-9ad5-0c443ec57","title":"DocumentName"}'
+      description: Parameters for uploading a document to Media Manager
+  securitySchemes:
+    AccessTokenKey:
+      type: apiKey
+      description: API access token key issued by the ON24 platform. Must be supplied together with AccessTokenSecret.
+      name: AccessTokenKey
+      in: header
+    AccessTokenSecret:
+      type: apiKey
+      description: API access token secret corresponding to the AccessTokenKey. Must be supplied together with AccessTokenKey.
+      name: AccessTokenSecret
+      in: header

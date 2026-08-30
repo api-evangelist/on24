@@ -1,0 +1,1156 @@
+openapi: 3.2.0
+info:
+  title: ON24 WCC API v2 REST Registration API
+  description: 'ON24 Webinar & Content Center REST API v2. All secured endpoints require two request headers: AccessTokenKey and AccessTokenSecret. Both headers must be supplied together — providing only one is not sufficient.'
+  version: '2'
+servers:
+- url: https://api.on24.com/v2
+  description: North America (production)
+- url: https://api.eu.on24.com/v2
+  description: European Union (production)
+security:
+- AccessTokenKey: []
+- AccessTokenSecret: []
+tags:
+- name: REST Registration
+paths:
+  /client/{clientId}/event/{eventId}/forgetall:
+    post:
+      tags:
+      - REST Registration
+      summary: Forget All Registrant (event-level)
+      description: 'Forgets personal data for all registrant records in the specified event.
+
+
+        The following registrant fields are modified by this endpoint:
+
+
+        - email = {event_user_id}-deleted
+
+        - firstname = ''deleted''
+
+        - lastname = ''deleted''
+
+        - last_update = {Current date time}
+
+        - last_update_by = adminid
+
+        - company = NULL
+
+        - address_street1 = NULL
+
+        - address_street2 = NULL
+
+        - city = NULL
+
+        - state = NULL
+
+        - event_user_ip = NULL
+
+        - operating_system = NULL
+
+        - browser = NULL
+
+        - zip = NULL
+
+        - home_phone = NULL
+
+        - work_phone = NULL
+
+        - fax = NULL
+
+        - company_industry = NULL
+
+        - username = NULL
+
+        - job_function = NULL
+
+        - company_size = NULL
+
+        - ipnumber = NULL
+
+        - longitude = NULL
+
+        - latitude = NULL
+
+        - job_title = NULL
+
+        - std1 = NULL
+
+        - std2 = NULL
+
+        - std3 = NULL
+
+        - std4 = NULL
+
+        - std5 = NULL
+
+        - std6 = NULL
+
+        - std7 = NULL
+
+        - std8 = NULL
+
+        - std9 = NULL
+
+        - std10 = NULL
+
+        - country = NULL
+
+        - event_email = ''N''
+
+        - marketing_email = ''N'''
+      operationId: Registration.ForgetAllRegistrantEventlevel
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: Application/json
+      - name: content-type
+        in: header
+        description: 'Possible values: "application/x-www-form-urlencoded" or "multipart/formdata"'
+        required: true
+        schema:
+          type: string
+        example: application/x-www-form-urlencoded
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Registrant Forgotten.
+          content:
+            application/json:
+              example:
+                deletedregistrants:
+                  eventuserids:
+                  - 150070598
+                  - 150070556
+        '400':
+          description: You have exceeded the maximum number of user to be deleted (100,000)
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The event XXXXXX doesn't exist.
+  /client/{clientId}/event/{eventId}/registrant:
+    post:
+      tags:
+      - REST Registration
+      summary: REST Registration API
+      description: "Creates a registrant.\n\n### Soft Delete\n\nPerform a soft delete operation on a particular Registrant by sending the 'isDeleted' form parameter with the value of (Y or N) to update the deleted state of such Registrant. This value can be sent along with the other form parameters listed in the table above. Deleting/Undeleting a registrant is not allowed after the event has started.\n\n| Name | Located In | Required | Description | Default | Schema | Example |\n| --- | --- | --- | --- | --- | --- | --- |\n| **isDeleted** | formData | yes | Performs an update on the isDeleted property of a Registrant | - | string | Y |\n| **email** | formData | yes | The email of the registrant who will be updated | - | string | john.doe@domain.com |\n\n### Validation\n\n- If a field is configured as \"required\" on the registration page, you must pass in a valid value, or the request will not be successful unless you are using the **honorrequired** as \"N\" parameter.\n- The **honorrequired** parameter is supported with possible values of Y or N. If Y is passed (or no value or no parameter is passed), the endpoint will behave as it currently does. If N is passed:\n  - Fields configured as required will be optional (including email)\n  - If a drop-down field is passed, the value must adhere to configured options unless you are using the **honorvalidation** as \"N\"."
+      operationId: Registration.RESTRegistrationAPI
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: content-type
+        in: header
+        description: must be "application/x-www-form-urlencoded"
+        required: true
+        schema:
+          type: string
+        example: application/x-www-form-urlencoded
+      - name: honorrequired
+        in: query
+        description: Specifies whether the required registration fields must be honored or not.
+        schema:
+          type: string
+          default: Y
+        example: N
+      - name: honorvalidation
+        in: query
+        description: Specifies whether validation of response options for registration questions must be honored. Using 'N' allows any value to be pushed to fields with specified values for dropdown list, checkboxes, etc.
+        schema:
+          type: string
+          default: Y
+        example: N
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: Application/json
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AddRegistrantForm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AddRegistrantForm'
+      responses:
+        '200':
+          description: Registrant Created.
+          content:
+            application/json:
+              example:
+                firstname: Daniel
+                lastname: xxxxxx
+                email: xxxxx.xxxxxx@on24.com
+                company: ON24
+                jobtitle: JT
+                addressstreet1: AS1
+                addressstreet2: AS2
+                city: CT
+                state: ST
+                zip: ZP
+                country: CO
+                homephone: (123)-456-7890
+                workphone: 765-4321
+                fax: 456-7891
+                jobfunction: JF
+                companyindustry: CI
+                companysize: '1'
+                partnerref: PR
+                eventid: 2008859
+                eventuserid: 150148905
+                std1: std1
+                std2: std2
+                std3: std3
+                std4: std4
+                std5: std5
+                std6: std6
+                std7: std7
+                std8: std8
+                std9: std9
+                std10: std10
+                username: UN
+                exteventusercd: ABC123
+                other: OT
+                notes: N
+                marketingemail: N
+                eventemail: Y
+                isblocked: Y
+                userprofileurl: https://data.on24.com/webcast/lead?token=89vsUhobWeDdKMQ5brm4beGxsvO3kUs1quJjdRgI2I6yPbVNW_mPrtwI62lB8x9yCrFDiB0SZlYWFuYn7jmEnqWo6KlT73VwKn3wS2ggIe4=
+                emailformat: html
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid. | AccessTokenKey and AccessTokenSecret are deactivated.
+        '403':
+          description: The client id {clientId} is inactive. | The event id {eventId} is inactive. | You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist.
+        '412':
+          description: You're trying to soft delete the registrant you're creating.
+    patch:
+      tags:
+      - REST Registration
+      summary: Update Registrant (event-level)
+      description: "Updates an event registrant for the given client using the PATCH method. This means that only those registration fields that are part of the request will be updated.\n\nThe registrant to be updated will be identified by the provided email parameter value.\n\n### Soft Delete\n\nSoft delete is not supported through this endpoint. If you need to perform a soft delete on a registrant, please refer to REST Registration.\n\n### Validation\n\n- An optional 'honorrequired' parameter is supported with possible values of Y or N. If Y is passed (or no value or no parameter is passed), the endpoint will behave as it currently does. If N is passed:\n\n\t1. Fields configured as required will be optional (including email)\n\t2. If a drop-down field is passed, the value must adhere to configured options\n\n- If any of the fields have been marked as required on the Registration Page Setup, then those fields will be required in the API as well.\n- Drop-down choices will be validated (if the value passed does not exist in the drop-down, an error will be returned.)\n- If a required field is missing or passed in without a value, then an error message will be returned."
+      operationId: Registration.UpdateRegistrantEventlevel
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: content-type
+        in: header
+        description: must be "application/x-www-form-urlencoded"
+        required: true
+        schema:
+          type: string
+        example: application/x-www-form-urlencoded
+      - name: honorrequired
+        in: query
+        description: Specifies whether the required registration fields must be honored or not.
+        schema:
+          type: string
+          default: Y
+        example: N
+      - name: honorvalidation
+        in: query
+        description: Specifies whether validation of response options for registration questions must be honored. Using 'N' allows any value to be pushed to fields with specified values for dropdown list, checkboxes, etc.
+        schema:
+          type: string
+          default: Y
+        example: N
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: Application/json
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateRegistrantForm'
+      responses:
+        '200':
+          description: Registrant updated.
+          content:
+            application/json:
+              example:
+                firstname: Daniel
+                lastname: xxxxxx
+                email: xxxxx.xxxxxx@on24.com
+                company: ON24
+                jobtitle: JT
+                addressstreet1: AS1
+                addressstreet2: AS2
+                city: CT
+                state: ST
+                zip: ZP
+                country: CO
+                homephone: (123)-456-7890
+                workphone: 765-4321
+                fax: 456-7891
+                jobfunction: JF
+                companyindustry: CI
+                companysize: '1'
+                partnerref: PR
+                eventid: 2008859
+                eventuserid: 150148905
+                std1: std1
+                std2: std2
+                std3: std3
+                std4: std4
+                std5: std5
+                std6: std6
+                std7: std7
+                std8: std8
+                std9: std9
+                std10: std10
+                username: UN
+                exteventusercd: ABC123
+                other: OT
+                notes: N
+                marketingemail: N
+                eventemail: Y
+                isblocked: Y
+                userprofileurl: https://data.on24.com/webcast/lead?token=89vsUhobWeDdKMQ5brm4beGxsvO3kUs1quJjdRgI2I6yPbVNW_mPrtwI62lB8x9yCrFDiB0SZlYWFuYn7jmEnqWo6KlT73VwKn3wS2ggIe4=
+                emailformat: html
+        '400':
+          description: The email parameter is missing. | The email parameter value is blank. | Invalid value for the honorrequired parameter. | Invalid value for the honorvalidation parameter. | Invalid value for the inBlocked parameter.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid. | AccessTokenKey and AccessTokenSecret are deactivated.
+        '403':
+          description: The client id {clientId} is inactive. | The event id {eventId} is inactive. | The email provided was not found. | You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist.
+  /client/{clientId}/forget:
+    post:
+      tags:
+      - REST Registration
+      summary: Forget Registrant (client-level)
+      description: 'Forgets personal data for all registrant data for a specific email address or multiple email addresses across an entire workspace, or for a specific event.
+
+
+        The following registrant fields are modified by this endpoint:
+
+
+        - email = {event_user_id}-deleted
+
+        - firstname = ''deleted''
+
+        - lastname = ''deleted''
+
+        - last_update = {Current date time}
+
+        - last_update_by = adminid
+
+        - company = NULL
+
+        - address_street1 = NULL
+
+        - address_street2 = NULL
+
+        - city = NULL
+
+        - state = NULL
+
+        - event_user_ip = NULL
+
+        - operating_system = NULL
+
+        - browser = NULL
+
+        - zip = NULL
+
+        - home_phone = NULL
+
+        - work_phone = NULL
+
+        - fax = NULL
+
+        - company_industry = NULL
+
+        - username = NULL
+
+        - job_function = NULL
+
+        - company_size = NULL
+
+        - ipnumber = NULL
+
+        - longitude = NULL
+
+        - latitude = NULL
+
+        - job_title = NULL
+
+        - std1 = NULL
+
+        - std2 = NULL
+
+        - std3 = NULL
+
+        - std4 = NULL
+
+        - std5 = NULL
+
+        - std6 = NULL
+
+        - std7 = NULL
+
+        - std8 = NULL
+
+        - std9 = NULL
+
+        - std10 = NULL
+
+        - country = NULL
+
+        - event_email = ''N''
+
+        - marketing_email = ''N'''
+      operationId: Registration.ForgetRegistrantClientlevel
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: accept
+        in: header
+        description: Application/json
+        schema:
+          type: string
+          default: Application/json
+        example: Application/json
+      - name: content-type
+        in: header
+        description: 'Possible values: "application/x-www-form-urlencoded" or "multipart/formdata"'
+        required: true
+        schema:
+          type: string
+        example: application/x-www-form-urlencoded
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ForgetRegistrantForm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ForgetRegistrantForm'
+      responses:
+        '200':
+          description: Registrant forgotten.
+          content:
+            application/json:
+              example:
+                deletedregistrants:
+                  eventuserids:
+                  - 23412341
+                  - 34563456
+                  - 56785678
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: You don't have access to this client id | You reached the maximum number of calls for this endpoint
+        '404':
+          description: No registrant was found for that email address
+  /client/{clientId}/forgetall:
+    post:
+      tags:
+      - REST Registration
+      summary: Forget All Registrant (client-level)
+      description: 'Forgets personal data for all registrant records in the specified workspace and all related sub-accounts.
+
+
+        **NOTE: This will remove all data from all registrants, so this endpoint should be used with caution.**
+
+
+        Following Registrant fields are modified by this endpoint:
+
+
+        - email = {event_user_id}-deleted
+
+        - firstname = ''deleted''
+
+        - lastname = ''deleted''
+
+        - last_update = {Current date time}
+
+        - last_update_by = adminid
+
+        - company = NULL
+
+        - address_street1 = NULL
+
+        - address_street2 = NULL
+
+        - city = NULL
+
+        - state = NULL
+
+        - event_user_ip = NULL
+
+        - operating_system = NULL
+
+        - browser = NULL
+
+        - zip = NULL
+
+        - home_phone = NULL
+
+        - work_phone = NULL
+
+        - fax = NULL
+
+        - company_industry = NULL
+
+        - username = NULL
+
+        - job_function = NULL
+
+        - company_size = NULL
+
+        - ipnumber = NULL
+
+        - longitude = NULL
+
+        - latitude = NULL
+
+        - job_title = NULL
+
+        - std1 = NULL
+
+        - std2 = NULL
+
+        - std3 = NULL
+
+        - std4 = NULL
+
+        - std5 = NULL
+
+        - std6 = NULL
+
+        - std7 = NULL
+
+        - std8 = NULL
+
+        - std9 = NULL
+
+        - std10 = NULL
+
+        - country = NULL
+
+        - event_email = ''N''
+
+        - marketing_email = ''N'''
+      operationId: Registration.ForgetAllRegistrantClientlevel
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: integer
+          format: int64
+        example: 18091
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: Application/json
+      - name: content-type
+        in: header
+        description: 'Possible values: "application/x-www-form-urlencoded" or "multipart/formdata"'
+        required: true
+        schema:
+          type: string
+        example: application/x-www-form-urlencoded
+      responses:
+        '200':
+          description: Registrant Forgotten.
+          content:
+            application/json:
+              example:
+                deletedregistrants:
+                  eventuserids:
+                  - 121120444
+                  - 121120456
+        '400':
+          description: You have exceeded the maximum number of user to be deleted (100,000)
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: You don't have access to this client id | You reached the maximum number of calls for this endpoint
+  /client/{clientId}/registrant/{email}:
+    patch:
+      tags:
+      - REST Registration
+      summary: Update Registrant (client-level)
+      description: 'Updates all registrants for the given client using the PATCH method. This means that only those registration fields that are part of the request will be updated. Because the registration pages for the various events may have different required registration field or allowed values, there will be no validation of the formData values for this request.
+
+
+        If provided, the email parameter in the body of the request (formData) will replace the existing email address for all matching registrants found by the email parameter in the path of the request. Because the registrant''s email address must be unique on a per-event basis, if the new email address matches any other registrants for that event, the update will be blocked, and an error message will be returned.'
+      operationId: Registration.UpdateRegistrantClientlevel
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id is used for authentication
+        required: true
+        schema:
+          type: string
+        example: 18091
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: content-type
+        in: header
+        description: must be "application/x-www-form-urlencoded"
+        required: true
+        schema:
+          type: string
+        example: application/x-www-form-urlencoded
+      - name: email
+        in: path
+        description: The registrants will be updated that match this parameter
+        required: true
+        schema:
+          type: string
+        example: user@on24.com
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: Application/json
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UpdateRegistrantClientLevelForm'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UpdateRegistrantClientLevelForm'
+      responses:
+        '200':
+          description: Registrant Updated
+          content:
+            application/json:
+              example:
+                updatedregistrants:
+                - 23412341
+                - 34563456
+                - 56785678
+        '400':
+          description: New email address matches other registant's email address
+        '401':
+          description: The access token secret or access token key was not found
+        '403':
+          description: You don't have access to this client id | You reached the maximum number of calls for this endpoint
+        '404':
+          description: No registrant was found for that email address
+components:
+  schemas:
+    AddRegistrantForm:
+      type: object
+      properties:
+        addressStreet1:
+          type: string
+          description: Street address line 1.
+        addressStreet2:
+          type: string
+          description: Street address line 2.
+        city:
+          type: string
+          description: City.
+        company:
+          type: string
+          description: Company name.
+          example: Iron Mountain
+        companyIndustry:
+          type: string
+          description: Company industry.
+        companySize:
+          type: string
+          description: Company size.
+        country:
+          type: string
+          description: Country.
+        email:
+          type: string
+          description: Email address.
+          example: 49177588@on24.com
+        emailformat:
+          type: string
+          description: Email format.
+        eventEmail:
+          type: string
+          description: 'Event email opt-in. Values: Y, N.'
+          example: N
+          default: N
+        extEventUserCd:
+          type: string
+          description: External event user code.
+        fax:
+          type: string
+          description: Fax.
+        firstName:
+          type: string
+          description: First name.
+          example: Gina
+        homePhone:
+          type: string
+          description: Home phone.
+        jobFunction:
+          type: string
+          description: Job function.
+        jobTitle:
+          type: string
+          description: Job title.
+          example: Marketing Executive
+        lastName:
+          type: string
+          description: Last name.
+          example: Parker
+        marketingEmail:
+          type: string
+          description: 'Marketing email opt-in. Values: Y, N.'
+          example: N
+          default: N
+        notes:
+          type: string
+          description: Notes.
+        other:
+          type: string
+          description: Other.
+        partnerRef:
+          type: string
+          description: Partner reference.
+        state:
+          type: string
+          description: State.
+        std1:
+          type: string
+          description: 'Custom Field #1.'
+        std10:
+          type: string
+          description: 'Custom Field #10.'
+        std2:
+          type: string
+          description: 'Custom Field #2.'
+        std3:
+          type: string
+          description: 'Custom Field #3.'
+        std4:
+          type: string
+          description: 'Custom Field #4.'
+        std5:
+          type: string
+          description: 'Custom Field #5.'
+        std6:
+          type: string
+          description: 'Custom Field #6.'
+        std7:
+          type: string
+          description: 'Custom Field #7.'
+        std8:
+          type: string
+          description: 'Custom Field #8.'
+        std9:
+          type: string
+          description: 'Custom Field #9.'
+        userName:
+          type: string
+          description: User name.
+        workPhone:
+          type: string
+          description: Work phone.
+        zip:
+          type: string
+          description: Zip code.
+      description: Parameters for creating a registrant
+    UpdateRegistrantClientLevelForm:
+      type: object
+      properties:
+        addressStreet1:
+          type: string
+          description: Street address line 1.
+        addressStreet2:
+          type: string
+          description: Street address line 2.
+        city:
+          type: string
+          description: City.
+        company:
+          type: string
+          description: Company name.
+          example: Iron Mountain
+        companyIndustry:
+          type: string
+          description: Company industry.
+        companySize:
+          type: string
+          description: Company size.
+        country:
+          type: string
+          description: Country.
+        email:
+          type: string
+          description: Email address.
+          example: 49177588@on24.com
+        eventEmail:
+          type: string
+          description: 'Event email opt-in. Values: Y, N.'
+          example: N
+          default: N
+        extEventUserCd:
+          type: string
+          description: External event user code.
+        fax:
+          type: string
+          description: Fax.
+        firstName:
+          type: string
+          description: First name.
+          example: Gina
+        homePhone:
+          type: string
+          description: Home phone.
+        jobFunction:
+          type: string
+          description: Job function.
+        jobTitle:
+          type: string
+          description: Job title.
+          example: Marketing Executive
+        lastName:
+          type: string
+          description: Last name.
+          example: Parker
+        marketingEmail:
+          type: string
+          description: 'Marketing email opt-in. Values: Y, N.'
+          example: N
+          default: N
+        notes:
+          type: string
+          description: Notes.
+        other:
+          type: string
+          description: Other.
+        partnerRef:
+          type: string
+          description: Partner reference.
+        state:
+          type: string
+          description: State.
+        std1:
+          type: string
+          description: 'Custom Field #1.'
+        std10:
+          type: string
+          description: 'Custom Field #10.'
+        std2:
+          type: string
+          description: 'Custom Field #2.'
+        std3:
+          type: string
+          description: 'Custom Field #3.'
+        std4:
+          type: string
+          description: 'Custom Field #4.'
+        std5:
+          type: string
+          description: 'Custom Field #5.'
+        std6:
+          type: string
+          description: 'Custom Field #6.'
+        std7:
+          type: string
+          description: 'Custom Field #7.'
+        std8:
+          type: string
+          description: 'Custom Field #8.'
+        std9:
+          type: string
+          description: 'Custom Field #9.'
+        userName:
+          type: string
+          description: User name.
+        workPhone:
+          type: string
+          description: Work phone.
+        zip:
+          type: string
+          description: Zip code.
+      description: Parameters for updating a client-level registrant
+    UpdateRegistrantForm:
+      type: object
+      properties:
+        addressStreet1:
+          type: string
+          description: Street address line 1.
+        addressStreet2:
+          type: string
+          description: Street address line 2.
+        city:
+          type: string
+          description: City.
+        company:
+          type: string
+          description: Company name.
+          example: Iron Mountain
+        companyIndustry:
+          type: string
+          description: Company industry.
+        companySize:
+          type: string
+          description: Company size.
+        country:
+          type: string
+          description: Country.
+        email:
+          type: string
+          description: Email address of the registrant to be updated.
+          example: 49177588@on24.com
+        emailformat:
+          type: string
+          description: Email format.
+        eventEmail:
+          type: string
+          description: 'Event email opt-in. Values: Y, N.'
+          example: N
+          default: N
+        extEventUserCd:
+          type: string
+          description: External event user code.
+        fax:
+          type: string
+          description: Fax.
+        firstName:
+          type: string
+          description: First name.
+          example: Gina
+        homePhone:
+          type: string
+          description: Home phone.
+        isBlocked:
+          type: string
+          description: Blocks/Unblocks the registrant. A value of Y will block it and a value of N will unblock it.
+          example: Y
+        jobFunction:
+          type: string
+          description: Job function.
+        jobTitle:
+          type: string
+          description: Job title.
+          example: Marketing Executive
+        lastName:
+          type: string
+          description: Last name.
+          example: Parker
+        marketingEmail:
+          type: string
+          description: 'Marketing email opt-in. Values: Y, N.'
+          example: N
+          default: N
+        notes:
+          type: string
+          description: Notes.
+        other:
+          type: string
+          description: Other.
+        partnerRef:
+          type: string
+          description: Partner reference.
+        state:
+          type: string
+          description: State.
+        std1:
+          type: string
+          description: 'Custom Field #1.'
+        std10:
+          type: string
+          description: 'Custom Field #10.'
+        std2:
+          type: string
+          description: 'Custom Field #2.'
+        std3:
+          type: string
+          description: 'Custom Field #3.'
+        std4:
+          type: string
+          description: 'Custom Field #4.'
+        std5:
+          type: string
+          description: 'Custom Field #5.'
+        std6:
+          type: string
+          description: 'Custom Field #6.'
+        std7:
+          type: string
+          description: 'Custom Field #7.'
+        std8:
+          type: string
+          description: 'Custom Field #8.'
+        std9:
+          type: string
+          description: 'Custom Field #9.'
+        userName:
+          type: string
+          description: User name.
+        workPhone:
+          type: string
+          description: Work phone.
+        zip:
+          type: string
+          description: Zip code.
+      description: Parameters for updating a registrant
+    ForgetRegistrantForm:
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+          description: A single email or comma-separated list of emails
+        eventid:
+          type: integer
+          description: An optional event id that will limit the scope of this request
+          format: int32
+          example: 326564
+      description: Parameters for forgetting a registrant
+  securitySchemes:
+    AccessTokenKey:
+      type: apiKey
+      description: API access token key issued by the ON24 platform. Must be supplied together with AccessTokenSecret.
+      name: AccessTokenKey
+      in: header
+    AccessTokenSecret:
+      type: apiKey
+      description: API access token secret corresponding to the AccessTokenKey. Must be supplied together with AccessTokenKey.
+      name: AccessTokenSecret
+      in: header

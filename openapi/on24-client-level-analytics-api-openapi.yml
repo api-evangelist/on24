@@ -1,0 +1,3027 @@
+openapi: 3.2.0
+info:
+  title: ON24 WCC API v2 Client Level Analytics API
+  description: 'ON24 Webinar & Content Center REST API v2. All secured endpoints require two request headers: AccessTokenKey and AccessTokenSecret. Both headers must be supplied together — providing only one is not sufficient.'
+  version: '2'
+servers:
+- url: https://api.on24.com/v2
+  description: North America (production)
+- url: https://api.eu.on24.com/v2
+  description: European Union (production)
+security:
+- AccessTokenKey: []
+- AccessTokenSecret: []
+tags:
+- name: Client Level Analytics
+paths:
+  /client/{clientId}:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Sub-Clients
+      description: Returns a listing of sub-clients for a particular client.
+      operationId: AnalyticsClientLevel.SubClients
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      responses:
+        '200':
+          description: Return list of clientIds
+          content:
+            application/json:
+              example:
+                clientname: ON24SalesElite
+                subclients:
+                - id: 4475
+                  name: Sales
+                - id: 4479
+                  name: ON24USWestElite
+                - id: 4481
+                  name: ON24ProdMgmt
+                  subclients:
+                  - id: 20828
+                    name: ON24ProdMgmt_Sub1
+                  - id: 20829
+                    name: ON24ProductMgmt_Sub2
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist.
+  /client/{clientId}/attendee:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Attendees
+      description: "Returns a listing of attendees for a particular client. There is a limit of 100 attendees per page.\n\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client ids (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under the {clientId} of the request\n  - If **subaccounts** is provided and **excludeSubaccounts** is \"Y\", following error message is returned: *\"You have to set excludesubaccounts='N' in order to filter by subaccounts.\".*\n  - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.\n  - When **subaccounts** is provided, the response will only return data for the child client ids included in the parameter\n- **dateFilterMode** parameter conditions (not case-sensitive):\n  - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.\n  - \"lastActivity\" is the only supported value. When passed, the response will include only those attendees who have had activity between (and including) the provided **startDate** and **endDate**. Attendee lastActivity value is updated with new modified date whenever one of the following actions is performed by an attendee:\n    - Starting new session\n    - Refreshing browser during webcast presentation\n    - Submitting poll answers\n- **realtimeonly** parameter conditions (when \"Y\" is passed):\n  - Properties that rely on the datawarehouse will not be included in the response, including:\n    - engagementscore\n    - firstliveactivity\n    - lastliveactivity\n    - firstarchiveactivity\n    - lastarchiveactivity\n    - askedquestions\n    - resourcesdownloaded\n    - answeredpolls\n    - answeredsurveys\n    - cumulativeliveminutes\n    - cumulativearchiveminutes\n    - Any activity / updates that have occurred in the last 15 minutes will be available in the response."
+      operationId: AnalyticsClientLevel.Attendees
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: dateInterval
+        in: query
+        description: Number of days returned in a response. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+        example: 30
+      - name: dateIntervalOffset
+        in: query
+        description: Number of days from which the interval should encompass. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 4
+      - name: dateIntervalTimezone
+        in: query
+        description: Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval.
+        schema:
+          type: string
+          default: America/Los_Angeles
+        example: America/Los_Angeles
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: startdate
+        in: query
+        description: Limit results to those with attendee activity after startDate
+        schema:
+          type: string
+          format: date
+          default: 30 days before current date
+        example: '2007-12-03'
+      - name: enddate
+        in: query
+        description: Limit results to those with attendee activity before endDate
+        schema:
+          type: string
+          format: date
+          default: current date
+        example: '2007-12-05'
+      - name: pageoffset
+        in: query
+        description: Selects the page to retrieve
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 1
+      - name: excludesubaccounts
+        in: query
+        description: if set to "Y", sub-accounts will be excluded
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: subaccounts
+        in: query
+        description: Comma separated list of child client ids
+        schema:
+          type: string
+        example: 22921, 32295
+      - name: partnerref
+        in: query
+        description: filter by partnerref
+        schema:
+          type: string
+        example: EM
+      - name: excludelive
+        in: query
+        description: filter to exclude live attendees
+        schema:
+          type: string
+        example: Y
+      - name: filterforgotten
+        in: query
+        description: '**Deprecated** - Forgotten users filter. Y: only forgotten users will be returned. N: forgotten users will be omitted.'
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: itemsperpage
+        in: query
+        description: Number of items to be retrieved per page
+        schema:
+          type: integer
+          format: int64
+          default: 100
+        example: 25
+      - name: userstatus
+        in: query
+        description: 'Filters users based on their status. Possible values: any, deleted, forgotten.'
+        schema:
+          type: string
+          default: any
+        example: any
+      - name: excludeanonymous
+        in: query
+        description: Filter to exclude System-Generated Email Addresses
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: datefiltermode
+        in: query
+        description: Type of date to be used with the startDate and endDate parameters.
+        schema:
+          type: string
+        example: lastActivity
+      - name: realtimeonly
+        in: query
+        description: Filter to exclude properties that rely on the datawarehouse.
+        schema:
+          type: string
+          default: N
+        example: Y
+      responses:
+        '200':
+          description: "Return list of attendees\n\n- Values for fields **liveminutes**, **archiveminutes**, **cumulativeliveminutes** and **cumulativearchiveminutes** are rounded to the closest integer value (e.g. 2.316 is returned as 2, 3.542 is returned as 4). If an attendee's actual viewing minutes are greater than 0 and less than 1, response will return 1 as the value (e.g. 0.123 is returned as 1).\n- The following values are cached on the server between 3 - 24 hours:\n  - firstliveactivity\n  - lastliveactivity\n  - liveviewed\n  - archiveviewed\n  - firstarchiveactivity\n  - lastarchiveactivity\n  - answeredpolls\n  - engagementscore\n- Additionally, there may be a delay of up to 24 hours before new Attendees show up in this endpoint response."
+          content:
+            application/json:
+              examples:
+                Elite account:
+                  description: Elite account
+                  value:
+                    clientid: 3484
+                    totalattendees: 1
+                    pagecount: 1
+                    currentpage: 0
+                    attendees:
+                    - email: xxxxxxxxx@on24.com
+                      clientid: 3484
+                      eventid: 1000607
+                      eventuserid: 123375228
+                      exteventusercd: '1502'
+                      userstatus: active
+                      isblocked: N
+                      engagementscore: 5.8
+                      liveminutes: 3
+                      liveviewed: 1
+                      firstliveactivity: '2015-05-19T11:01:42-07:00'
+                      lastliveactivity: '2015-05-19T11:04:42-07:00'
+                      archiveminutes: 13
+                      archiveviewed: 1
+                      firstarchiveactivity: '2016-09-09T06:14:17-07:00'
+                      lastarchiveactivity: '2016-09-09T11:22:14-07:00'
+                      askedquestions: 1
+                      resourcesdownloaded: 1
+                      answeredpolls: 1
+                      answeredsurveys: 1
+                      answeredsurveyquestions: 1
+                      launchmode: At the Venue
+                      questions:
+                      - questionid: 1000697
+                        createtimestamp: '2016-09-09T10:00:23-07:00'
+                        content: Question 1
+                        answer:
+                          createtimestamp: '2016-09-09T10:05:23-07:00'
+                          content: Properly Answered
+                          presenterid: 2223110
+                          presentername: Brendan XXXXXX
+                          privacy: Private
+                      polls:
+                      - pollid: 29037545
+                        pollsubmittedtimestamp: '2016-09-09T13:42:02-07:00'
+                        pollquestionid: 9816171
+                        pollquestion: What is your biggest attorney challenge with regards to webinars?
+                        pollanswers:
+                        - Content Creation
+                        pollanswersdetail:
+                        - answercode: choice1
+                          answer: Content Creation
+                      resources:
+                      - resourceid: 30919784
+                        resourceviewed: Resources
+                        resourceviewedtimestamp: '2016-09-09T13:46:20-07:00'
+                      surveys:
+                      - surveyid: 1000607_survey1
+                        surveysubmittedtimestamp: '2016-09-09T13:52:06-07:00'
+                        surveyquestions:
+                        - surveyquestionid: 987654
+                          surveyquestion: what is the number phi ?
+                          questioncode: '110'
+                          primaryquestioncode: '108'
+                          surveyanswers:
+                          - 'It is the basis for the golden ratio: 1.618'
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: 'It is the basis for the golden ratio: 1.618'
+                        - surveyquestionid: 6268271
+                          surveyquestion: What industry are you in?
+                          surveyanswers:
+                          - Food& Beverage
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: Food& Beverage
+                      twitterwidget:
+                      - date: '2015-05-19T11:02:39-07:00'
+                        tweetdescription: A new Webinar on Artificial Intelligence has been scheduled. Check www.on24.com/eventschedule
+                      calltoactions:
+                      - ctaid: '83970357'
+                        ctaname: Call To Action 1
+                        clicks: '3'
+                        action: https://www.calltoactionurl.com
+                        date: '2015-05-19T11:10:00-07:00'
+                      testwidgets:
+                      - testwidgetresult: P
+                        retries: 0
+                        correctanswersneeded: 2
+                        correctanswersprovided: 2
+                      testwidgetresult: P
+                      certificationwidgetresult: C
+                      certificationcredit: NR
+                      certificationtimestamp: '2013-03-11T12:29:41-07:00'
+                      userprofileurl: https://localhost.on24.com/webcast/lead?token=Whd13ePXxNyT8vqJXbow3XBwxyVK1wiV4DMNHoF_g1E1_qsy8Ij-v5AFwN1aOVl_fDjjOGF1RrioY0fZhYOwkK0O5IW8350bAssZvhlKzBk=
+                      campaigncode: CPM-001
+                      sourcecampaigncode: CMP-001
+                      sourceeventid: 2141380
+                      cumulativeliveminutes: 3
+                      cumulativearchiveminutes: 13
+                      partnerref: registered_partner
+                      attendancepartnerref: last_partner
+                      certifications:
+                      - certificationid: 83328985
+                        certificationresult: C
+                        certificationname: Certification 1
+                        certificationcredit: NR
+                        certificationtimestamp: '2013-03-11T12:29:41-07:00'
+                        certificationurl: https://event.on24.com/ceCertficate/26/18/35/24/2/certificate_83328985.pdf
+                      meetingconversions:
+                      - widgetid: '98533828'
+                        widgetname: Book a Meeting Sample
+                        widgettype: book_a_meeting
+                        widgetaction: https://www.bookedmeeting.com
+                        widgetsubmittedtimestamp: '2016-01-01T10:00:23-07:00'
+                      democonversions:
+                      - widgetid: '98533852'
+                        widgetname: Schedule a Demo Sample
+                        widgettype: request_a_demo
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:00:23-07:00'
+                      freetrial:
+                      - widgetid: '93838564'
+                        widgetname: Free Trial Sample
+                        widgettype: free_trial
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                      drift:
+                      - widgetid: '93858367'
+                        widgetname: startConversation
+                        widgettype: drift
+                        widgetaction: Jan 01, 2016 10:00 AM
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                      breakouts:
+                      - breakoutid: '4816'
+                        breakoutname: Breakout Room Sample
+                        breakoutrole: Attendee
+                        breakoutcumulativeliveminutes: 15
+                      calendly:
+                      - meetingsbooked: 2
+                      contactus:
+                      - widgetid: '98532583'
+                        widgetname: Contact us Sample
+                        widgettype: contactus
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:00:23-07:00'
+                      shareidea:
+                      - topic: What are the best colors?
+                        type: IDEA
+                        description: Blue
+                        ideanumber: 66628
+                        rating: 1
+                        datetime: '2024-07-26T07:38:51-07:00'
+                      - topic: How can we increase our audience engagement?
+                        type: COMMENT
+                        description: By providing relevant and exciting information.
+                        ideanumber: 66627
+                        datetime: '2024-07-26T07:37:24-07:00'
+                      reactions:
+                      - type: celebrate
+                        timefromstart: 9
+                        datetime: '2024-06-16T23:40:40-07:00'
+                      - type: laugh
+                        timefromstart: 7
+                        datetime: '2024-06-16T23:40:38-07:00'
+                      - type: heart
+                        timefromstart: 6
+                        datetime: '2024-06-16T23:40:37-07:00'
+                      - type: like
+                        timefromstart: 4
+                        datetime: '2024-06-16T23:40:35-07:00'
+                      livemediaplayerminutes: 3
+                      archivemediaplayerminutes: 8
+                When content type is experience:
+                  description: When content type is experience
+                  value:
+                    clientid: 3484
+                    totalattendees: 1
+                    pagecount: 1
+                    currentpage: 0
+                    attendees:
+                    - email: xxxxxxxx@targetexperience.com
+                      clientid: 3484
+                      eventid: 311513
+                      eventuserid: 49502161
+                      exteventusercd: '1505'
+                      userstatus: active
+                      isblocked: N
+                      engagementscore: 4.1
+                      liveminutes: 0
+                      archiveminutes: 32
+                      archiveviewed: 13
+                      firstarchiveactivity: '2015-05-20T06:14:17-07:00'
+                      lastarchiveactivity: '2015-05-20T09:20:48-08:00'
+                      askedquestions: 0
+                      resourcesdownloaded: 0
+                      answeredpolls: 0
+                      answeredsurveys: 0
+                      answeredsurveyquestions: 0
+                      userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                      campaigncode: CPM-001
+                      sourcecampaigncode: CMP-001
+                      sourceeventid: 2141380
+                      cumulativeliveminutes: 0
+                      cumulativearchiveminutes: 32
+                      partnerref: registered_partner
+                      attendancepartnerref: last_partner
+                      meetingconversions:
+                      - widgetid: '98533828'
+                        widgetname: Book a Meeting Sample
+                        widgettype: book_a_meeting
+                        widgetaction: https://www.bookedmeeting.com
+                        widgetsubmittedtimestamp: '2015-05-20T10:00:23-07:00'
+                      democonversions:
+                      - widgetid: '98533852'
+                        widgetname: Schedule a Demo Sample
+                        widgettype: request_a_demo
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:00:23-07:00'
+                      contactus:
+                      - widgetid: '98532583'
+                        widgetname: Contact us Sample
+                        widgettype: contactus
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:00:23-07:00'
+                      drift:
+                      - widgetid: '93858367'
+                        widgetname: startConversation
+                        widgettype: drift
+                        widgetaction: Jan 01, 2016 10:00 AM
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                VE account:
+                  description: VE account
+                  value:
+                    clientid: 1322
+                    totalattendees: 1
+                    pagecount: 1
+                    currentpage: 0
+                    attendees:
+                    - email: xxxxxxxxx@on24.com
+                      eventid: 1000608
+                      eventuserid: 123375229
+                      clientid: 2213
+                      exteventusercd: '1502'
+                      userstatus: active
+                      isblocked: N
+                      archiveminutes: 7
+                      archiveviewed: 1
+                      firstarchiveactivity: '2020-01-20T23:59:38-08:00'
+                      lastarchiveactivity: '2020-01-20T23:59:38-08:00'
+                      resourcesdownloaded: 1
+                      answeredsurveys: 1
+                      answeredsurveyquestions: 1
+                      campaigncode: CPM-001
+                      sourcecampaigncode: CPM-001
+                      cumulativearchiveminutes: 13
+                      locationsvisited: 1
+                      locationvisits:
+                      - locationid: 2
+                        locationcode: home
+                        locationname: Plaza
+                        sponsorid: 0
+                        sponsorname: Environment-level
+                        visits: 31
+                        visitsduration: 44
+                        cumulativevisitsduration: 44
+                      resources:
+                      - resourceid: 5626305
+                        resourceviewed: Customer Resource
+                        resourceviewedtimestamp: '2020-01-21T00:02:29-08:00'
+                        resourceviews: 1
+                        resourcetype: WEBCAST
+                        sponsorid: 223628
+                        sponsorname: Sponsor_1
+                      surveys:
+                      - surveyid: '6388264'
+                        surveysubmittedtimestamp: '2020-01-21T00:05:13-08:00'
+                        surveyquestions:
+                        - surveyquestionid: 987654
+                          surveyquestion: what is the number phi ?
+                          surveyanswers:
+                          - 'It is the basis for the golden ratio: 1.618'
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: 'It is the basis for the golden ratio: 1.618'
+                      meetingconversions:
+                      - widgetid: '98358328'
+                        widgetname: Book a Meeting Sample
+                        widgettype: book_a_meeting
+                        widgetaction: https://www.bookedmeeting.com
+                        widgetsubmittedtimestamp: '2016-01-01T10:00:23-07:00'
+                      democonversions:
+                      - widgetid: '98533852'
+                        widgetname: Schedule a Demo Sample
+                        widgettype: request_a_demo
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:00:23-07:00'
+                      getpricing:
+                      - widgetid: '93538823'
+                        widgetname: Get Pricing Sample
+                        widgettype: get_pricing
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:05:23-07:00'
+                      freetrial:
+                      - widgetid: '93838564'
+                        widgetname: Free Trial Sample
+                        widgettype: free_trial
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                When content type is golive:
+                  description: When content type is golive
+                  value:
+                    clientid: 3484
+                    totalattendees: 1
+                    pagecount: 1
+                    currentpage: 0
+                    attendees:
+                    - email: xxxxxxxxx@on24.com
+                      clientid: 3484
+                      eventid: 6958054
+                      eventuserid: 264677544
+                      userstatus: active
+                      isblocked: N
+                      engagementscore: 6.2
+                      liveminutes: 3
+                      liveviewed: 1
+                      firstliveactivity: '2021-10-01T05:55:22-08:00'
+                      lastliveactivity: '2021-10-02T11:41:42-07:00'
+                      resourcesdownloaded: 0
+                      answeredpolls: 0
+                      sourceeventid: 6958054
+                      userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                      cumulativeliveminutes: 3
+        '400':
+          description: Error, incorrect date formats.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The client {clientId} doesn't exist.
+  /client/{clientId}/attendee/{email}:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Attendee by Email
+      description: Returns most recent attendance information for a specific email address.
+      operationId: AnalyticsClientLevel.AttendeeByEmail
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: email
+        in: path
+        description: Attendant to lookup
+        required: true
+        schema:
+          type: string
+        example: john.doe@on24.com
+      responses:
+        '200':
+          description: "Return list of attendees\n\n- Values for fields **liveminutes**, **archiveminutes**, **cumulativeliveminutes** and **cumulativearchiveminutes** are rounded to the closest integer value (e.g. 2.316 is returned as 2, 3.542 is returned as 4). If an attendee's actual viewing minutes are greater than 0 and less than 1, response will return 1 as the value (e.g. 0.123 is returned as 1).\n- The following values are cached on the server between 3 - 24 hours:\n  - firstliveactivity\n  - lastliveactivity\n  - liveviewed\n  - archiveviewed\n  - firstarchiveactivity\n  - lastarchiveactivity\n  - answeredpolls\n  - engagementscore"
+          content:
+            application/json:
+              examples:
+                Elite account:
+                  description: Elite account
+                  value:
+                    email: xxxxxxxxx@on24.com
+                    clientid: 22921
+                    eventid: 1000607
+                    eventuserid: 123375228
+                    exteventusercd: '1502'
+                    userstatus: active
+                    isblocked: N
+                    engagementscore: 5.8
+                    liveminutes: 3
+                    liveviewed: 1
+                    firstliveactivity: '2015-05-19T11:01:42-07:00'
+                    lastliveactivity: '2015-05-19T11:04:42-07:00'
+                    archiveminutes: 13
+                    archiveviewed: 1
+                    firstarchiveactivity: '2016-09-09T06:14:17-07:00'
+                    lastarchiveactivity: '2016-09-09T11:22:14-07:00'
+                    askedquestions: 1
+                    resourcesdownloaded: 1
+                    answeredpolls: 1
+                    answeredsurveys: 1
+                    answeredsurveyquestions: 1
+                    launchmode: At the Venue
+                    questions:
+                    - questionid: 1000697
+                      createtimestamp: '2016-09-09T10:05:20-07:00'
+                      content: Question 1
+                      answer:
+                        createtimestamp: '2016-09-09T10:05:23-07:00'
+                        content: Properly Answered
+                        presenterid: 2223110
+                        presentername: Brendan XXXXXX
+                        privacy: Private
+                    polls:
+                    - pollid: 29037545
+                      pollsubmittedtimestamp: '2016-09-09T13:42:02-07:00'
+                      pollquestionid: 9816171
+                      pollquestion: What is your biggest attorney challenge with regards to webinars?
+                      pollanswers:
+                      - Content Creation
+                      pollanswersdetail:
+                      - answercode: choice1
+                        answer: Content Creation
+                    resources:
+                    - resourceid: 5626305
+                      resourceviewed: Customer Resource
+                      resourceviewedtimestamp: '2020-01-21T00:02:29-08:00'
+                    surveys:
+                    - surveyid: 1000607_survey1
+                      surveysubmittedtimestamp: '2016-09-09T13:52:06-07:00'
+                      surveyquestions:
+                      - surveyquestionid: 987654
+                        surveyquestion: what is the number phi ?
+                        questioncode: '110'
+                        primaryquestioncode: '108'
+                        surveyanswers:
+                        - 'It is the basis for the golden ratio: 1.618'
+                        surveyanswersdetail:
+                        - answercode: choice1
+                          answer: 'It is the basis for the golden ratio: 1.618'
+                      - surveyquestionid: 6268271
+                        surveyquestion: What industry are you in?
+                        surveyanswers:
+                        - Food& Beverage
+                        surveyanswersdetail:
+                        - answercode: choice1
+                          answer: Food& Beverage
+                    twitterwidget:
+                    - date: '2015-05-19T11:02:39-07:00'
+                      tweetdescription: A new Webinar on Artificial Intelligence has been scheduled. Check www.on24.com/eventschedule
+                    calltoactions:
+                    - ctaid: '83970357'
+                      ctaname: Call To Action 1
+                      clicks: '3'
+                      action: https://www.calltoactionurl.com
+                      date: '2015-05-19T11:10:00-07:00'
+                    testwidgets:
+                    - testwidgetresult: P
+                      retries: 0
+                      correctanswersneeded: 2
+                      correctanswersprovided: 2
+                    testwidgetresult: P
+                    certificationwidgetresult: C
+                    certificationcredit: NR
+                    certificationtimestamp: '2013-03-11T12:29:41-07:00'
+                    userprofileurl: https://localhost.on24.com/webcast/lead?token=Whd13ePXxNyT8vqJXbow3XBwxyVK1wiV4DMNHoF_g1E1_qsy8Ij-v5AFwN1aOVl_fDjjOGF1RrioY0fZhYOwkK0O5IW8350bAssZvhlKzBk=
+                    campaigncode: CPM-001
+                    sourcecampaigncode: CMP-001
+                    sourceeventid: 2141380
+                    cumulativeliveminutes: 3
+                    cumulativearchiveminutes: 13
+                    partnerref: registered_partner
+                    attendancepartnerref: last_partner
+                    certifications:
+                    - certificationid: 83328985
+                      certificationresult: C
+                      certificationname: Certification 1
+                      certificationcredit: NR
+                      certificationtimestamp: '2013-03-11T12:29:41-07:00'
+                      certificationurl: https://event.on24.com/ceCertficate/26/18/35/24/2/certificate_83328985.pdf
+                    meetingconversions:
+                    - widgetid: '98533828'
+                      widgetname: Book a Meeting Sample
+                      widgettype: book_a_meeting
+                      widgetaction: https://www.bookedmeeting.com
+                      widgetsubmittedtimestamp: '2016-01-01T10:00:23-07:00'
+                    democonversions:
+                    - widgetid: '98533852'
+                      widgetname: Schedule a Demo Sample
+                      widgettype: request_a_demo
+                      widgetaction: jane.doe@on24.com
+                      widgetsubmittedtimestamp: '2016-01-01T11:00:23-07:00'
+                    freetrial:
+                    - widgetid: '93838564'
+                      widgetname: Free Trial Sample
+                      widgettype: free_trial
+                      widgetaction: john.doe@on24.com
+                      widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                    drift:
+                    - widgetid: '93858367'
+                      widgetname: startConversation
+                      widgettype: drift
+                      widgetaction: Jan 01, 2016 10:00 AM
+                      widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                    breakouts:
+                    - breakoutid: '4816'
+                      breakoutname: Breakout Room Sample
+                      breakoutrole: Attendee
+                      breakoutcumulativeliveminutes: 15
+                    contactus:
+                    - widgetid: '98532583'
+                      widgetname: Contact us Sample
+                      widgettype: contactus
+                      widgetaction: john.doe@on24.com
+                      widgetsubmittedtimestamp: '2015-05-20T11:00:23-07:00'
+                    calendly:
+                    - meetingsbooked: 2
+                    shareidea:
+                    - topic: What are the best colors?
+                      type: IDEA
+                      description: Blue
+                      ideanumber: 66628
+                      rating: 1
+                      datetime: '2024-07-26T07:38:51-07:00'
+                    - topic: How can we increase our audience engagement?
+                      type: COMMENT
+                      description: By providing relevant and exciting information.
+                      ideanumber: 66627
+                      datetime: '2024-07-26T07:37:24-07:00'
+                    reactions:
+                    - type: celebrate
+                      timefromstart: 9
+                      datetime: '2024-06-16T23:40:40-07:00'
+                    - type: laugh
+                      timefromstart: 7
+                      datetime: '2024-06-16T23:40:38-07:00'
+                    - type: heart
+                      timefromstart: 6
+                      datetime: '2024-06-16T23:40:37-07:00'
+                    - type: like
+                      timefromstart: 4
+                      datetime: '2024-06-16T23:40:35-07:00'
+                    livemediaplayerminutes: 3
+                    archivemediaplayerminutes: 8
+                When content type is gateway:
+                  description: When content type is gateway
+                  value:
+                    email: xxxxxxxx@ehub.com
+                    eventuserid: 49502161
+                    exteventusercd: '1504'
+                    userstatus: active
+                    isblocked: N
+                    engagementscore: 4.1
+                    liveminutes: 15
+                    liveviewed: 1
+                    archiveminutes: 32
+                    archiveviewed: 1
+                    firstarchiveactivity: '2015-05-20T06:14:17-07:00'
+                    lastarchiveactivity: '2015-05-20T09:20:48-08:00'
+                    askedquestions: 0
+                    resourcesdownloaded: 0
+                    answeredpolls: 0
+                    answeredsurveys: 0
+                    answeredsurveyquestions: 0
+                    userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                    campaigncode: CPM-001
+                    sourcecampaigncode: CMP-001
+                    sourceeventid: 2141380
+                    cumulativeliveminutes: 0
+                    cumulativearchiveminutes: 32
+                    partnerref: registered_partner
+                    attendancepartnerref: last_partner
+                    attendeesessions: 1
+                    meetingconversions:
+                    - widgetid: '8147'
+                      widgetname: Book a Meeting 1
+                      widgettype: book_a_meeting
+                      widgetaction: https://www.ehub_bookedmeeting.com
+                      widgetsubmittedtimestamp: '2015-05-20T10:05:23-07:00'
+                    democonversions:
+                    - widgetid: '7895'
+                      widgetname: Schedule a Demo 1
+                      widgettype: request_a_demo
+                      widgetaction: jane.doe@on24.com
+                      widgetsubmittedtimestamp: '2015-05-20T11:21:00-07:00'
+                    contactus:
+                    - widgetid: '7884'
+                      widgetname: Contact us 1
+                      widgettype: contactus
+                      widgetaction: john.doe@on24.com
+                      widgetsubmittedtimestamp: '2015-05-20T11:18:13-07:00'
+                    getpricing:
+                    - widgetid: 7891
+                      widgetname: Price Quote 1
+                      widgettype: price_quote
+                      widgetaction: https://www.google.com/
+                      widgetsubmittedtimestamp: '2015-05-20T02:29:30-07:00'
+                    freetrial:
+                    - widgetid: '93838564'
+                      widgetname: Free Trial Sample
+                      widgettype: free_trial
+                      widgetaction: john.doe@on24.com
+                      widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                    drift:
+                    - widgetid: '93858367'
+                      widgetname: startConversation
+                      widgettype: drift
+                      widgetaction: Jan 01, 2016 10:00 AM
+                      widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                When content type is experience:
+                  description: When content type is experience
+                  value:
+                    email: xxxxxxxx@targetexperience.com
+                    clientid: 3484
+                    eventid: 311513
+                    eventuserid: 49502161
+                    exteventusercd: '1505'
+                    userstatus: active
+                    isblocked: N
+                    engagementscore: 4.1
+                    liveminutes: 0
+                    archiveminutes: 13
+                    archiveviewed: 1
+                    firstarchiveactivity: '2015-05-20T06:14:17-07:00'
+                    lastarchiveactivity: '2015-05-20T09:20:48-08:00'
+                    askedquestions: 0
+                    resourcesdownloaded: 0
+                    answeredpolls: 0
+                    answeredsurveys: 0
+                    answeredsurveyquestions: 0
+                    userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                    campaigncode: CPM-001
+                    sourcecampaigncode: CMP-001
+                    sourceeventid: 2141380
+                    cumulativeliveminutes: 0
+                    cumulativearchiveminutes: 32
+                    partnerref: registered_partner
+                    attendancepartnerref: last_partner
+                    attendeesessions: 1
+                    meetingconversions:
+                    - widgetid: '98533828'
+                      widgetname: Book a Meeting Sample
+                      widgettype: book_a_meeting
+                      widgetaction: https://www.bookedmeeting.com
+                      widgetsubmittedtimestamp: '2015-05-20T10:00:23-07:00'
+                    democonversions:
+                    - widgetid: '98533852'
+                      widgetname: Schedule a Demo Sample
+                      widgettype: request_a_demo
+                      widgetaction: jane.doe@on24.com
+                      widgetsubmittedtimestamp: '2015-05-20T11:00:23-07:00'
+                    contactus:
+                    - widgetid: '98532583'
+                      widgetname: Contact us Sample
+                      widgettype: contactus
+                      widgetaction: john.doe@on24.com
+                      widgetsubmittedtimestamp: '2015-05-20T11:00:23-07:00'
+                    drift:
+                    - widgetid: '93858367'
+                      widgetname: startConversation
+                      widgettype: drift
+                      widgetaction: Jan 01, 2016 10:00 AM
+                      widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                VE account:
+                  description: VE account
+                  value:
+                    email: xxxxxxxxx@on24.com
+                    eventid: 1000608
+                    eventuserid: 123375229
+                    clientid: 2213
+                    exteventusercd: '1502'
+                    userstatus: active
+                    isblocked: N
+                    archiveminutes: 7
+                    archiveviewed: 1
+                    firstarchiveactivity: '2020-01-20T23:59:38-08:00'
+                    lastarchiveactivity: '2020-01-20T23:59:38-08:00'
+                    resourcesdownloaded: 1
+                    answeredsurveys: 1
+                    answeredsurveyquestions: 1
+                    campaigncode: CPM-001
+                    sourcecampaigncode: CPM-001
+                    cumulativearchiveminutes: 13
+                    locationsvisited: 1
+                    locationvisits:
+                    - locationid: 2
+                      locationcode: home
+                      locationname: Plaza
+                      sponsorid: 0
+                      sponsorname: Environment-level
+                      visits: 31
+                      visitsduration: 44
+                      cumulativevisitsduration: 44
+                    resources:
+                    - resourceid: 5626305
+                      resourceviewed: Customer Resource
+                      resourceviewedtimestamp: '2020-01-21T00:02:29-08:00'
+                      resourceviews: 1
+                      resourcetype: WEBCAST
+                      sponsorid: 223628
+                      sponsorname: Sponsor_1
+                    surveys:
+                    - surveyid: '6388264'
+                      surveysubmittedtimestamp: '2020-01-21T00:05:13-08:00'
+                      surveyquestions:
+                      - surveyquestionid: 987654
+                        surveyquestion: what is the number phi ?
+                        surveyanswers:
+                        - 'It is the basis for the golden ratio: 1.618'
+                        surveyanswersdetail:
+                        - answercode: choice1
+                          answer: 'It is the basis for the golden ratio: 1.618'
+                    meetingconversions:
+                    - widgetid: '98358328'
+                      widgetname: Book a Meeting Sample
+                      widgettype: book_a_meeting
+                      widgetaction: https://www.bookedmeeting.com
+                      widgetsubmittedtimestamp: '2016-01-01T10:00:23-07:00'
+                    democonversions:
+                    - widgetid: '98533852'
+                      widgetname: Schedule a Demo Sample
+                      widgettype: request_a_demo
+                      widgetaction: jane.doe@on24.com
+                      widgetsubmittedtimestamp: '2016-01-01T11:00:23-07:00'
+                    getpricing:
+                    - widgetid: '93538823'
+                      widgetname: Get Pricing Sample
+                      widgettype: get_pricing
+                      widgetaction: jane.doe@on24.com
+                      widgetsubmittedtimestamp: '2016-01-01T11:05:23-07:00'
+                    freetrial:
+                    - widgetid: '93838564'
+                      widgetname: Free Trial Sample
+                      widgettype: free_trial
+                      widgetaction: john.doe@on24.com
+                      widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                When content type is golive:
+                  description: When content type is golive
+                  value:
+                    email: xxxxxxxxx@on24.com
+                    clientid: 3484
+                    eventid: 6958054
+                    eventuserid: 264677544
+                    userstatus: active
+                    isblocked: N
+                    engagementscore: 6.2
+                    liveminutes: 3
+                    liveviewed: 1
+                    firstliveactivity: '2021-10-01T05:55:22-08:00'
+                    lastliveactivity: '2021-10-02T11:41:42-07:00'
+                    resourcesdownloaded: 0
+                    answeredpolls: 0
+                    sourceeventid: 6958054
+                    userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                    cumulativeliveminutes: 35
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The attendant {email} doesn't exist.
+  /client/{clientId}/attendee/{email}/allevents:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Attendees by Email Multiple Events
+      description: "Returns a listing of all attendance information for a specific email address. There is a limit of 100 registrants per page.\n\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under the {clientId} of the request.\n  - If **subaccounts** is provided and **excludeSubaccounts** is \"Y\", the following error message is returned: *\"You have to set excludesubaccounts='N' in order to filter by subaccounts.\"*\n  - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.\n  - When **subaccounts** is provided, the response will only return data for the child client ids included in the parameter"
+      operationId: AnalyticsClientLevel.AttendeesByEmailMultipleEvents
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: email
+        in: path
+        description: The email to lookup
+        required: true
+        schema:
+          type: string
+        example: john.doe@on24.com
+      - name: pageoffset
+        in: query
+        description: Selects the page to retrieve
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 1
+      - name: excludesubaccounts
+        in: query
+        description: if set to "Y", sub-accounts will be excluded
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: subaccounts
+        in: query
+        description: Comma separated list of child client ids
+        schema:
+          type: string
+        example: 22921, 32295
+      - name: itemsperpage
+        in: query
+        description: Number of items to be retrieved per page
+        schema:
+          type: integer
+          format: int64
+          default: 100
+        example: 25
+      responses:
+        '200':
+          description: "Return list of attendees\n\n- Values for fields **liveminutes**, **archiveminutes**, **cumulativeliveminutes** and **cumulativearchiveminutes** are rounded to the closest integer value (e.g. 2.316 is returned as 2, 3.542 is returned as 4). If an attendee's actual viewing minutes are greater than 0 and less than 1, response will return 1 as the value (e.g. 0.123 is returned as 1).\n- The following values are cached on the server between 3 - 24 hours:\n  - firstliveactivity\n  - lastliveactivity\n  - liveviewed\n  - archiveviewed\n  - firstarchiveactivity\n  - lastarchiveactivity\n  - answeredpolls\n  - engagementscore"
+          content:
+            application/json:
+              examples:
+                Elite account:
+                  description: Elite account
+                  value:
+                    clientid: 3484
+                    totalattendees: 1
+                    pagecount: 1
+                    currentpage: 0
+                    attendees:
+                    - email: xxxxxxxxx@on24.com
+                      clientid: 3484
+                      eventid: 1000607
+                      eventuserid: 123375228
+                      exteventusercd: '1502'
+                      userstatus: active
+                      isblocked: N
+                      engagementscore: 5.8
+                      liveminutes: 3
+                      liveviewed: 1
+                      firstliveactivity: '2015-05-19T11:01:42-07:00'
+                      lastliveactivity: '2015-05-19T11:04:42-07:00'
+                      archiveminutes: 13
+                      archiveviewed: 1
+                      firstarchiveactivity: '2016-09-09T06:14:17-07:00'
+                      lastarchiveactivity: '2016-09-09T11:22:14-07:00'
+                      askedquestions: 1
+                      resourcesdownloaded: 1
+                      answeredpolls: 1
+                      answeredsurveys: 1
+                      answeredsurveyquestions: 1
+                      launchmode: At the Venue
+                      questions:
+                      - questionid: 1000697
+                        createtimestamp: '2016-09-09T10:00:23-07:00'
+                        content: Question 1
+                        answer:
+                          createtimestamp: '2016-09-09T10:05:23-07:00'
+                          content: Properly Answered
+                          presenterid: 2223110
+                          presentername: Brendan XXXXXX
+                          privacy: Private
+                      polls:
+                      - pollid: 29037545
+                        pollsubmittedtimestamp: '2016-09-09T13:42:02-07:00'
+                        pollquestionid: 9816171
+                        pollquestion: What is your biggest attorney challenge with regards to webinars?
+                        pollanswers:
+                        - Content Creation
+                        pollanswersdetail:
+                        - answercode: choice1
+                          answer: Content Creation
+                      resources:
+                      - resourceid: 30919784
+                        resourceviewed: Resources
+                        resourceviewedtimestamp: '2016-09-09T13:46:20-07:00'
+                      surveys:
+                      - surveyid: 1000607_survey1
+                        surveysubmittedtimestamp: '2016-09-09T13:52:06-07:00'
+                        surveyquestions:
+                        - surveyquestionid: 987654
+                          surveyquestion: what is the number phi ?
+                          questioncode: '110'
+                          primaryquestioncode: '108'
+                          surveyanswers:
+                          - 'It is the basis for the golden ratio: 1.618'
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: 'It is the basis for the golden ratio: 1.618'
+                        - surveyquestionid: 6268271
+                          surveyquestion: What industry are you in?
+                          surveyanswers:
+                          - Food& Beverage
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: Food& Beverage
+                      twitterwidget:
+                      - date: '2015-05-19T11:02:39-07:00'
+                        tweetdescription: A new Webinar on Artificial Intelligence has been scheduled. Check www.on24.com/eventschedule
+                      calltoactions:
+                      - ctaid: '83970357'
+                        ctaname: Call To Action 1
+                        clicks: '3'
+                        action: https://www.calltoactionurl.com
+                        date: '2015-05-19T11:10:00-07:00'
+                      testwidgets:
+                      - testwidgetresult: P
+                        retries: 0
+                        correctanswersneeded: 2
+                        correctanswersprovided: 2
+                      testwidgetresult: P
+                      certificationwidgetresult: C
+                      certificationcredit: NR
+                      certificationtimestamp: '2013-03-11T12:29:41-07:00'
+                      userprofileurl: https://localhost.on24.com/webcast/lead?token=Whd13ePXxNyT8vqJXbow3XBwxyVK1wiV4DMNHoF_g1E1_qsy8Ij-v5AFwN1aOVl_fDjjOGF1RrioY0fZhYOwkK0O5IW8350bAssZvhlKzBk=
+                      campaigncode: CPM-001
+                      sourcecampaigncode: CMP-001
+                      sourceeventid: 2141380
+                      cumulativeliveminutes: 3
+                      cumulativearchiveminutes: 13
+                      partnerref: registered_partner
+                      attendancepartnerref: last_partner
+                      certifications:
+                      - certificationid: 83328985
+                        certificationresult: C
+                        certificationname: Certification 1
+                        certificationcredit: NR
+                        certificationtimestamp: '2013-03-11T12:29:41-07:00'
+                        certificationurl: https://event.on24.com/ceCertficate/26/18/35/24/2/certificate_83328985.pdf
+                      meetingconversions:
+                      - widgetid: '98533828'
+                        widgetname: Book a Meeting Sample
+                        widgettype: book_a_meeting
+                        widgetaction: https://www.bookedmeeting.com
+                        widgetsubmittedtimestamp: '2016-01-01T10:00:23-07:00'
+                      democonversions:
+                      - widgetid: '98533852'
+                        widgetname: Schedule a Demo Sample
+                        widgettype: request_a_demo
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:00:23-07:00'
+                      freetrial:
+                      - widgetid: '93838564'
+                        widgetname: Free Trial Sample
+                        widgettype: free_trial
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                      drift:
+                      - widgetid: '93858367'
+                        widgetname: startConversation
+                        widgettype: drift
+                        widgetaction: Jan 01, 2016 10:00 AM
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                      contactus:
+                      - widgetid: '7884'
+                        widgetname: Contact us 1
+                        widgettype: contactus
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:18:13-07:00'
+                      breakouts:
+                      - breakoutid: '4816'
+                        breakoutname: Breakout Room Sample
+                        breakoutrole: Attendee
+                        breakoutcumulativeliveminutes: 15
+                      calendly:
+                      - meetingsbooked: 2
+                      shareidea:
+                      - topic: What are the best colors?
+                        type: IDEA
+                        description: Blue
+                        ideanumber: 66628
+                        rating: 1
+                        datetime: '2024-07-26T07:38:51-07:00'
+                      - topic: How can we increase our audience engagement?
+                        type: COMMENT
+                        description: By providing relevant and exciting information.
+                        ideanumber: 66627
+                        datetime: '2024-07-26T07:37:24-07:00'
+                      reactions:
+                      - type: celebrate
+                        timefromstart: 9
+                        datetime: '2024-06-16T23:40:40-07:00'
+                      - type: laugh
+                        timefromstart: 7
+                        datetime: '2024-06-16T23:40:38-07:00'
+                      - type: heart
+                        timefromstart: 6
+                        datetime: '2024-06-16T23:40:37-07:00'
+                      - type: like
+                        timefromstart: 4
+                        datetime: '2024-06-16T23:40:35-07:00'
+                      livemediaplayerminutes: 3
+                      archivemediaplayerminutes: 8
+                When content type is gateway:
+                  description: When content type is gateway
+                  value:
+                    email: xxxxxxxx@ehub.com
+                    eventuserid: 49502161
+                    exteventusercd: '1504'
+                    userstatus: active
+                    isblocked: N
+                    engagementscore: 4.1
+                    liveminutes: 15
+                    liveviewed: 1
+                    archiveminutes: 32
+                    archiveviewed: 1
+                    firstarchiveactivity: '2015-05-20T06:14:17-07:00'
+                    lastarchiveactivity: '2015-05-20T09:20:48-08:00'
+                    askedquestions: 0
+                    resourcesdownloaded: 0
+                    answeredpolls: 0
+                    answeredsurveys: 0
+                    answeredsurveyquestions: 0
+                    userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                    campaigncode: CPM-001
+                    sourcecampaigncode: CMP-001
+                    sourceeventid: 2141380
+                    cumulativeliveminutes: 0
+                    cumulativearchiveminutes: 32
+                    partnerref: registered_partner
+                    attendancepartnerref: last_partner
+                    attendeesessions: 1
+                    meetingconversions:
+                    - widgetid: '8147'
+                      widgetname: Book a Meeting 1
+                      widgettype: book_a_meeting
+                      widgetaction: https://www.ehub_bookedmeeting.com
+                      widgetsubmittedtimestamp: '2015-05-20T10:05:23-07:00'
+                    democonversions:
+                    - widgetid: '7895'
+                      widgetname: Schedule a Demo 1
+                      widgettype: request_a_demo
+                      widgetaction: jane.doe@on24.com
+                      widgetsubmittedtimestamp: '2015-05-20T11:21:00-07:00'
+                    contactus:
+                    - widgetid: '7884'
+                      widgetname: Contact us 1
+                      widgettype: contactus
+                      widgetaction: john.doe@on24.com
+                      widgetsubmittedtimestamp: '2015-05-20T11:18:13-07:00'
+                    getpricing:
+                    - widgetid: 7891
+                      widgetname: Price Quote 1
+                      widgettype: price_quote
+                      widgetaction: https://www.google.com/
+                      widgetsubmittedtimestamp: '2015-05-20T02:29:30-07:00'
+                    freetrial:
+                    - widgetid: '93838564'
+                      widgetname: Free Trial Sample
+                      widgettype: free_trial
+                      widgetaction: john.doe@on24.com
+                      widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                    drift:
+                    - widgetid: '93858367'
+                      widgetname: startConversation
+                      widgettype: drift
+                      widgetaction: Jan 01, 2016 10:00 AM
+                      widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                When content type is experience:
+                  description: When content type is experience
+                  value:
+                    clientid: 3484
+                    totalattendees: 1
+                    pagecount: 1
+                    currentpage: 0
+                    attendees:
+                    - email: xxxxxxxx@targetexperience.com
+                      clientid: 3484
+                      eventid: 311513
+                      eventuserid: 49502161
+                      exteventusercd: '1505'
+                      userstatus: active
+                      isblocked: N
+                      engagementscore: 4.1
+                      liveminutes: 0
+                      archiveminutes: 32
+                      archiveviewed: 1
+                      firstarchiveactivity: '2015-05-20T06:14:17-07:00'
+                      lastarchiveactivity: '2015-05-20T09:20:48-08:00'
+                      askedquestions: 0
+                      resourcesdownloaded: 0
+                      answeredpolls: 0
+                      answeredsurveys: 0
+                      answeredsurveyquestions: 0
+                      userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                      campaigncode: CPM-001
+                      sourcecampaigncode: CMP-001
+                      sourceeventid: 2141380
+                      cumulativeliveminutes: 0
+                      cumulativearchiveminutes: 32
+                      partnerref: registered_partner
+                      attendancepartnerref: last_partner
+                      attendeesessions: 1
+                      meetingconversions:
+                      - widgetid: '98533828'
+                        widgetname: Book a Meeting Sample
+                        widgettype: book_a_meeting
+                        widgetaction: https://www.bookedmeeting.com
+                        widgetsubmittedtimestamp: '2015-05-20T10:00:23-07:00'
+                      democonversions:
+                      - widgetid: '98533852'
+                        widgetname: Schedule a Demo Sample
+                        widgettype: request_a_demo
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:00:23-07:00'
+                      contactus:
+                      - widgetid: '98532583'
+                        widgetname: Contact us Sample
+                        widgettype: contactus
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:00:23-07:00'
+                      drift:
+                      - widgetid: '93858367'
+                        widgetname: startConversation
+                        widgettype: drift
+                        widgetaction: Jan 01, 2016 10:00 AM
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                VE account:
+                  description: VE account
+                  value:
+                    clientid: 3484
+                    totalattendees: 1
+                    pagecount: 1
+                    currentpage: 0
+                    attendees:
+                    - email: xxxxxxxxx@on24.com
+                      eventid: 1000608
+                      eventuserid: 123375229
+                      clientid: 2213
+                      exteventusercd: '1502'
+                      userstatus: active
+                      isblocked: N
+                      archiveminutes: 7
+                      archiveviewed: 1
+                      firstarchiveactivity: '2020-01-20T23:59:38-08:00'
+                      lastarchiveactivity: '2020-01-20T23:59:38-08:00'
+                      resourcesdownloaded: 1
+                      answeredsurveys: 1
+                      answeredsurveyquestions: 1
+                      campaigncode: CPM-001
+                      sourcecampaigncode: CPM-001
+                      cumulativearchiveminutes: 13
+                      locationsvisited: 1
+                      locationvisits:
+                      - locationid: 2
+                        locationcode: home
+                        locationname: Plaza
+                        sponsorid: 0
+                        sponsorname: Environment-level
+                        visits: 31
+                        visitsduration: 44
+                        cumulativevisitsduration: 44
+                      resources:
+                      - resourceid: 5626305
+                        resourceviewed: Customer Resource
+                        resourceviewedtimestamp: '2020-01-21T00:02:29-08:00'
+                        resourceviews: 1
+                        resourcetype: WEBCAST
+                        sponsorid: 223628
+                        sponsorname: Sponsor_1
+                      surveys:
+                      - surveyid: '6388264'
+                        surveysubmittedtimestamp: '2020-01-21T00:05:13-08:00'
+                        surveyquestions:
+                        - surveyquestionid: 987654
+                          surveyquestion: what is the number phi ?
+                          surveyanswers:
+                          - 'It is the basis for the golden ratio: 1.618'
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: 'It is the basis for the golden ratio: 1.618'
+                      meetingconversions:
+                      - widgetid: '98358328'
+                        widgetname: Book a Meeting Sample
+                        widgettype: book_a_meeting
+                        widgetaction: https://www.bookedmeeting.com
+                        widgetsubmittedtimestamp: '2016-01-01T10:00:23-07:00'
+                      democonversions:
+                      - widgetid: '98533852'
+                        widgetname: Schedule a Demo Sample
+                        widgettype: request_a_demo
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:00:23-07:00'
+                      getpricing:
+                      - widgetid: '93538823'
+                        widgetname: Get Pricing Sample
+                        widgettype: get_pricing
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:05:23-07:00'
+                      freetrial:
+                      - widgetid: '93838564'
+                        widgetname: Free Trial Sample
+                        widgettype: free_trial
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                When content type is golive:
+                  description: When content type is golive
+                  value:
+                    clientid: 3484
+                    totalattendees: 1
+                    pagecount: 1
+                    currentpage: 0
+                    attendees:
+                    - email: xxxxxxxxx@on24.com
+                      clientid: 3484
+                      eventid: 6958054
+                      eventuserid: 264677544
+                      userstatus: active
+                      isblocked: N
+                      engagementscore: 6.2
+                      liveminutes: 3
+                      liveviewed: 1
+                      firstliveactivity: '2021-10-01T05:55:22-08:00'
+                      lastliveactivity: '2021-10-02T11:41:42-07:00'
+                      resourcesdownloaded: 0
+                      answeredpolls: 0
+                      sourceeventid: 6958054
+                      userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                      cumulativeliveminutes: 35
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The attendant {email} doesn't exist. | The client {clientid} doesn't exist.
+  /client/{clientId}/engagedaccount:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Engaged Accounts
+      description: 'Returns a list of the top engaged accounts as displayed in the Account Engagement Cloud with a link to their Account Engagement Profile. Up to 100 accounts will be listed.
+
+
+        - If there are no engaged accounts, an empty list will be returned.
+
+        - Only the last 90 days of data is used to generate the list.'
+      operationId: AnalyticsClientLevel.EngagedAccounts
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      responses:
+        '200':
+          description: Return list of engaged accounts
+          content:
+            application/json:
+              example:
+                accounts:
+                - name: Microsoft
+                  domains:
+                  - microsoft.com
+                  profileurl: URL_TO_MICROSOFT_ACCOUNT
+                - name: Ibm
+                  domains:
+                  - ibm.com
+                  profileurl: URL_TO_IBM_ACCOUNT
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist.
+  /client/{clientId}/event:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Events
+      description: "Returns a listing of events for a particular client. Events belonging to sub-client accounts are not included in the response.\n\n- If **startDate** and **endDate** are not sent, the response will return all events from the past 3 months.\n- The **startDate** and **endDate** will filter the list of events based on **dateFilterMode** parameter value.\n- If **includesubaccounts** is \"Y\", pagination will be required. Both **pageOffset** and **itemsPerPage** parameters will be available. Response schema differs.\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under the {clientId} of the request.\n  - If **subaccounts** is provided and **includeSubaccounts=N** (either explicitly or by default), the following error message is returned: *\"You have to set includesubaccounts='Y' in order to filter by subaccounts.\".*\n  - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.\n  - When **subaccounts** is provided, the response will only return data for the child client IDs included in the parameter.\n- **dateFilterMode** accepted values (not case-sensitive):\n  - \"goodafter\" (default): date and time an event is first available for the audience.\n  - \"updated\": filters based on \"lastupdated\" attribute in the response. It may be between 2 and 12 hours to see changes on \"lastupdated\". The \"lastupdated\" is the last time an event had audience activity as:\n    - Event is created\n    - New Registrant\n    - New Attendee\n    - Poll is answered\n    - Survey is answered\n  - \"modified\": filters based on \"lastmodified\" attribute in the response. \"lastmodified\" is the last time the event's information was modified.\n  - \"creation\": date and time an event was created.\n  - \"livestart\": date and time an event starts the live broadcasting.\n  - \"liveend\": date and time an event ends the live broadcasting.\n  - \"archivestart\": date and time an event will be available on-demand for the audience.\n  - \"archiveend\": date and time an event won't be available anymore for the audience.\n- **filterOrder** accepted values (not case-sensitive):\n  - \"asc\" (default): ascending\n  - \"desc\": descending\n- **contentType** accepted values (not case-sensitive):\n  - \"all\" (default)\n  - \"experience\": Experience Hub contents\n  - \"gateway\": Engagement Hub contents\n  - \"golive\": Go Live events\n  - \"pdf\": Documents from Media Manager library\n  - \"video\": Videos from Media Manager library\n  - \"webcast\": Elite webinars\n  - \"webpage\": Links from Media Library\n  - \"forum\": Forum events\n- In the Client Level Events response, \"eventlocation\" is the same as the \"campaigncode\" (Campaign Code)."
+      operationId: AnalyticsClientLevel.Events
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: dateInterval
+        in: query
+        description: Number of days returned in a response. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+        example: 30
+      - name: dateIntervalOffset
+        in: query
+        description: Number of days from which the interval should encompass. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 4
+      - name: dateIntervalTimezone
+        in: query
+        description: Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval.
+        schema:
+          type: string
+          default: America/Los_Angeles
+        example: America/Los_Angeles
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: pageoffset
+        in: query
+        description: Number of page to retrieve
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 1
+      - name: startdate
+        in: query
+        description: startDate's max range between start and end dates can be up to 6 months
+        schema:
+          type: string
+          default: 90 days before current date
+        example: '2007-12-03'
+      - name: enddate
+        in: query
+        description: endDate's max range between start and end dates can be up to 6 months
+        schema:
+          type: string
+          default: current date
+        example: '2007-12-05'
+      - name: includesubaccounts
+        in: query
+        description: If 'Y' then sub-accounts will be included in the response
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: datefiltermode
+        in: query
+        description: Type of date to be used with the startDate and endDate parameters.
+        schema:
+          type: string
+          default: goodafter
+        example: creation
+      - name: filterorder
+        in: query
+        description: The filter order
+        schema:
+          type: string
+          default: asc
+        example: desc
+      - name: includeinactive
+        in: query
+        description: If 'Y' then inactive events will be included in the response
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: contenttype
+        in: query
+        description: Filter events by contentType
+        schema:
+          type: string
+          default: all
+        example: webcast
+      - name: itemsperpage
+        in: query
+        description: Number of items to be retrieved per page
+        schema:
+          type: integer
+          format: int64
+          default: 100
+        example: 25
+      - name: subaccounts
+        in: query
+        description: Comma separated list of child client ids
+        schema:
+          type: string
+        example: 22921, 32295
+      responses:
+        '200':
+          description: Return list of events.
+          content:
+            application/json:
+              examples:
+                includesubaccounts is not passed or if includesubaccounts = N:
+                  description: includesubaccounts is not passed or if includesubaccounts = N
+                  value:
+                    totalevents: 9
+                    events:
+                    - eventanalytics:
+                        totalregistrants: 1
+                        totalattendees: 1
+                        liveattendees: 1
+                        ondemandattendees: 1
+                        averageliveminutes: 1
+                        averagecumulativeliveminutes: 1
+                        averagearchiveminutes: 1
+                        averagecumulativearchiveminutes: 1
+                        totalcumulativeliveminutes: 36
+                        totalcumulativearchiveminutes: 0
+                        totalcumulativeminutes: 36
+                        totalmediaplayerminutes: 36
+                        totallivemediaplayerminutes: 36
+                        totalarchivemediaplayerminutes: 0
+                      eventid: 9922511
+                      clientid: 22950
+                      goodafter: '2017-02-02T03:35:00-08:00'
+                      isactive: true
+                      regrequired: true
+                      description: New Live event on 2 FEB 2017
+                      promotionalsummary: Promotional Summary Sample
+                      regnotificationrequired: true
+                      displaytimezonecd: America/Los_Angeles
+                      eventtype: Live PC Mic
+                      category: Marketing
+                      createtimestamp: '2017-02-02T03:27:47-08:00'
+                      localelanguagecd: zh
+                      localecountrycd: TW
+                      lastmodified: '2017-02-02T03:27:47-08:00'
+                      lastupdated: '2017-02-02T03:29:00-08:00'
+                      iseliteexpired: N
+                      application: Investor Relations
+                      livestart: '2017-02-02T03:20:00-08:00'
+                      liveend: '2017-02-02T04:05:00-08:00'
+                      archivestart: '2017-02-02T04:35:00-08:00'
+                      archiveend: '2018-02-02T04:35:00-08:00'
+                      audienceurl: https://eventqa.on24.com/wcc/r/9922511/130A59F68EA9F7E1E2FE9B7FBBA54A9F
+                      scheduledeventduration: 60
+                      eventprofile: Stonehenge Profile (918)
+                      streamtype: whitepaper
+                      audiencekey: 130A59F68EA9F7E1E2FE9B7FBBA54A9F
+                      extaudienceurl: www.google.com
+                      reporturl: https://dataqa.on24.com/webcast/report?e=9922511&k=A8EBCD7A76D8BF36D71DCFEBED688237
+                      uploadurl: https://wcc.on24.com/webcast/login
+                      pmurl: https://wcc.on24.com/webcast/present?e=9922511&k=A8EBCD7A76D8BF36D71DCFEBED688237
+                      previewurl: http://eventqa.on24.com/webcast/previewlobby?e=9922511&k=A8EBCD7A76D8BF36D71DCFEBED688237
+                      contenttype: webcast
+                      campaigncode: campaignCode31536770910802
+                      eventlocation: campaignCode31536770910802
+                      createdby: Joe Smith
+                      ishybridevent: true
+                      partnerrefstats:
+                      - code: '-'
+                        count: 2
+                      tags:
+                      - custom tag 1
+                      - custom tag 2
+                      - custom tag 3
+                      funnelstages:
+                      - Consideration
+                      - Awareness
+                      - Evaluation
+                      speakers:
+                      - name: Matthew Parfitt
+                        title: President
+                        company: Vulture US
+                        description: As President of Vuture in North America, Matt focuses on marketing communications in the legal sector which 4 years ago saw him launch Vuture in the USA. Matt is a regular speaker and active member of the LMA and has been chair the New York CRM group for the last 3 years.
+                      - name: Samantha McKenna
+                        title: Director of Sales
+                        company: ON24 Inc.
+                        description: As Director of Sales, Samantha McKenna heads up the strategy behind ON24's legal presence. A thought leader in the legal industry, Sam works directly with ON24's legal clients on their go-to-market strategy for webinars, thought leadership events, virtual learning environments and virtual communications for alumni relations. She has served the legal community by attending the last seven Legal Marketing Association annual conferences, supporting several LMA chapters with sponsorships and by working directly with LMA on their national webinars as of 2015.
+                      eventstd1: EF1
+                      eventstd2: EF2
+                      eventstd3: EF3
+                      eventstd4: EF4
+                      eventstd5: EF5
+                      istestevent: true
+                      surveyurls:
+                      - https://eventqa.on24.com/eventManager/presentation/survey.jsp?eventId=9922511&sessionid=1&key=C9E1154B35A0AE0F3AF2858E25EA5509&survey=survey1
+                      customaccounttags:
+                      - groupid: 103
+                        groupname: Group 3
+                        tagid: 747
+                        tagname: Option 3-A
+                      customeventfields:
+                      - name: custom1
+                        label: Region
+                        value: North America
+                      - name: custom2
+                        label: Org
+                        value: Research
+                      - name: custom3
+                        label: CRM Campaign Code
+                        value: '111'
+                      - name: custom4
+                        label: MAP Campaign Code
+                        value: '222'
+                      - name: custom5
+                        label: Product
+                        value: Computer
+                      media:
+                        audios:
+                        - http://eventqa.on24.com/media_qa/news/corporatevideo/events/58/81/61/9/rt/demo_audio.wav
+                        videos:
+                        - http://pmqa.on24.com/media_qa/cv/events/58/81/61/9/rt/1_fhvideo1_demo_video.mp4
+                        slides:
+                        - http://eventqa.on24.com/event/58/72/14/5/rt/1/slide/slide/demo_slide.jpg
+                        videoclips:
+                        - http://eventqa.on24.com/media_qa/news/corporatevideo/events/58/72/14/5/rt/1/flashdemo/flashdemo/demo_clip.mp4
+                        urls:
+                        - http://www.hotmail.com
+                        - http://www.on24.com
+                        polls:
+                        - http://eventqa.on24.com/eventManager/EventQuestionServlet?mode=get&eventid=9922511&mediaurlid=91997329
+                        - http://eventqa.on24.com/eventManager/EventQuestionServlet?mode=get&eventid=9922511&mediaurlid=92221593
+                includesubaccounts = Y:
+                  description: includesubaccounts = Y
+                  value:
+                    pagecount: 2
+                    totalevents: 105
+                    currentpage: 1
+                    events:
+                    - eventanalytics:
+                        totalregistrants: 1
+                        totalattendees: 1
+                        liveattendees: 1
+                        ondemandattendees: 1
+                        averageliveminutes: 1
+                        averagecumulativeliveminutes: 1
+                        averagearchiveminutes: 1
+                        averagecumulativearchiveminutes: 1
+                        totalcumulativeliveminutes: 36
+                        totalcumulativearchiveminutes: 0
+                        totalcumulativeminutes: 36
+                        totalmediaplayerminutes: 36
+                        totallivemediaplayerminutes: 36
+                        totalarchivemediaplayerminutes: 0
+                      eventid: 9922511
+                      clientid: 22950
+                      goodafter: '2017-02-02T03:35:00-08:00'
+                      isactive: true
+                      regrequired: true
+                      description: New Live event on 2 FEB 2017
+                      promotionalsummary: Promotional Summary Sample
+                      regnotificationrequired: true
+                      displaytimezonecd: Asia/Kolkata
+                      eventtype: Live PC Mic
+                      category: Marketing
+                      createtimestamp: '2017-02-02T03:27:47-08:00'
+                      localelanguagecd: fr
+                      lastmodified: '2017-02-02T03:27:47-08:00'
+                      lastupdated: '2017-02-02T03:29:00-08:00'
+                      iseliteexpired: N
+                      application: Investor Relations
+                      livestart: '2017-02-02T03:20:00-08:00'
+                      liveend: '2017-02-02T04:05:00-08:00'
+                      archivestart: '2017-02-02T04:35:00-08:00'
+                      archiveend: '2018-02-02T04:35:00-08:00'
+                      audienceurl: https://eventqa.on24.com/wcc/r/9922511/130A59F68EA9F7E1E2FE9B7FBBA54A9F
+                      eventprofile: Stonehenge Profile (918)
+                      streamtype: whitepaper
+                      audiencekey: 130A59F68EA9F7E1E2FE9B7FBBA54A9F
+                      extaudienceurl: www.google.com
+                      reporturl: https://dataqa.on24.com/webcast/report?e=9922511&k=A8EBCD7A76D8BF36D71DCFEBED688237
+                      uploadurl: https://wcc.on24.com/webcast/login
+                      pmurl: https://pmqa.on24.com/presentationManager/login.jsp?eventid=9922511&sessionid=1&key=A8EBCD7A76D8BF36D71DCFEBED688237
+                      previewurl: http://eventqa.on24.com/webcast/previewlobby?e=9922511&k=A8EBCD7A76D8BF36D71DCFEBED688237
+                      contenttype: webcast
+                      campaigncode: campaignCode31536770910802
+                      eventlocation: campaignCode31536770910802
+                      ishybridevent: true
+                      istestevent: true
+                      partnerrefstats:
+                      - code: '-'
+                        count: 2
+                      tags:
+                      - custom tag 1
+                      - custom tag 2
+                      - custom tag 3
+                      funnelstages:
+                      - Consideration
+                      - Awareness
+                      - Evaluation
+                      speakers:
+                      - name: Matthew Parfitt
+                        title: President
+                        company: Vulture US
+                        description: As President of Vuture in North America, Matt focuses on marketing communications in the legal sector which 4 years ago saw him launch Vuture in the USA. Matt is a regular speaker and active member of the LMA and has been chair the New York CRM group for the last 3 years.
+                      - name: Samantha McKenna
+                        title: Director of Sales
+                        company: ON24 Inc.
+                        description: As Director of Sales, Samantha McKenna heads up the strategy behind ON24's legal presence. A thought leader in the legal industry, Sam works directly with ON24's legal clients on their go-to-market strategy for webinars, thought leadership events, virtual learning environments and virtual communications for alumni relations. She has served the legal community by attending the last seven Legal Marketing Association annual conferences, supporting several LMA chapters with sponsorships and by working directly with LMA on their national webinars as of 2015.
+                      eventstd1: EF1
+                      eventstd2: EF2
+                      eventstd3: EF3
+                      eventstd4: EF4
+                      eventstd5: EF5
+                      surveyurls:
+                      - https://eventqa.on24.com/eventManager/presentation/survey.jsp?eventId=9922511&sessionid=1&key=C9E1154B35A0AE0F3AF2858E25EA5509&survey=survey1
+                      customaccounttags:
+                      - groupid: 103
+                        groupname: Group 3
+                        tagid: 747
+                        tagname: Option 3-A
+                      media:
+                        audios:
+                        - http://eventqa.on24.com/media_qa/news/corporatevideo/events/58/81/61/9/rt/demo_audio.wav
+                        videos:
+                        - http://pmqa.on24.com/media_qa/cv/events/58/81/61/9/rt/1_fhvideo1_demo_video.mp4
+                        slides:
+                        - http://eventqa.on24.com/event/58/72/14/5/rt/1/slide/slide/demo_slide.jpg
+                        videoclips:
+                        - http://eventqa.on24.com/media_qa/news/corporatevideo/events/58/72/14/5/rt/1/flashdemo/flashdemo/demo_clip.mp4
+                        urls:
+                        - http://www.hotmail.com
+                        - http://www.on24.com
+                        polls:
+                        - http://eventqa.on24.com/eventManager/EventQuestionServlet?mode=get&eventid=9922511&mediaurlid=91997329
+                        - http://eventqa.on24.com/eventManager/EventQuestionServlet?mode=get&eventid=9922511&mediaurlid=92221593
+                VE Account:
+                  description: VE Account
+                  value:
+                    totalevents: 5
+                    events:
+                    - eventid: 14031264
+                      clientid: 22957
+                      goodafter: '2016-10-18T04:35:00-07:00'
+                      isactive: true
+                      regrequired: true
+                      description: Test VE Event
+                      promotionalsummary: Promotional Summary Sample
+                      displaytimezonecd: America/Los_Angeles
+                      createtimestamp: '2016-10-18T04:34:06-07:00'
+                      lastmodified: '2016-10-18T04:34:06-07:00'
+                      lastupdated: '2016-10-20T09:58:12-07:00'
+                      livestart: '2017-02-02T03:20:00-08:00'
+                      liveend: '2017-02-02T04:05:00-08:00'
+                      archivestart: '2017-02-02T04:35:00-08:00'
+                      archiveend: '2018-02-02T04:35:00-08:00'
+                      audienceurl: https://event.on24.com/wcc/r/14031264/9AB4ABD834D841E9E5ED9124D266848B
+                      reporturl: https://data.on24.com/webcast/report?e=14031264&k=A8EBCD7A76D8BF36D71DCFEBED688237
+                      contenttype: virtualenvironment
+                      campaigncode: campaignCode31536770910802
+                      eventlocation: campaignCode31536770910802
+                      istestevent: true
+                      partnerrefstats:
+                      - code: '-'
+                        count: 2
+                Go Live:
+                  description: Go Live
+                  value:
+                    totalevents: 1
+                    events:
+                    - eventid: 6622151
+                      clientid: 32120
+                      goodafter: '2021-10-01T03:35:00-07:00'
+                      isactive: true
+                      regrequired: false
+                      description: aosorio_golive_test
+                      promotionalsummary: aosorio_golive_test
+                      regnotificationrequired: true
+                      displaytimezonecd: America/Los_Angeles
+                      eventtype: Go Live
+                      createtimestamp: '2021-09-01T03:27:47-08:00'
+                      localelanguagecd: en
+                      lastupdated: '2021-09-01T03:27:47-08:00'
+                      livestart: '2021-10-01T03:35:00-07:00'
+                      liveend: '2021-10-01T03:35:00-07:00'
+                      archivestart: '2021-10-01T03:35:00-07:00'
+                      archiveend: '2021-10-01T03:35:00-07:00'
+                      audienceurl: https://goliveqa.on24.com/event/6622151
+                      previewurl: https://goliveqa.on24.com/event/6622151?previewmode=true
+                      contenttype: golive
+                      campaigncode: campaignCode315
+                      eventlocation: campaignCode315
+                      istestevent: true
+                      partnerrefstats:
+                      - code: '-'
+                        count: 28
+                      categories:
+                      - category 1
+                      - category 2
+                      - category 3
+                      tracks:
+                      - track 1
+                      - track 2
+                      - track 3
+                      categoriesdata:
+                      - id: 21
+                        name: category 1
+                      - id: 22
+                        name: category 2
+                      - id: 23
+                        name: category 3
+                      trackdata:
+                      - id: 11
+                        name: track 1
+                      - id: 12
+                        name: track 2
+                      - id: 13
+                        name: track 3
+                      livedays:
+                      - id: 66
+                        title: LIVE DAY 1
+                        livestarttime: '2021-10-01T03:35:00-07:00'
+                        liveendtime: '2021-10-01T03:40:00-07:00'
+                      contents:
+                      - title: content name
+                        type: Keynote
+                        status: published
+                        resourceid: 6793591
+                        externalurl: http://www.on24.com
+                      - title: Opening Keynote
+                        type: webcast
+                        status: Published
+                        resourceid: 1234567
+                        sessionstarttime: '2026-04-02T08:15:00-07:00'
+                        eventid: 4567890
+                        livedayid: 1001
+                        tracks:
+                        - id: 11
+                          name: track 1
+                        - id: 12
+                          name: track 2
+                        categories:
+                        - id: 21
+                          name: category 1
+                        - id: 22
+                          name: category 2
+                      speakers:
+                      - name: Speaker Sample
+                        title: Mr.
+                        company: CO
+                        description: Description sample.
+                      sponsors:
+                      - id: 135125
+                        name: Sponsor A
+                        staff:
+                        - firstname: Jim
+                          lastname: Darnald
+                          company: Company Name
+                          title: Sr. Manager
+                          email: jim.darnald@test.com
+                          roles:
+                          - Admin
+                          - Rep
+                Broadcast Video (encoder fragment):
+                  description: 'If the event is configured as Broadcast Video type, the response will include encoder information similar as following sample fragment:'
+                  value:
+                    encoders:
+                    - encoder: Encoder A
+                      url: rtmp://fmseosa.on24.com/liveeosa
+                      streamid: 5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_A
+                    - encoder: Encoder B
+                      url: rtmp://fmseosb.on24.com/liveeosb
+                      streamid: 5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_B
+        '400':
+          description: Error, incorrect date formats.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The client {clientId} doesn't exist.
+  /client/{clientId}/lead:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Leads
+      description: 'Returns a listing of leads for a particular client. There is a limit of 50 leads per page.
+
+
+        - If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses.'
+      operationId: AnalyticsClientLevel.Leads
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: dateInterval
+        in: query
+        description: Number of days returned in a response. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+        example: 30
+      - name: dateIntervalOffset
+        in: query
+        description: Number of days from which the interval should encompass. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 4
+      - name: dateIntervalTimezone
+        in: query
+        description: Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval.
+        schema:
+          type: string
+          default: America/Los_Angeles
+        example: America/Los_Angeles
+      - name: startdate
+        in: query
+        description: Limit results to users with registration date or attendance activity after startDate
+        schema:
+          type: string
+          default: 30 days before current date
+        example: '2007-12-03'
+      - name: enddate
+        in: query
+        description: Limit results to users with registration date or attendance activity before endDate
+        schema:
+          type: string
+          default: current date
+        example: '2007-12-05'
+      - name: pageoffset
+        in: query
+        description: Selects the page to retrieve
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 1
+      - name: itemsperpage
+        in: query
+        description: Number of items to be retrieved per page
+        schema:
+          type: integer
+          format: int64
+          default: 50
+        example: 25
+      responses:
+        '200':
+          description: Return list of leads
+          content:
+            application/json:
+              example:
+                clientid: 22921
+                totalleads: 2
+                pagecount: 1
+                currentpage: 0
+                leads:
+                - email: xxxxxx@acme.com
+                  businessinterests:
+                  - cars
+                  - clowns
+                  engagementlevel: HIGH
+                  userprofileurl: https://data.on24.com/webcast/lead?token=yLw6HonT3FPP5-WFXrzDSus5yYRJs55zGUd9opGrJmFUC0t1TphOa47Vt_eYaAPM609CqsxjaColu2fthsldEJCVv9rxZuC00Uj9Uayp4X0=
+                  segments:
+                  - USA & Canada Users
+                  - C-level Registrants
+                - email: xxxxxx@acme_inc.com
+                  businessinterests:
+                  - clouds
+                  - “hats”
+                  engagementprediction: LOW
+                  userprofileurl: https://data.on24.com/webcast/lead?token=yLw6FonT3FTT5-WFXrzDSus5yYRJs55zIUd9otGrJmHUC0t1TphOa47Vt_eYaATM609CqsxjaColu2fthsldEJCVv9rxZuC00Uj9Uayt4X0=
+                  segments:
+                  - Europe Users
+                  - C-level Registrants
+                  - A-level Leads
+        '400':
+          description: startDate and endDate can't be more than 365 days appart. | Invalid pageOffset, range must be between 0 and XX.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | Power Leads report is not enabled for client {clientId}.
+  /client/{clientId}/lead/{email}:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: PEP
+      description: Returns the Prospect Engagement Profile data for a specific email address.
+      operationId: AnalyticsClientLevel.PEP
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: email
+        in: path
+        description: lead email
+        required: true
+        schema:
+          type: string
+        example: test@domain.com
+      responses:
+        '200':
+          description: Return PEP data
+          content:
+            application/json:
+              examples:
+                when lead has attended at least one webinar:
+                  description: when lead has attended at least one webinar
+                  value:
+                    company: test company
+                    email: ddd@inbfw.co
+                    lastname: Y
+                    firstname: John Doe
+                    lifetimeactivity:
+                      resources: 1
+                      engagementlevel: HIGH
+                      totalengagementminutes: 60
+                      totalengagementseconds: 3615
+                      totaltouches: 5
+                      webinarsattended: 4
+                      videoswatched: 0
+                      documentsread: 0
+                      webpagesviewed: 0
+                    businessinterests:
+                      keywords:
+                      - Widget
+                      - Webcast
+                      - Yahoo
+                      - Polls
+                      - Slidefromslide
+                      - Status
+                      - Send
+                      - Push
+                      - Cbnfgxhjgj
+                      - Asnwer
+                      lastupdated: '2018-09-27T03:15:32-07:00'
+                    jobtitle: Senior Manager
+                    workphone: '52162345664465465'
+                    notes: 'example notes '
+                    recentactivities:
+                    - eventid: 11094647
+                      liveseconds: 3800
+                      livetime: 63
+                      ondemandtime: 0
+                      ondemandseconds: 0
+                      eventtitle: Widget Report
+                      attendedarchive: N
+                      attendedlive: Y
+                      lastactivity: '2018-08-27T04:33:14-07:00'
+                      registrationdate: '2018-08-27T02:33:43-07:00'
+                      totalpages: 0
+                      resourcesdownloaded: 2
+                      askedquestions: 1
+                      answeredpolls: 1
+                      answeredsurveys: 1
+                      ctasaccessed: 3
+                      resources:
+                      - resourcename: facebook
+                      - resourcename: google
+                      questions:
+                      - question: first question
+                        answer: Unanswered
+                      polls:
+                      - question: безплатна услуга Google превежда незабавно думи, фрази и уеб страници между английски и.
+                        answer: FGHJKL
+                      surveys:
+                      - question: ghjgyuikuoy
+                        answer: '365'
+                      calltoactions:
+                      - ctaid: '83970357'
+                        ctaname: Call To Action 1
+                        clicks: '3'
+                        date: '2015-05-19T11:10:00-07:00'
+                      eventuserid: 224094098
+                      exteventusercd: '1521'
+                no webinar attended:
+                  description: no webinar attended
+                  value:
+                    company: on24
+                    email: esteban.mora+testing-pep-predictive-engagement@on24.com
+                    lastname: mora
+                    firstname: Zapier client T-1
+                    lifetimeactivity:
+                      resources: 0
+                      totalengagementminutes: 0
+                      totaltouches: 0
+                      webinarsattended: 0
+                      videoswatched: 0
+                      documentsread: 0
+                      webpagesviewed: 0
+                      engagementprediction: MEDIUM
+                    businessinterests:
+                      keywords: []
+                    jobtitle: developer
+                    workphone: '998324239847'
+                    recentactivities: []
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: No lead data was found for that email address
+  /client/{clientId}/presenter:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Presenters
+      description: Returns a listing of presenters for a particular client.
+      operationId: AnalyticsClientLevel.Presenters
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: dateInterval
+        in: query
+        description: Number of days returned in a response. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+        example: 30
+      - name: dateIntervalOffset
+        in: query
+        description: Number of days from which the interval should encompass. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 4
+      - name: dateIntervalTimezone
+        in: query
+        description: Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval.
+        schema:
+          type: string
+          default: America/Los_Angeles
+        example: America/Los_Angeles
+      - name: excludesubaccounts
+        in: query
+        description: if set to "Y", sub-accounts will be excluded
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: startdate
+        in: query
+        description: Limit results to presenters with last login date after startDate
+        schema:
+          type: string
+          format: date
+        example: '2007-12-03'
+      - name: enddate
+        in: query
+        description: Limit results to presenters with last login date before endDate
+        schema:
+          type: string
+          format: date
+        example: '2007-12-05'
+      responses:
+        '200':
+          description: Return list of presenters.
+          content:
+            application/json:
+              example:
+                eventpresenters:
+                - eventid: 10176046
+                  clientid: 31132
+                  sessionid: 1
+                  eventtitle: Questions and Answers Event
+                  presenterid: 2009445
+                  firstname: sumiti
+                  lastname: XXXXX
+                  email: xxxxxxxxxx@on24.com
+                  accessmode: Producer
+                  starttime: '2017-07-26T01:50:53-07:00'
+                  endtime: '2017-07-26T03:34:22-07:00'
+                  ispracticesession: N
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The client {clientId} doesn't exist.
+  /client/{clientId}/registrant:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Registrants
+      description: "Returns a listing of registrants for a particular client. There is a limit of 100 registrants per page.\n\n- If double opt-in verification was enabled at the time of registration for an event, and a user has not completed the verification process, the user will not be included in any endpoint responses.\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma)\n  - Child client IDs must be under the {clientId} of the request\n  - If **subaccounts** is provided and **excludeSubaccounts=Y**, following error message is returned: *\"You have to set excludesubaccounts='N' in order to filter by subaccounts.\".*\n  - If **subaccounts** includes multiple values, and at least one value is not valid, an error message is returned.\n  - When **subaccounts** is provided, the response will only return the data of the child client IDs included in the parameter.\n- **dateFilterMode** parameter options (not case-sensitive):\n  - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.\n  - \"lastActivity\" is the only supported value. When passed, the response will include only those registrants who have had activity between (and including) the provided startDate and endDate. Registrant lastActivity value is updated with new modified date whenever one of the following API endpoints gets invoked to modify the registration information:\n    - REST Registration\n    - Update Registrant (client-level)\n    - Forget Registrant (client-level)\n    - Forget All Registrant (client-level)\n    - Forget All Registrant (event-level)"
+      operationId: AnalyticsClientLevel.Registrants
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: dateInterval
+        in: query
+        description: Number of days returned in a response. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+        example: 30
+      - name: dateIntervalOffset
+        in: query
+        description: Number of days from which the interval should encompass. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 4
+      - name: dateIntervalTimezone
+        in: query
+        description: Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval.
+        schema:
+          type: string
+          default: America/Los_Angeles
+        example: America/Los_Angeles
+      - name: excludeSubaccounts
+        in: query
+        description: if set to "y", sub-accounts will be excluded
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: pageoffset
+        in: query
+        description: Selects the page to retrieve
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 1
+      - name: startdate
+        in: query
+        description: Limit results to registrants with registration date after startDate
+        schema:
+          type: string
+          format: date
+          default: 30 days before current date
+        example: '2007-12-03'
+      - name: enddate
+        in: query
+        description: Limit results to registrants with registration date before endDate
+        schema:
+          type: string
+          format: date
+          default: current date
+        example: '2007-12-05'
+      - name: partnerref
+        in: query
+        description: filter by partnerref
+        schema:
+          type: string
+        example: EM
+      - name: userstatus
+        in: query
+        description: 'Filter to users based on their status. If not provided, only regular users will be returned. Possible values: any: will return all registrants, including: active, soft-deleted and forgotten registrants. deleted: will return soft-deleted users only. forgotten: will return forgotten users only. all: **deprecated** - will include regular and soft-deleted users. **Note:** By design, there is No option to exclude soft-deleted users from the response.'
+        schema:
+          type: string
+          default: all
+        example: any
+      - name: excludelive
+        in: query
+        description: Filter to exclude registrants which register after event ends
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: filterforgotten
+        in: query
+        description: '**Deprecated** - Forgotten registrants filter. Y: only forgotten users will be returned in the response. N: forgotten users will be omitted in the response.'
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: itemsperpage
+        in: query
+        description: Number of items to be retrieved per page
+        schema:
+          type: integer
+          format: int64
+          default: 100
+        example: 25
+      - name: excludeanonymous
+        in: query
+        description: Filter to exclude System-Generated Email Addresses
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: subaccounts
+        in: query
+        description: Comma separated list of child client ids
+        schema:
+          type: string
+        example: 22921, 32295
+      - name: datefiltermode
+        in: query
+        description: Type of date to be used with the startDate and endDate parameters.
+        schema:
+          type: string
+        example: lastactivity
+      responses:
+        '200':
+          description: "Return list of registrants\n\n- This endpoint returns data on people who registered for a Virtual Environment (VE).\n- Properties that will not be returned for VE registrants include:\n  - userprofileurl\n  - engagementprediction\n  - emailformat\n- The following values are cached on the server between 3 - 24 hours:\n  - engagementprediction"
+          content:
+            application/json:
+              example:
+                clientid: 22921
+                totalregistrants: 1
+                pagecount: 1
+                currentpage: 0
+                registrants:
+                - firstname: Alejandro
+                  lastname: XXXXXXXX
+                  email: xxxxxxxxxx@on24.com
+                  company: INT
+                  jobtitle: Developer
+                  addressstreet1: XXXXX XX XXX
+                  addressstreet2: XXX-XX
+                  city: Mountainview
+                  state: CA
+                  zip: '94040'
+                  country: United States
+                  homephone: (123)-456-7890
+                  workphone: (123)-456-7890
+                  fax: (123)-456-7890
+                  username: aosorio
+                  exteventusercd: '154092645'
+                  other: other
+                  notes: notes
+                  jobfunction: Manager
+                  companyindustry: Software
+                  companysize: 1 - 49
+                  partnerref: Ref1
+                  clientid: 22921
+                  eventid: 2141380
+                  eventuserid: 150174520
+                  std1: std1
+                  std2: std2
+                  std3: std3
+                  std4: std4
+                  std5: std5
+                  std6: std6
+                  std7: std7
+                  std8: std8
+                  std9: std9
+                  std10: std10
+                  marketingemail: N
+                  eventemail: Y
+                  userprofileurl: https://data.on24.com/webcast/lead?token=yLw6FonT3FPP5-WFXrzDSus5yYRJs55zGUd9opGrJmHUC0t1TphOa47Vt_eYaAPM609CqsxjaColu2fthsldEJCVv9rxZuC00Uj9Uayp4X0=
+                  createtimestamp: '2017-09-26T13:38:36-07:00'
+                  lastactivity: '2017-09-26T13:38:36-07:00'
+                  engagementprediction: LOW
+                  ipaddress: 80.115.1.5
+                  os: win10
+                  browser: chrome53
+                  emailformat: text
+                  campaigncode: CMP-001
+                  sourcecampaigncode: CMP-001
+                  sourceeventid: 2141380
+                  userstatus: active
+                  utmsource: newsletter
+                  utmmedium: banner
+                  utmcampaign: spring_sale_2022
+                  utmterm: spring+sale
+                  utmcontent: https://mydomain.com/i/p/campaigns/spring_sale_2022.jpg
+                  attendeetype: Virtual
+        '400':
+          description: Error, incorrect date formats.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The client {clientId} doesn't exist.
+  /client/{clientId}/registrant/{email}:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Registrant by Email
+      description: 'Returns most recent registration information for a specific email address.
+
+
+        - If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses.'
+      operationId: AnalyticsClientLevel.RegistrantByEmail
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: email
+        in: path
+        required: true
+        schema:
+          type: string
+      - name: partnerref
+        in: query
+        description: filter by partnerref
+        schema:
+          type: string
+        example: EM
+      - name: eventid
+        in: query
+        description: If provided, returns reg info for that event
+        schema:
+          type: string
+        example: 382931
+      responses:
+        '200':
+          description: "Return registration information\n\n- This endpoint returns data on people who registered for a Virtual Environment (VE).\n- Properties that will not be returned for VE registrants include:\n  - userprofileurl"
+          content:
+            application/json:
+              example:
+                registrant:
+                  eventuserid: 49177588
+                  clientid: 22921
+                  eventid: 311512
+                  firstname: Gina
+                  lastname: Xxxxxx
+                  email: xxxxxxxxx@on24.com
+                  company: ON24
+                  jobtitle: marketing
+                  addressstreet1: XXXXX XX XXX
+                  addressstreet2: XXX-XX
+                  city: Mountainview
+                  state: CA
+                  zip: 02139
+                  country: United States
+                  workphone: (123)-456-7890
+                  exteventusercd: '712009'
+                  jobfunction: Manager
+                  companyindustry: Software
+                  companysize: 1 - 49
+                  partnerref: Ref1
+                  std1: std1
+                  std2: std2
+                  std3: std3
+                  std4: std4
+                  std5: std5
+                  std6: std6
+                  std7: std7
+                  std8: std8
+                  std9: std9
+                  std10: std10
+                  fax: (123)-456-7890
+                  username: glockhart
+                  other: sample field content
+                  notes: sample note 1
+                  marketingemail: N
+                  eventemail: Y
+                  homephone: (123)-456-7890
+                  ipaddress: 127.0.0.1
+                  os: win10
+                  browser: chrome53
+                  userprofileurl: https://dataqa.on24.com/webcast/lead?token=8GNKaxTZfgUYRCbUDEvUiCP_pdq8sDTt3AGnWu7m2rSh6u_Ivr1Y8gIWmHkeRBpouipu1d1CnGFBZ67VsgzvyktuxWMVkYCovtIUr4GDdvA=
+                  campaigncode: CMP-001
+                  sourcecampaigncode: CMP-001
+                  sourceeventid: 311512
+                  userstatus: active
+                  utmsource: newsletter
+                  utmmedium: banner
+                  utmcampaign: spring_sale_2022
+                  utmterm: spring+sale
+                  utmcontent: https://mydomain.com/i/p/campaigns/spring_sale_2022.jpg
+                  attendeetype: Virtual
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: No registrant was found for that email address; or No registrant was found for that email address and eventId combination
+  /client/{clientId}/registrant/{email}/allevents:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Registrants by Email Multiple Events
+      description: "Returns a listing of all registration information for a specific email address. There is a limit of 100 registrants per page.\n\n- If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses.\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under the {clientId} of the request.\n  - If **subaccounts** is provided and **excludeSubaccounts** is \"Y\", the following error message is returned: *\"You have to set excludesubaccounts='N' in order to filter by subaccounts.\".*\n  - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.\n  - When **subaccounts** is provided, the response will only return data for the child client IDs included in the parameter"
+      operationId: AnalyticsClientLevel.RegistrantsByEmailMultipleEvents
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: email
+        in: path
+        description: The email to lookup
+        required: true
+        schema:
+          type: string
+        example: john.doe@on24.com
+      - name: pageoffset
+        in: query
+        description: Selects the page to retrieve
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 1
+      - name: excludesubaccounts
+        in: query
+        description: if set to "y", sub-accounts will be excluded
+        schema:
+          type: string
+          default: N
+        example: y
+      - name: subaccounts
+        in: query
+        description: Comma separated list of child client ids
+        schema:
+          type: string
+        example: 22921, 32295
+      - name: itemsperpage
+        in: query
+        description: Number of items to be retrieved per page
+        schema:
+          type: integer
+          format: int64
+          default: 100
+        example: 25
+      responses:
+        '200':
+          description: "Return list of registrants\n\n- This endpoint returns data on people who registered for a Virtual Environment (**VE**).\n- Properties that will not be returned for VE registrants include:\n  - userprofileurl\n  - engagementprediction\n  - emailformat\n- The following values are cached on the server between 3 - 24 hours:\n  - engagementprediction"
+          content:
+            application/json:
+              example:
+                clientid: 22921
+                totalregistrants: 1
+                pagecount: 1
+                currentpage: 0
+                registrants:
+                - firstname: Alejandro
+                  lastname: XXXXXXXX
+                  email: xxxxxxxxxx@on24.com
+                  company: INT
+                  jobtitle: Developer
+                  addressstreet1: XXXXX XX XXX
+                  addressstreet2: XXX-XX
+                  city: Mountainview
+                  state: CA
+                  zip: '94040'
+                  country: United States
+                  homephone: (123)-456-7890
+                  workphone: (123)-456-7890
+                  fax: (123)-456-7890
+                  username: aosorio
+                  exteventusercd: '154092645'
+                  other: other
+                  notes: notes
+                  jobfunction: Manager
+                  companyindustry: Software
+                  companysize: 1 - 49
+                  partnerref: Ref1
+                  clientid: 22921
+                  eventid: 2141380
+                  eventuserid: 150174520
+                  std1: std1
+                  std2: std2
+                  std3: std3
+                  std4: std4
+                  std5: std5
+                  std6: std6
+                  std7: std7
+                  std8: std8
+                  std9: std9
+                  std10: std10
+                  marketingemail: N
+                  eventemail: Y
+                  userprofileurl: https://data.on24.com/webcast/lead?token=yLw6FonT3FPP5-WFXrzDSus5yYRJs55zGUd9opGrJmHUC0t1TphOa47Vt_eYaAPM609CqsxjaColu2fthsldEJCVv9rxZuC00Uj9Uayp4X0=
+                  createtimestamp: '2017-09-26T13:38:36-07:00'
+                  lastactivity: '2017-09-26T13:38:36-07:00'
+                  engagementprediction: LOW
+                  ipaddress: 80.115.1.5
+                  os: win10
+                  browser: chrome53
+                  emailformat: text
+                  campaigncode: CMP-001
+                  sourcecampaigncode: CMP-001
+                  sourceeventid: 2141380
+                  userstatus: active
+                  utmsource: newsletter
+                  utmmedium: banner
+                  utmcampaign: spring_sale_2022
+                  utmterm: spring+sale
+                  utmcontent: https://mydomain.com/i/p/campaigns/spring_sale_2022.jpg
+                  attendeetype: Virtual
+        '400':
+          description: Error, incorrect date formats.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The registrant {email} doesn't exist. | The client {clientId} doesn't exist.
+  /client/{clientId}/surveylibrary:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Client Survey Library
+      description: Returns the survey library questions and response options for a client.
+      operationId: AnalyticsClientLevel.ClientSurveyLibrary
+      parameters:
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      responses:
+        '200':
+          description: Returns the list of survey questions in the library.
+          content:
+            application/json:
+              example:
+                surveyquestions:
+                - questioncode: 17282
+                  questiontype: SINGLE_OPTION
+                  question: Single-option question No. 1
+                  surveyanswer:
+                  - answercode: choice1
+                    answer: First option
+                  - answercode: choice2
+                    answer: Second option
+                  - answercode: choice3
+                    answer: Third option
+                  variations:
+                  - questioncode: 17283
+                    question: Pregunta de respuesta única No. 1
+                    languagecode: es
+                    surveyanswer:
+                    - answercode: choice1
+                      answer: Primera opción
+                    - answercode: choice2
+                      answer: Segunda opción
+                    - answercode: choice3
+                      answer: Tercera opción
+                - questioncode: 17341
+                  questiontype: MULTI_OPTION
+                  question: Pregunta de respuesta múltiple No. 1
+                  surveyanswer:
+                  - answercode: choice1
+                    answer: Opción1
+                  - answercode: choice2
+                    answer: Opción2
+                  variations:
+                  - questioncode: 17342
+                    question: Multi-option questionNo. 1
+                    languagecode: en
+                    surveyanswer:
+                    - answercode: choice1
+                      answer: Opt. 1
+                    - answercode: choice2
+                      answer: Opt. 2
+                - questioncode: 17535
+                  questiontype: SINGLE_TEXT
+                  question: Tell us about yourself
+                  variations:
+                  - questioncode: 17536
+                    question: Cuéntanos sobre ti
+                    languagecode: es
+                  - questioncode: 17537
+                    question: Parlez nous de vous
+                    languagecode: fr
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist.
+  /client/{clientId}/userquestions:
+    get:
+      tags:
+      - Client Level Analytics
+      summary: Client User Questions
+      description: 'Returns a listing of user questions for a particular client.
+
+
+        - Real-time API endpoint that returns the info for the last 5 minutes
+
+        - The maximum duration for the **startDate** and **endDate** interval is 1 hour.'
+      operationId: AnalyticsClientLevel.UserQuestions
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: excludesubaccounts
+        in: query
+        description: if set to "Y", sub-accounts will be excluded
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: emailFilter
+        in: query
+        description: Limit the questions returned to only those from specific domains
+        schema:
+          type: string
+        example: microsoft.com|intel.com|ba.com
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: string
+        example: 15448
+      - name: startdate
+        in: query
+        description: Limit the results to those occurring after this date/time
+        schema:
+          type: string
+          default: 5 minutes ago
+        example: '2012-05-19T12:00:00-05:00'
+      - name: enddate
+        in: query
+        description: limit the results to those occurring before this date/time
+        schema:
+          type: string
+          default: now
+        example: '2012-05-19T12:00:00-05:00'
+      responses:
+        '200':
+          description: Return list of user questions
+          content:
+            application/json:
+              example:
+                questions:
+                - eventid: 10115107
+                  clientid: 22921
+                  eventuserid: 150146421
+                  questionid: 6268257
+                  createtimestamp: '2017-06-15T01:06:54-07:00'
+                  content: Hello , This is Question With Answer send to ALL
+                  firstname: Kunal
+                  lastname: XXXXXX
+                  email: xxxxxxxxxx@on24.com
+                  answer:
+                    createtimestamp: '2017-06-15T01:07:43-07:00'
+                    content: Sent to ALL
+                    presenterid: 1992131
+                    presentername: Kunal Presenter ONE
+                    privacy: Private
+                  exteventusercd: '986'
+        '400':
+          description: the startDate and endDate are more than 1 hour apart.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The client {clientId} doesn't exist.
+components:
+  securitySchemes:
+    AccessTokenKey:
+      type: apiKey
+      description: API access token key issued by the ON24 platform. Must be supplied together with AccessTokenSecret.
+      name: AccessTokenKey
+      in: header
+    AccessTokenSecret:
+      type: apiKey
+      description: API access token secret corresponding to the AccessTokenKey. Must be supplied together with AccessTokenKey.
+      name: AccessTokenSecret
+      in: header

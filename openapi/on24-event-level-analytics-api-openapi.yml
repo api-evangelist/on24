@@ -1,0 +1,2247 @@
+openapi: 3.2.0
+info:
+  title: ON24 WCC API v2 Event Level Analytics API
+  description: 'ON24 Webinar & Content Center REST API v2. All secured endpoints require two request headers: AccessTokenKey and AccessTokenSecret. Both headers must be supplied together — providing only one is not sufficient.'
+  version: '2'
+servers:
+- url: https://api.on24.com/v2
+  description: North America (production)
+- url: https://api.eu.on24.com/v2
+  description: European Union (production)
+security:
+- AccessTokenKey: []
+- AccessTokenSecret: []
+tags:
+- name: Event Level Analytics
+paths:
+  /client/{clientId}/event/{eventId}:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Metadata and Usage
+      description: 'Return information and summary activity about a particular event.
+
+
+        - If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in the eventanalytics section of the response (totalregistrants, noshowcount).'
+      operationId: AnalyticsEventLevel.MetadataAndUsage
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: 'Return information for an event.
+
+
+            - **noshowcount** (calculated as **totalregistrants** - **totalattendees**) indicates the number of anonymous users who did not completed the registration for a particular event.'
+          content:
+            application/json:
+              examples:
+                When content type is webcast:
+                  description: When content type is webcast
+                  value:
+                    eventanalytics:
+                      totalregistrants: 10
+                      totalattendees: 9
+                      liveattendees: 0
+                      ondemandattendees: 9
+                      numberofquestionsasked: 0
+                      numberofquestionsanswered: 0
+                      numberofpollspushed: 2
+                      numberofpollresponses: 0
+                      numberofsurveyspresented: 2
+                      numberofsurveyresponses: 0
+                      noshowcount: 1
+                      registrationpagehits: 4
+                      sharethiswidgetuniqueviews: 2
+                      sharethiswidgettotalviews: 3
+                      twitterwidgetuniqueviews: 1
+                      twitterwidgettotalviews: 8
+                      numberofctaclicks: 3
+                      numberofmeetingconversions: 3
+                      numberofdemoconversions: 2
+                      numberoffreetrialrequests: 1
+                      numberofdrifts: 1
+                      numberofgroupchatmessagessubmitted: 10
+                      numberofresourcesavailable: 3
+                      attendeeswhodownloadedresource: 1
+                      uniqueattendeeresourcedownloads: 2
+                      eventengagementscore: 1.7
+                      numberoftestssubmitted: 10
+                      numberoftestspassed: 8
+                      averageliveminutes: 8
+                      averagecumulativeliveminutes: 5
+                      averagearchiveminutes: 3
+                      averagecumulativearchiveminutes: 2
+                      totalcumulativeliveminutes: 36
+                      totalcumulativearchiveminutes: 0
+                      totalcumulativeminutes: 36
+                      totalmediaplayerminutes: 36
+                      totallivemediaplayerminutes: 36
+                      totalarchivemediaplayerminutes: 0
+                    eventid: 10432146
+                    eventname: event Abstract
+                    clientid: 22950
+                    eventduration: 45
+                    goodafter: '2016-10-18T04:35:00-07:00'
+                    isactive: true
+                    goodtill: '2018-09-12T19:15:48-07:00'
+                    regrequired: true
+                    description: New Webcast
+                    promotionalsummary: Promotional Summary Sample
+                    regnotificationrequired: true
+                    displaytimezonecd: America/Los_Angeles
+                    qandaemail: abhijeet.joshi@lmsin.com
+                    eventlocation: campaignCode31536770910802
+                    eventtype: Broadcast Video
+                    category: Marketing
+                    servicetype: Full Service
+                    sponsor: Ernst & Young
+                    createtimestamp: '2016-10-18T04:34:06-07:00'
+                    keyword: Wired and wireless network, network architecture, IT Professionals, merger or acquisition
+                    localelanguagecd: zh
+                    localecountrycd: TW
+                    lastmodified: '2016-10-18T04:34:06-07:00'
+                    lastupdated: '2016-10-20T09:58:12-07:00'
+                    iseliteexpired: N
+                    application: Investor Relations
+                    industry: Software
+                    livestart: '2016-10-18T04:20:00-07:00'
+                    liveend: '2016-10-18T05:20:00-07:00'
+                    archivestart: '2016-10-18T06:30:00-07:00'
+                    archiveend: '2017-10-18T06:30:00-07:00'
+                    scheduledeventduration: 60
+                    eventprofile: Stonehenge Profile (918)
+                    streamtype: video
+                    audiencekey: 9AB4ABD834D841E9E5ED9124D266848B
+                    extaudienceurl: www.google.com
+                    reporturl: https://data.on24.com/webcast/report?e=10432146&k=A8EBCD7A76D8BF36D71DCFEBED688237
+                    uploadurl: https://wcc.on24.com/webcast/login
+                    pmurl: https://wcc.on24.com/webcast/present?e=10432146&k=A8EBCD7A76D8BF36D71DCFEBED688237
+                    previewurl: http://event.on24.com/webcast/previewlobby?e=10432146&k=A8EBCD7A76D8BF36D71DCFEBED688237
+                    audienceurl: https://event.on24.com/wcc/r/10432146/9AB4ABD834D841E9E5ED9124D266848B
+                    singlefilearchive: https://wccdownload.on24.com/event/92/45/75/96/rt/1_8C2F9DE3B5BD3AF93E297B37F1062EA6.mp4
+                    presentermediavideofile: https://wccdownload.on24.com/media/cv/events/92/45/75/96/rt/1_fhvideo1_1683630889731.mp4?filename=1_fhvideo1_1683630889731.mp4
+                    presentermediaaudiofile: https://wccdownload.on24.com/media/cv/events/92/45/75/96/rt/1683630889731.wav?filename=1683630889731.wav
+                    contenttype: webcast
+                    ishybridevent: true
+                    partnerrefstats:
+                    - code: '-'
+                      count: 2
+                    tags:
+                    - custom tag 1
+                    - custom tag 2
+                    - custom tag 3
+                    funnelstages:
+                    - Consideration
+                    - Awareness
+                    - Evaluation
+                    speakers:
+                    - name: Matthew Parfitt
+                      title: President
+                      company: Vulture US
+                      description: As President of Vuture in North America, Matt focuses on marketing communications in the legal sector which 4 years ago saw him launch Vuture in the USA. Matt is a regular speaker and active member of the LMA and has been chair the New York CRM group for the last 3 years.
+                    - name: Samantha McKenna
+                      title: Director of Sales
+                      company: ON24 Inc.
+                      description: As Director of Sales, Samantha McKenna heads up the strategy behind ON24's legal presence. A thought leader in the legal industry, Sam works directly with ON24's legal clients on their go-to-market strategy for webinars, thought leadership events, virtual learning environments and virtual communications for alumni relations. She has served the legal community by attending the last seven Legal Marketing Association annual conferences, supporting several LMA chapters with sponsorships and by working directly with LMA on their national webinars as of 2015.
+                    encoders:
+                    - encoder: Encoder A
+                      url: rtmp://fmseosa.on24.com/liveeosa
+                      streamid: 5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_A
+                    - encoder: Encoder B
+                      url: rtmp://fmseosb.on24.com/liveeosb
+                      streamid: 5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_B
+                    eventstd1: EF1
+                    eventstd2: EF2
+                    eventstd3: EF3
+                    eventstd4: EF4
+                    eventstd5: EF5
+                    surveyurls:
+                    - https://eventqa.on24.com/eventManager/presentation/survey.jsp?eventId=10432146&sessionid=1&key=C9E1154B35A0AE0F3AF2858E25EA5509&survey=survey1
+                    customaccounttags:
+                    - groupid: 103
+                      groupname: Group 3
+                      tagid: 747
+                      tagname: Option 3-A
+                    customeventfields:
+                    - name: custom1
+                      label: Region
+                      value: North America
+                    - name: custom2
+                      label: Org
+                      value: Research
+                    - name: custom3
+                      label: CRM Campaign Code
+                      value: '111'
+                    - name: custom4
+                      label: MAP Campaign Code
+                      value: '222'
+                    - name: custom5
+                      label: Product
+                      value: Computer
+                    socialsharingimage: https://eventqa.on24.com/event/85/07/24/25/rt/1/images/socialsharing/socialsharing.jpg
+                    socialsharingabstract: Social Sharing Sample.
+                    istestevent: falseCopy to clipboard
+                When content type is gateway:
+                  description: When content type is gateway
+                  value:
+                    eventanalytics:
+                      totalregistrants: 6
+                      totalattendees: 14
+                      noshowcount: -8
+                      pageviews: 88
+                      contentviews: 10
+                      subscribers: 3
+                      numberofcontactusrequests: 3
+                      numberofgetpricingrequests: 3
+                      numberoffreetrialrequests: 1
+                      numberofdrifts: 1
+                      numberofmeetingconversions: 3
+                      numberofdemoconversions: 7
+                    eventid: 5001321
+                    clientid: 22950
+                    description: New Content Gateway
+                    displaytimezonecd: US/Pacific
+                    localelanguagecd: zh
+                    localecountrycd: TW
+                    createtimestamp: '2018-12-21T08:34:51-08:00'
+                    publishedtimestamp: '2019-02-21T10:11:03-08:00'
+                    lastmodified: '2019-09-03T14:34:18-07:00'
+                    lastupdated: '2019-09-05T09:58:12-07:00'
+                    livestart: '2018-12-21T08:34:51-08:00'
+                    liveend: '2018-12-21T08:34:51-08:00'
+                    contenttype: gateway
+                    campaigncode: campaignCode31536770910802
+                    audienceurl: https://event.on24.com/r/5001321/A85228314568C6038E5F8D4AE3EFD890
+                    partnerrefstats:
+                    - code: '-'
+                      count: 2
+                    istestevent: false
+                When content type is experience:
+                  description: When content type is experience
+                  value:
+                    eventanalytics:
+                      totalregistrants: 4
+                      totalattendees: 5
+                      ondemandattendees: 5
+                      noshowcount: -1
+                      registrationpagehits: 6
+                      numberofmeetingconversions: 3
+                      numberofdemoconversions: 2
+                      numberofdrifts: 1
+                      numberofcontactusrequests: 1
+                    eventid: 5000238
+                    eventduration: 0
+                    clientid: 29683
+                    goodafter: '2018-12-20T00:40:00-08:00'
+                    description: New Experience
+                    displaytimezonecd: US/Pacific
+                    eventtype: experience
+                    createtimestamp: '2018-12-20T00:39:22-08:00'
+                    localelanguagecd: zh
+                    localecountrycd: TW
+                    lastmodified: '2019-09-24T18:25:22-07:00'
+                    lastupdated: '2019-09-16T10:12:57-07:00'
+                    livestart: '2018-12-20T00:40:00-08:00'
+                    liveend: '2018-12-20T00:40:00-08:00'
+                    audienceurl: https://gateway.on24.com/wcc/experience/Integrationca/1646442/5000238
+                    eventprofile: Gateway Experience Profile
+                    streamtype: audio
+                    contenttype: experience
+                    campaigncode: campaignCode31536770910802
+                    istestevent: false
+                When content type is video:
+                  description: When content type is video
+                  value:
+                    eventanalytics:
+                      totalregistrants: 10
+                      totalattendees: 9
+                      ondemandattendees: 9
+                      numberofpollspushed: 3
+                      numberofpollresponses: 6
+                      eventengagementscore: 1.2
+                    eventid: 5062231
+                    eventduration: 2
+                    clientid: 29683
+                    goodafter: '2019-01-29T22:05:00-08:00'
+                    description: New Video
+                    displaytimezonecd: America/Los_Angeles
+                    eventtype: video
+                    createtimestamp: '2019-01-29T22:04:08-08:00'
+                    localelanguagecd: zh
+                    localecountrycd: TW
+                    lastmodified: '2019-09-24T18:25:22-07:00'
+                    lastupdated: '2019-04-30T02:27:02-07:00'
+                    livestart: '2019-01-29T22:05:00-08:00'
+                    liveend: '2019-01-29T22:05:00-08:00'
+                    eventprofile: Stonehenge Profile (1200)
+                    streamtype: video
+                    reporturl: https://data.on24.com/webcast/report?e=5062231&k=908F4DB78D30452A8B084FDC966CEFCD
+                    contenttype: video
+                    funnelstages:
+                    - Consideration
+                    - Awareness
+                    - Evaluation
+                    istestevent: false
+                When content type is pdf:
+                  description: When content type is pdf
+                  value:
+                    eventanalytics:
+                      totalregistrants: 6
+                      totalattendees: 5
+                      ondemandattendees: 5
+                      eventengagementscore: 1.3
+                    eventid: 5078145
+                    eventduration: 0
+                    clientid: 29683
+                    goodafter: '2019-02-05T21:55:00-08:00'
+                    description: New PDF
+                    displaytimezonecd: America/Los_Angeles
+                    eventtype: pdf
+                    createtimestamp: '2019-02-05T21:54:55-08:00'
+                    localelanguagecd: zh
+                    localecountrycd: TW
+                    lastmodified: '2019-09-24T18:25:22-07:00'
+                    lastupdated: '2019-02-08T05:55:47-08:00'
+                    livestart: '2019-02-05T21:55:00-08:00'
+                    liveend: '2019-02-05T21:55:00-08:00'
+                    eventprofile: Stonehenge Profile (1200)
+                    streamtype: whitepaper
+                    reporturl: https://data.on24.com/webcast/report?e=5078145&k=1DB6F9E04F2A4821B7D3B7AB3889DFF1
+                    contenttype: pdf
+                    funnelstages:
+                    - Consideration
+                    - Awareness
+                    - Evaluation
+                    istestevent: false
+                When content type is webpage:
+                  description: When content type is webpage
+                  value:
+                    eventanalytics:
+                      totalregistrants: 3
+                      totalattendees: 3
+                      ondemandattendees: 3
+                    eventid: 5463684
+                    eventduration: 0
+                    clientid: 29683
+                    goodafter: '2019-08-08T23:32:00-07:00'
+                    description: New Webpage
+                    displaytimezonecd: America/Los_Angeles
+                    eventtype: webpage
+                    createtimestamp: '2019-08-08T23:31:21-07:00'
+                    localelanguagecd: zh
+                    localecountrycd: TW
+                    lastmodified: '2019-09-24T18:25:22-07:00'
+                    lastupdated: '2019-08-09T03:42:00-07:00'
+                    livestart: '2019-08-08T23:32:00-07:00'
+                    liveend: '2019-08-08T23:32:00-07:00'
+                    eventprofile: Stonehenge Profile (1200)
+                    streamtype: whitepaper
+                    contenttype: webpage
+                    funnelstages:
+                    - Consideration
+                    - Awareness
+                    - Evaluation
+                    istestevent: false
+                VE Account:
+                  description: VE Account
+                  value:
+                    eventanalytics:
+                      totalregistrants: 10
+                      totalattendees: 9
+                      noshowcount: 1
+                      registrationpagehits: 4
+                      numberofresourcesavailable: 3
+                      numberofmeetingconversions: 27
+                      numberofdemoconversions: 3
+                      numberofgetpricingrequests: 7
+                      numberoffreetrialrequests: 11
+                      attendeeswhodownloadedresource: 1
+                      uniqueattendeeresourcedownloads: 2
+                      averagearchiveminutes: 3
+                      averagecumulativearchiveminutes: 2
+                    eventid: 14031264
+                    eventname: event from VE account
+                    clientid: 22957
+                    goodafter: '2016-10-18T04:35:00-07:00'
+                    isactive: true
+                    goodtill: '2018-09-12T19:15:48-07:00'
+                    regrequired: true
+                    description: Test VE Event
+                    promotionalsummary: Promotional Summary Sample
+                    displaytimezonecd: America/Los_Angeles
+                    campaigncode: campaignCode31537670918020
+                    createtimestamp: '2016-10-18T04:34:06-07:00'
+                    lastmodified: '2016-10-18T04:34:06-07:00'
+                    lastupdated: '2016-10-20T09:58:12-07:00'
+                    livestart: '2016-10-18T04:20:00-07:00'
+                    liveend: '2016-10-18T05:20:00-07:00'
+                    archivestart: '2016-10-18T06:30:00-07:00'
+                    archiveend: '2017-10-18T06:30:00-07:00'
+                    reporturl: https://data.on24.com/webcast/report?e=14031264&k=A8EBCD7A76D8BF36D71DCFEBED688237
+                    audienceurl: https://event.on24.com/wcc/r/14031264/9AB4ABD834D841E9E5ED9124D266848B
+                    contenttype: virtualenvironment
+                    partnerrefstats:
+                    - code: '-'
+                      count: 2
+                    istestevent: false
+                When content type is golive:
+                  description: When content type is golive
+                  value:
+                    eventanalytics:
+                      totalregistrants: 3
+                      totalattendees: 2
+                      ondemandattendees: 2
+                    eventid: 10341265
+                    eventduration: 45
+                    clientid: 22950
+                    goodafter: '2021-10-01T04:35:00-07:00'
+                    isactive: true
+                    goodtill: '2021-10-02T19:15:48-07:00'
+                    regrequired: false
+                    description: Go Live Sample
+                    regnotificationrequired: true
+                    displaytimezonecd: America/Los_Angeles
+                    campaigncode: Campaign_Code_Sample
+                    eventtype: Go Live
+                    createtimestamp: '2021-09-01T04:34:06-07:00'
+                    localelanguagecd: zh
+                    localecountrycd: TW
+                    lastmodified: '2021-09-02T04:34:06-07:00'
+                    lastupdated: '2021-09-20T09:58:12-07:00'
+                    livestart: '2021-10-01T04:20:00-07:00'
+                    liveend: '2021-10-02T05:20:00-07:00'
+                    archivestart: '2021-10-01T06:30:00-07:00'
+                    archiveend: '2022-10-01T06:30:00-07:00'
+                    previewurl: https://golive.on24.com/event/10341265?previewmode=true
+                    audienceurl: https://golive.on24.com/event/10341265
+                    contenttype: golive
+                    categories:
+                    - category 1
+                    - category 2
+                    - category 3
+                    tracks:
+                    - track 1
+                    - track 2
+                    - track 3
+                    categoriesdata:
+                    - id: 21
+                      name: category 1
+                    - id: 22
+                      name: category 2
+                    - id: 23
+                      name: category 3
+                    trackdata:
+                    - id: 11
+                      name: track 1
+                    - id: 12
+                      name: track 2
+                    - id: 13
+                      name: track 3
+                    livedays:
+                    - id: 66
+                      title: LIVE DAY 1
+                      livestarttime: '2021-10-01T03:35:00-07:00'
+                      liveendtime: '2021-10-01T03:40:00-07:00'
+                    contents:
+                    - title: content name
+                      type: Breakout
+                      status: published
+                      url: http://www.on24.com
+                    - title: Opening Keynote
+                      type: webcast
+                      status: Published
+                      resourceid: 1234567
+                      sessionstarttime: '2026-04-02T08:15:00-07:00'
+                      eventid: 4567890
+                      livedayid: 1001
+                      tracks:
+                      - id: 11
+                        name: track 1
+                      - id: 12
+                        name: track 2
+                      categories:
+                      - id: 21
+                        name: category 1
+                      - id: 22
+                        name: category 2
+                    speakers:
+                    - name: Speaker Sample
+                      title: Mr.
+                      company: CO
+                      description: Speaker BIO sample.
+                    sponsors:
+                    - id: 118
+                      name: Sponsor A
+                      staff:
+                      - firstname: Jim
+                        lastname: Darnald
+                        company: Company Name
+                        title: Sr. Manager
+                        email: jim.darnald@test.com
+                        roles:
+                        - Admin
+                        - Rep
+                    istestevent: false
+                Broadcast Video (encoder fragment):
+                  description: 'If the event is configured as Broadcast Video type, the response will include encoder information similar as following sample fragment:'
+                  value:
+                    encoders:
+                    - encoder: Encoder A
+                      url: rtmp://fmseosa.on24.com/liveeosa
+                      streamid: 5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_A
+                    - encoder: Encoder B
+                      url: rtmp://fmseosb.on24.com/liveeosb
+                      streamid: 5439654_1_fhvideo1_CA6701A4E974D5F01F1658BAD56EC63F_B
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The event {eventId} is inactive.
+        '404':
+          description: The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/attendee:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Attendees
+      description: "Returns a list of attendees for a particular event. All dates and times are in Pacific Time.\n\n- **dateFilterMode** parameter options (not case-sensitive):\n  - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.\n  - \"lastActivity\" is the only supported value. When passed, the response will include only those attendees who have had activity between (and including) the provided **startDate** and **endDate**. Attendee lastActivity value is updated with new modified date whenever one of the following actions is performed by an attendee:\n    - Starting new session\n    - Refreshing browser during webcast presentation\n    - Submitting poll answers"
+      operationId: AnalyticsEventLevel.Attendees
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: dateInterval
+        in: query
+        description: Number of days returned in a response. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+        example: 30
+      - name: dateIntervalOffset
+        in: query
+        description: Number of days from which the interval should encompass. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 4
+      - name: dateIntervalTimezone
+        in: query
+        description: Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval.
+        schema:
+          type: string
+          default: America/Los_Angeles
+        example: America/Los_Angeles
+      - name: startdate
+        in: query
+        description: Limit results to those with attendee activity after startDate
+        schema:
+          type: string
+        example: '2017-12-31'
+      - name: enddate
+        in: query
+        description: Limit results to those with attendee activity before endDate
+        schema:
+          type: string
+        example: '2017-12-31'
+      - name: partnerref
+        in: query
+        description: Filter by partnerref
+        schema:
+          type: string
+        example: EM
+      - name: userstatus
+        in: query
+        description: 'Filter to users based on their status. If not provided, only regular users will be returned. Possible values: any: will return all registrants, including: active, soft-deleted and forgotten registrants. deleted: will return soft-deleted users only. forgotten: will return forgotten users only. **Note:** By design, there is No option to exclude soft-deleted users from the response.'
+        schema:
+          type: string
+          default: any
+        example: any
+      - name: filterforgotten
+        in: query
+        description: '**Deprecated** - Forgotten registrants filter. Y: only forgotten users will be returned in the response. N: forgotten users will be omitted in the response.'
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: excludeanonymous
+        in: query
+        description: Filter to exclude System-Generated Email Addresses
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: datefiltermode
+        in: query
+        description: Type of date to be used with the startDate and endDate parameters.
+        schema:
+          type: string
+        example: lastActivity
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: "Return list of attendees for an event\n\n- Values for fields **liveminutes**, **archiveminutes**, **cumulativeliveminutes** and **cumulativearchiveminutes** are rounded to the closest integer value (e.g. 2.316 is returned as 2, 3.542 is returned as 4). If an attendee's actual viewing minutes are greater than 0 and less than 1, response will return 1 as the value (e.g. 0.123 is returned as 1).\n- The following values are cached on the server between 3 - 24 hours:\n  - engagementscore"
+          content:
+            application/json:
+              examples:
+                Elite account:
+                  description: Elite account
+                  value:
+                    eventid: 311512
+                    totalattendees: 1
+                    attendees:
+                    - email: xxxxxxxx@on24.com
+                      eventuserid: 49502149
+                      exteventusercd: '1502'
+                      userstatus: active
+                      isblocked: N
+                      engagementscore: 8.5
+                      liveminutes: 40
+                      liveviewed: 1
+                      firstliveactivity: '2015-05-19T11:01:42-07:00'
+                      lastliveactivity: '2015-05-19T11:41:42-07:00'
+                      archiveminutes: 120
+                      archiveviewed: 2
+                      firstarchiveactivity: '2015-05-19T06:14:17-07:00'
+                      lastarchiveactivity: '2015-05-19T09:20:48-08:00'
+                      askedquestions: 2
+                      resourcesdownloaded: 2
+                      answeredpolls: 2
+                      answeredsurveys: 2
+                      answeredsurveyquestions: 4
+                      launchmode: At the Venue
+                      questions:
+                      - questionid: 6268255
+                        createtimestamp: '2015-05-19T11:55:12-07:00'
+                        content: What happens if I forget my password?
+                        answer:
+                          createtimestamp: '2015-05-19T11:57:12-07:00'
+                          content: Customer service will email you instructions for getting a new password
+                          presenterid: 813717
+                          presentername: Mark XXXXX
+                          privacy: Private
+                      - questionid: 6268257
+                        createtimestamp: '2015-05-19T11:58:12-07:00'
+                        content: Can you use the tool to send SMS texts directly?
+                        answer:
+                          createtimestamp: '2015-05-19T11:59:59-07:00'
+                          content: No, although you can set up a Twitter hashtag  for an event
+                          presenterid: 813706
+                          presentername: Steve XXXXX
+                          privacy: Private
+                      polls:
+                      - pollid: 16818601
+                        pollsubmittedtimestamp: '2015-05-19T11:45:12-07:00'
+                        pollquestionid: 6268336
+                        pollquestion: Which products are you interested in? (select all that apply)
+                        pollanswers:
+                        - Full Service Webcasts
+                        pollanswersdetail:
+                        - answercode: choice1
+                          answer: Full Service Webcasts
+                      - pollid: 16818630
+                        pollsubmittedtimestamp: '2015-05-19T11:47:12-07:00'
+                        pollquestionid: 6268358
+                        pollquestion: How familiar are you with virtual event solutions?
+                        pollanswers:
+                        - Unfamiliar
+                        pollanswersdetail:
+                        - answercode: choice1
+                          answer: Unfamiliar
+                      resources:
+                      - resourceid: 16836843
+                        resourceviewed: Frost and Sullivan 2012
+                        resourceviewedtimestamp: '2015-05-19T12:05:02-07:00'
+                      - resourceid: 16836837
+                        resourceviewed: 5 keys to webcasting
+                        resourceviewedtimestamp: '2015-05-19T12:15:37-07:00'
+                      surveys:
+                      - surveyid: 311512_survey1
+                        surveysubmittedtimestamp: '2015-05-19T11:49:12-07:00'
+                        surveyquestions:
+                        - surveyquestionid: 6268293
+                          surveyquestion: How valuable was the information presented?
+                          questioncode: '110'
+                          primaryquestioncode: '110'
+                          surveyanswers:
+                          - Not Valuable at all
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: Not Valuable at all
+                        - surveyquestionid: 6268271
+                          surveyquestion: What industry are you in?
+                          surveyanswers:
+                          - Food& Beverage
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: Food& Beverage
+                      - surveyid: 311512_survey2
+                        surveysubmittedtimestamp: '2015-05-19T11:51:12-07:00'
+                        surveyquestions:
+                        - surveyquestionid: 6268306
+                          surveyquestion: Would you like a 1:1 session with an expert?
+                          surveyanswers:
+                          - 'No'
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: 'No'
+                        - surveyquestionid: 6268299
+                          surveyquestion: Which tools are you using today?
+                          questioncode: '235'
+                          primaryquestioncode: '234'
+                          surveyanswers:
+                          - Webex
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: Webex
+                      twitterwidget:
+                      - date: '2015-05-19T11:02:39-07:00'
+                        tweetdescription: A new Webinar on Artificial Intelligence has been scheduled. Check www.on24.com/eventschedule
+                      calltoactions:
+                      - ctaid: '83970357'
+                        ctaname: Call To Action 1
+                        clicks: '3'
+                        action: https://www.calltoactionurl.com
+                        date: '2015-05-19T11:10:00-07:00'
+                      testwidgets:
+                      - testwidgetresult: P
+                        retries: 0
+                        correctanswersneeded: 2
+                        correctanswersprovided: 2
+                      testwidgetresult: P
+                      certificationwidgetresult: C
+                      certificationcredit: NR
+                      certificationtimestamp: '2015-05-19T12:29:41-07:00'
+                      userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                      campaigncode: CPM-001
+                      sourcecampaigncode: CMP-001
+                      sourceeventid: 2141380
+                      cumulativeliveminutes: 40
+                      cumulativearchiveminutes: 120
+                      partnerref: registered_partner
+                      attendancepartnerref: last_partner
+                      attendeesessions: 4
+                      certifications:
+                      - certificationid: 83328985
+                        certificationresult: C
+                        certificationname: Certification 1
+                        certificationcredit: NR
+                        certificationtimestamp: '2015-05-19T12:29:41-07:00'
+                        certificationurl: https://event.on24.com/ceCertficate/26/18/35/24/2/certificate_83328985.pdf
+                      meetingconversions:
+                      - widgetid: '98533828'
+                        widgetname: Book a Meeting Sample
+                        widgettype: book_a_meeting
+                        widgetaction: https://www.bookedmeeting.com
+                        widgetsubmittedtimestamp: '2016-01-01T10:00:23-07:00'
+                      democonversions:
+                      - widgetid: '98533852'
+                        widgetname: Schedule a Demo Sample
+                        widgettype: request_a_demo
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:00:23-07:00'
+                      freetrial:
+                      - widgetid: '93838564'
+                        widgetname: Free Trial Sample
+                        widgettype: free_trial
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                      contactus:
+                      - widgetid: '7884'
+                        widgetname: Contact us 1
+                        widgettype: contactus
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:18:13-07:00'
+                      drift:
+                      - widgetid: '93858367'
+                        widgetname: startConversation
+                        widgettype: drift
+                        widgetaction: Jan 01, 2016 10:00 AM
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                      breakouts:
+                      - breakoutid: '4816'
+                        breakoutname: Breakout Room Sample
+                        breakoutrole: Attendee
+                        breakoutcumulativeliveminutes: 15
+                      calendly:
+                      - meetingsbooked: 2
+                      shareidea:
+                      - topic: What are the best colors?
+                        type: IDEA
+                        description: Blue
+                        ideanumber: 66628
+                        rating: 1
+                        datetime: '2024-07-26T07:38:51-07:00'
+                      - topic: How can we increase our audience engagement?
+                        type: COMMENT
+                        description: By providing relevant and exciting information.
+                        ideanumber: 66627
+                        datetime: '2024-07-26T07:37:24-07:00'
+                      reactions:
+                      - type: celebrate
+                        timefromstart: 9
+                        datetime: '2024-06-16T23:40:40-07:00'
+                      - type: laugh
+                        timefromstart: 7
+                        datetime: '2024-06-16T23:40:38-07:00'
+                      - type: heart
+                        timefromstart: 6
+                        datetime: '2024-06-16T23:40:37-07:00'
+                      - type: like
+                        timefromstart: 4
+                        datetime: '2024-06-16T23:40:35-07:00'
+                      livemediaplayerminutes: 40
+                      archivemediaplayerminutes: 40
+                When content type is gateway:
+                  description: When content type is gateway
+                  value:
+                    eventid: 311513
+                    totalattendees: 1
+                    attendees:
+                    - email: xxxxxxxx@ehub.com
+                      eventuserid: 49502161
+                      exteventusercd: '1504'
+                      userstatus: active
+                      isblocked: N
+                      engagementscore: 4.1
+                      liveminutes: 15
+                      liveviewed: 1
+                      archiveminutes: 32
+                      archiveviewed: 1
+                      firstarchiveactivity: '2015-05-20T06:14:17-07:00'
+                      lastarchiveactivity: '2015-05-20T09:20:48-08:00'
+                      askedquestions: 0
+                      resourcesdownloaded: 0
+                      answeredpolls: 0
+                      answeredsurveys: 0
+                      answeredsurveyquestions: 0
+                      userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                      campaigncode: CPM-001
+                      sourcecampaigncode: CMP-001
+                      sourceeventid: 2141380
+                      cumulativeliveminutes: 0
+                      cumulativearchiveminutes: 32
+                      partnerref: registered_partner
+                      attendancepartnerref: last_partner
+                      attendeesessions: 1
+                      meetingconversions:
+                      - widgetid: '8147'
+                        widgetname: Book a Meeting 1
+                        widgettype: book_a_meeting
+                        widgetaction: https://www.ehub_bookedmeeting.com
+                        widgetsubmittedtimestamp: '2015-05-20T10:05:23-07:00'
+                      democonversions:
+                      - widgetid: '7895'
+                        widgetname: Schedule a Demo 1
+                        widgettype: request_a_demo
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:21:00-07:00'
+                      contactus:
+                      - widgetid: '7884'
+                        widgetname: Contact us 1
+                        widgettype: contactus
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:18:13-07:00'
+                      getpricing:
+                      - widgetid: 7891
+                        widgetname: Price Quote 1
+                        widgettype: price_quote
+                        widgetaction: https://www.google.com/
+                        widgetsubmittedtimestamp: '2015-05-20T02:29:30-07:00'
+                      freetrial:
+                      - widgetid: '93838564'
+                        widgetname: Free Trial Sample
+                        widgettype: free_trial
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                      drift:
+                      - widgetid: '93858367'
+                        widgetname: startConversation
+                        widgettype: drift
+                        widgetaction: Jan 01, 2016 10:00 AM
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                When content type is experience:
+                  description: When content type is experience
+                  value:
+                    eventid: 311514
+                    totalattendees: 1
+                    attendees:
+                    - email: xxxxxxxx@targetexperience.com
+                      eventuserid: 49502162
+                      exteventusercd: '1505'
+                      userstatus: active
+                      isblocked: N
+                      engagementscore: 4.1
+                      liveminutes: 0
+                      archiveminutes: 32
+                      archiveviewed: 1
+                      firstarchiveactivity: '2015-05-20T06:14:17-07:00'
+                      lastarchiveactivity: '2015-05-20T09:20:48-08:00'
+                      askedquestions: 0
+                      resourcesdownloaded: 0
+                      answeredpolls: 0
+                      answeredsurveys: 0
+                      answeredsurveyquestions: 0
+                      userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                      campaigncode: CPM-001
+                      sourcecampaigncode: CMP-001
+                      sourceeventid: 2141380
+                      cumulativeliveminutes: 0
+                      cumulativearchiveminutes: 32
+                      partnerref: registered_partner
+                      attendancepartnerref: last_partner
+                      attendeesessions: 1
+                      meetingconversions:
+                      - widgetid: '98533828'
+                        widgetname: Book a Meeting 1
+                        widgettype: book_a_meeting
+                        widgetaction: https://www.bookedmeeting.com
+                        widgetsubmittedtimestamp: '2015-05-20T10:00:23-07:00'
+                      democonversions:
+                      - widgetid: '98533852'
+                        widgetname: Schedule a Demo 1
+                        widgettype: request_a_demo
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:00:23-07:00'
+                      contactus:
+                      - widgetid: '98532583'
+                        widgetname: Contact us 1
+                        widgettype: contactus
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2015-05-20T11:00:23-07:00'
+                      drift:
+                      - widgetid: '93858367'
+                        widgetname: startConversation
+                        widgettype: drift
+                        widgetaction: Jan 01, 2016 10:00 AM
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                VE account:
+                  description: VE account
+                  value:
+                    eventid: 71883
+                    totalattendees: 1
+                    attendees:
+                    - email: xxxxxxxxx@on24.com
+                      eventuserid: 123375229
+                      clientid: 2213
+                      exteventusercd: '1502'
+                      userstatus: active
+                      isblocked: N
+                      archiveminutes: 7
+                      archiveviewed: 1
+                      firstarchiveactivity: '2020-01-20T23:59:38-08:00'
+                      lastarchiveactivity: '2020-01-20T23:59:38-08:00'
+                      resourcesdownloaded: 1
+                      answeredsurveys: 1
+                      answeredsurveyquestions: 1
+                      campaigncode: CPM-001
+                      sourcecampaigncode: CPM-001
+                      cumulativearchiveminutes: 13
+                      attendeesessions: 6
+                      locationsvisited: 1
+                      resources:
+                      - resourceid: 5626305
+                        resourceviewed: Customer Resource
+                        resourceviewedtimestamp: '2020-01-21T00:02:29-08:00'
+                        resourceviews: 1
+                        resourcetype: WEBCAST
+                        sponsorid: 223628
+                        sponsorname: Sponsor_1
+                      surveys:
+                      - surveyid: '6388264'
+                        surveysubmittedtimestamp: '2020-01-21T00:05:13-08:00'
+                        surveyquestions:
+                        - surveyquestionid: 987654
+                          surveyquestion: what is the number phi ?
+                          surveyanswers:
+                          - 'It is the basis for the golden ratio: 1.618'
+                          surveyanswersdetail:
+                          - answercode: choice1
+                            answer: 'It is the basis for the golden ratio: 1.618'
+                      locationvisits:
+                      - locationid: 2
+                        locationcode: home
+                        locationname: Plaza
+                        sponsorid: 0
+                        sponsorname: Environment-level
+                        visits: 31
+                        visitsduration: 44
+                        cumulativevisitsduration: 44
+                      meetingconversions:
+                      - widgetid: '98358328'
+                        widgetname: Book a Meeting Sample
+                        widgettype: book_a_meeting
+                        widgetaction: https://www.bookedmeeting.com
+                        widgetsubmittedtimestamp: '2016-01-01T10:00:23-07:00'
+                      democonversions:
+                      - widgetid: '98533852'
+                        widgetname: Schedule a Demo Sample
+                        widgettype: request_a_demo
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:00:23-07:00'
+                      getpricing:
+                      - widgetid: '93538823'
+                        widgetname: Get Pricing Sample
+                        widgettype: get_pricing
+                        widgetaction: jane.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:05:23-07:00'
+                      freetrial:
+                      - widgetid: '93838564'
+                        widgetname: Free Trial Sample
+                        widgettype: free_trial
+                        widgetaction: john.doe@on24.com
+                        widgetsubmittedtimestamp: '2016-01-01T11:07:23-07:00'
+                When content type is golive:
+                  description: When content type is golive
+                  value:
+                    eventid: 6958054
+                    totalattendees: 1
+                    attendees:
+                    - email: xxxxxxxx@on24.com
+                      eventuserid: 264677544
+                      userstatus: active
+                      isblocked: N
+                      engagementscore: 6.2
+                      liveminutes: 40
+                      liveviewed: 1
+                      firstliveactivity: '2021-10-01T05:55:22-08:00'
+                      lastliveactivity: '2021-10-02T11:41:42-07:00'
+                      resourcesdownloaded: 0
+                      answeredpolls: 0
+                      sourceeventid: 6958054
+                      userprofileurl: https://dataqa.on24.com/webcast/lead?token=bEXeTgJ6Y3qWV0hrUSTYW_y2Nlwkx9EiC7UTDo-N6Ler9Nwy34-qz2C-iXx_ejsO7EWvjLE-BRqxO1-mFbLpq4cF99i1M7dmCqVvCrw=
+                      cumulativeliveminutes: 35
+                      attendeesessions: 4
+        '400':
+          description: Error, incorrect date formats.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The event {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/attendeesession:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Attendee Viewing Sessions
+      description: 'Returns a list of attendee viewing sessions for a particular event. All dates and times are in Pacific Time.
+
+
+        **sessionType** supported values:
+
+        - "all" (default)
+
+        - "live"
+
+        - "ondemand"
+
+        - "blocked"'
+      operationId: AnalyticsEventLevel.AttendeeViewingSessions
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: sessiontype
+        in: query
+        description: Filter by session type
+        schema:
+          type: string
+          default: All
+        example: ondemand
+      - name: pageoffset
+        in: query
+        description: Number of page to retrieve
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 5
+      - name: itemsperpage
+        in: query
+        description: Number of items to be retrieved per page
+        schema:
+          type: integer
+          format: int64
+          default: 100
+        example: 25
+      - name: startdate
+        in: query
+        description: Limit results to sessions created from start Date
+        schema:
+          type: string
+          format: date
+        example: '2021-04-10'
+      - name: enddate
+        in: query
+        description: 'Limit results to sessions with last update until end Date. Default: current date if startDate was provided and endDate was not.'
+        schema:
+          type: string
+          format: date
+          default: Current date if startDate value was provided and endDate value was not provided
+        example: '2021-04-15'
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return list of attendee viewing sessions for an event
+          content:
+            application/json:
+              example:
+                totalattendeesessions: 2
+                pagecount: 1
+                currentpage: 0
+                attendeesession:
+                - id: 150332406
+                  email: oduser21march1@inbfw.com
+                  firstname: oduser21march1
+                  lastname: inbfw
+                  duration: 00:00:13
+                  starttime: '2018-03-21T03:06:53-07:00'
+                  endtime: '2018-03-21T03:07:06-07:00'
+                  usage: Archived
+                  mediastream: Flash Audio
+                  os: win8.1
+                  browser: firefox58
+                  streamsource: https
+                  ipaddress: 115.166.143.238
+                  exteventusercd: '1502'
+                  launchmode: At the Venue
+                - id: 150332447
+                  email: ieuser1@inbfw.com
+                  firstname: IEuser1
+                  lastname: inbfw
+                  duration: 00:08:18
+                  starttime: '2018-03-21T02:24:47-07:00'
+                  endtime: '2018-03-21T02:33:05-07:00'
+                  usage: Archived
+                  mediastream: Flash Audio
+                  os: win8.1
+                  browser: msie11
+                  streamsource: https
+                  ipaddress: 115.166.143.238
+                  exteventusercd: '986'
+                  launchmode: Watching remote
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/calendarreminder:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Email Calendar Reminder
+      description: Returns information on the email calendar reminder that is configured for a particular event.
+      operationId: AnalyticsEventLevel.EmailCalendarReminder
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return email calendar reminder details.
+          content:
+            application/json:
+              example:
+                eventid: 11213706
+                reminder: 15 Minutes
+                subject: 'Reminder - #EVENTTITLE#'
+                location: Webcast
+                body: 'Thank you for registering for #EVENTTITLE#.'
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/certifications:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Certifications
+      description: Returns all certifications for a particular event.
+      operationId: AnalyticsEventLevel.Certifications
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return list of certifications for an event
+          content:
+            application/json:
+              example:
+                eventId: 84200656
+                certifications:
+                - certificationid: 321519436
+                  certificationname: Earn Certification
+                  certificationcredit:
+                  - type: fullcreditoption
+                    name: Criteria for Full Credit
+                    requiredViewingMinutes: 10
+                    requiredNumberOfPollsToAnswer: 2
+                    messageForPartialCreditComplete: Congratulations, you have completed full credit
+                    earnedCreditForCompletion: 100
+                  - type: partialcreditoption1
+                    name: Criteria for Partial Credit Option 1
+                    requiredViewingMinutes: 5
+                    requiredNumberOfPollsToAnswer: 1
+                    messageForPartialCreditComplete: Congratulations, you have completed partial credit
+                    earnedCreditForCompletion: 50
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/contentactivity:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Engagement Hub Content Activity
+      description: Returns data on the content activity for an Engagement Hub or Target Experience.
+      operationId: AnalyticsEventLevel.EngagementHubContentActivity
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: 'Returns content activity for the Engagement Hub or Target Experience.
+
+
+            - If **contenttype** is "Document" the response will include the field **downloads** indicating the total number of times an item has been downloaded. If **contenttype** is "Webpage" the response will Not include **totalviewingduration** and **averageviewingduration**.'
+          content:
+            application/json:
+              example:
+                eventid: 2133107
+                clientid: 32120
+                description: Content Activity Sample
+                totalcontentviews: 12
+                contentviewers: 14
+                contents:
+                - eventid: 5001932
+                  clientid: 32120
+                  description: Content Sample
+                  contenttype: Document
+                  totalviews: 4
+                  uniqueviewers: 3
+                  totalviewingduration: 20
+                  averageviewingduration: 15.4
+                  downloads: 2
+                  likes: 4
+                  dislikes: 0
+                  comments: 2
+                  shares: 1
+                - eventid: 5001937
+                  clientid: 32120
+                  description: Webpage Sample
+                  contenttype: Webpage
+                  totalviews: 5
+                  uniqueviewers: 5
+                  likes: 2
+                  dislikes: 0
+                  comments: 3
+                  shares: 1
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: The client id {clientId} is inactive. | The event {eventId} is inactive. | You have reached the maximum number of calls for this api.
+        '404':
+          description: The Engagement Hub or Target Experience {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/cta:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Call To Action
+      description: Returns information on the CTA (Call to Action) widgets that are configured for a particular event.
+      operationId: AnalyticsEventLevel.CallToAction
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return list of CTAs
+          content:
+            application/json:
+              example:
+                eventid: 5465017
+                calltoactions:
+                - ctaid: 85408052
+                  ctaname: Call To Action 1
+                  actiontype: gateway
+                  action: https://gateway.on24.com/wcc/gateway/Integrationca/1464662?5465017+/Call+To+Action+1/##CONTENTTITLE##
+                  totalclicks: 8
+                  uniqueclicks: 2
+                - ctaid: 85411163
+                  ctaname: Call To Action 2
+                  actiontype: url
+                  action: http://www.on24.com
+                  totalclicks: 11
+                  uniqueclicks: 3
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event id {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/email:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Email Notification Details
+      description: Returns information on the email notifications that are configured for a particular event.
+      operationId: AnalyticsEventLevel.EmailNotificationDetails
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return list of emails
+          content:
+            application/json:
+              example:
+                eventid: 11213706
+                emails:
+                - emailid: 177588
+                  emailtype: 'Reminder Email #1'
+                  activated: Y
+                  whentosend: Custom Date and Time
+                  goodafter: '2018-10-31T18:44:59-07:00'
+                  from: do_not_reply@on24event.com
+                  fromlabel: Webcast
+                  replyto: do_not_reply@on24event.com
+                  subject: 'Reminder - #EVENTTITLE#'
+                  body: 'A friendly reminder that #EVENTTITLE# begins in two days.'
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event id {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/emailstatistics:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Email Statistics
+      description: Returns all email statistics for a particular event.
+      operationId: AnalyticsEventLevel.EmailStatistics
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return list of email statistics for an event
+          content:
+            application/json:
+              example:
+                eventId: 84200656
+                emailStatistics:
+                - email: 'Reminder Email #2'
+                  subject: Reminder - 2
+                  sent: 4
+                  opened: 1
+                  openrate: 0.25
+                  delivered: 2
+                  deliveryrate: 0.5
+                  clicked: 2
+                  clickedthroughrate: 0.5
+                  clicktoopenrate: 2.0
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/groupchat:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Group Chat Activity
+      description: Returns information on the group chat activity data for a particular event.
+      operationId: AnalyticsEventLevel.GroupChatActivity
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return group chat details.
+          content:
+            application/json:
+              example:
+                eventid: 11213706
+                groupchats:
+                - groupchatid: 86603081
+                  groupchatname: Group Chat 1
+                  uniqueviews: 1
+                  totalviews: 1
+                  chatmessages:
+                  - createtimestamp: '2019-08-26T12:35:10-07:00'
+                    eventuserid: 224152601
+                    email: xxxxxxxxx@on24.com
+                    firstname: Alejandro
+                    lastname: xxxxxx
+                    chatmessage: This is chat message from attendee
+                  - createtimestamp: '2019-08-26T12:38:29-07:00'
+                    presenterid: 2977455
+                    email: xxxxxxxxxx@on24.com
+                    firstname: Rick
+                    lastname: xxxxxxx
+                    chatmessage: This is chat message from presenter
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event id {eventId} is inactive.
+        '404':
+          description: The client {clientId} doesn't exist. | The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/poll:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Polls
+      description: Returns polls for a particular event. All dates and times are in Pacific Time.
+      operationId: AnalyticsEventLevel.Polls
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return list of polls for an event
+          content:
+            application/json:
+              example:
+                eventid: 311512
+                polls:
+                - pollid: 16818630
+                  polltype: singleoption
+                  pollquestionid: 6268358
+                  pollquestion: How familiar are you with virtual event solutions?
+                  totalvotes: 67
+                  livepushedtimestamp: '2023-05-19T06:14:17-07:00'
+                  summary:
+                  - answercode: choice1
+                    answer: Very Familiar
+                    percentage: 7.5
+                  - answercode: choice2
+                    answer: Somewhat Familiar
+                    percentage: 62.7
+                  - answercode: choice3
+                    answer: Unfamiliar
+                    percentage: 22.4
+                  - answercode: choice4
+                    answer: Not Sure
+                    percentage: 7.4
+                - pollid: 16818601
+                  polltype: multioption
+                  pollquestionid: 6268336
+                  pollquestion: Which products are you interested in? (select all that apply)
+                  totalvotes: 43
+                  livepushedtimestamp: '2023-05-19T06:28:12-07:00'
+                  summary:
+                  - answercode: choice1
+                    answer: Self Service Webcasts
+                    percentage: 25.6
+                  - answercode: choice2
+                    answer: Full Service Webcasts
+                    percentage: 44.2
+                  - answercode: choice3
+                    answer: Virtual Business Centers
+                    percentage: 30.2
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/presenter:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Presenters
+      description: Returns a listing of presenters for a particular event.
+      operationId: AnalyticsEventLevel.Presenters
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: client access token key
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: client access token secret
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return list of presenters
+          content:
+            application/json:
+              example:
+                eventpresenters:
+                - presenterid: 2009445
+                  firstname: sumiti
+                  lastname: XXXXX
+                  email: xxxxxxxxxx@on24.com
+                  accessmode: Producer
+                  starttime: '2017-07-26T01:50:53-07:00'
+                  endtime: '2017-07-26T03:34:22-07:00'
+                  ispracticesession: N
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: The client id {clientId} is inactive. | You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The event {eventId} is inactive.
+        '404':
+          description: The event {eventId} doesn't exist
+  /client/{clientId}/event/{eventId}/presenterchat:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Presentation Manager Chat Logs
+      description: Returns Presentation Manager chat logs for a webinar.
+      operationId: AnalyticsEventLevel.PresentationManagerChatLogs
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        description: The client id
+        required: true
+        schema:
+          type: number
+        example: 1498
+      - name: eventId
+        in: path
+        description: The event id
+        required: true
+        schema:
+          type: number
+        example: 1487542
+      responses:
+        '200':
+          description: Return information for an event.
+          content:
+            application/json:
+              example:
+                eventid: 11213706
+                presenterchats:
+                - presenterid: 2009445
+                  firstname: sumiti
+                  lastname: XXXXX
+                  email: xxxxxxxxxx@on24.com
+                  accessmode: Producer
+                  chatid: 62689
+                  createtimestamp: '2022-01-26T01:50:53-07:00'
+                  content: Hello , this is an internal chat message
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | The client id {clientId} is inactive. | You have reached the maximum number of calls for this api. | The event {eventId} is inactive.
+        '404':
+          description: The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/registrant:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Registrants
+      description: "Retrieves a list of registrants for a particular event.\n\n- If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses.\n- **dateFilterMode** parameter options (not case-sensitive):\n  - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.\n  - \"lastActivity\" is the only supported value. When passed, the response will include only those registrants who have had activity between (and including) the provided startDate and endDate. Registrant lastActivity value is updated with a new modified date whenever one of the following API endpoints gets invoked to modify the registration information:\n    - REST Registration\n    - Update Registrant (client-level)\n    - Forget Registrant (client-level)\n    - Forget All Registrant (client-level)\n    - Forget All Registrant (event-level)"
+      operationId: AnalyticsEventLevel.Registrants
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: dateInterval
+        in: query
+        description: Number of days returned in a response. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+        example: 30
+      - name: dateIntervalOffset
+        in: query
+        description: Number of days from which the interval should encompass. See Rolling Interval.
+        schema:
+          type: integer
+          format: int64
+          default: 0
+        example: 4
+      - name: dateIntervalTimezone
+        in: query
+        description: Timezone to be used for determining the 24 hour period that constitutes a day. See Rolling Interval.
+        schema:
+          type: string
+          default: America/Los_Angeles
+        example: America/Los_Angeles
+      - name: accept
+        in: header
+        description: 'Output format. possible values: Application/xml or Application/json'
+        schema:
+          type: string
+          default: application/json
+        example: application/json
+      - name: startdate
+        in: query
+        description: Limit results to registrants with registration date after startDate
+        schema:
+          type: string
+        example: '2017-12-31'
+      - name: enddate
+        in: query
+        description: Limit results to registrants with registration date before endDate
+        schema:
+          type: string
+        example: '2017-12-31'
+      - name: partnerref
+        in: query
+        description: Filter by partnerref
+        schema:
+          type: string
+        example: EM
+      - name: userstatus
+        in: query
+        description: 'Filter to users based on their status. If not provided, only regular users will be returned. Possible values: any: will return all registrants, including: active, soft-deleted and forgotten registrants. deleted: will return soft-deleted users only. forgotten: will return forgotten users only. all: **deprecated** - will include regular and soft-deleted users. **Note:** By design, there is No option to exclude soft-deleted users from the response.'
+        schema:
+          type: string
+          default: any
+        example: any
+      - name: email
+        in: query
+        description: email registrant filter
+        schema:
+          type: string
+        example: test@domain.com
+      - name: noshow
+        in: query
+        description: Filters registrants who did not show up for the event
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: filterforgotten
+        in: query
+        description: '**Deprecated** - Forgotten registrants filter. Y: only forgotten users will be returned in the response. N: forgotten users will be omitted in the response.'
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: excludeanonymous
+        in: query
+        description: Filter to exclude System-Generated Email Addresses
+        schema:
+          type: string
+          default: N
+        example: Y
+      - name: datefiltermode
+        in: query
+        description: Type of date to be used with the startDate and endDate parameters.
+        schema:
+          type: string
+        example: lastActivity
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: "Return list of registrants for an event\n\n- This endpoint returns data on people who registered for a Virtual Environment (VE).\n- Properties that will not be returned for VE registrants include:\n  - userprofileurl\n  - engagementprediction\n  - emailformat\n- The following values are cached on the server between 3 - 24 hours:\n  - engagementprediction"
+          content:
+            application/json:
+              example:
+                eventid: 311512
+                totalregistrants: 1
+                registrants:
+                - eventuserid: 49177588
+                  firstname: Gina
+                  lastname: Xxxxxx
+                  email: xxxxxxxxx@on24.com
+                  company: ON24
+                  jobtitle: marketing
+                  addressstreet1: XXXXX XX XXX
+                  addressstreet2: XXX-XX
+                  city: Mountainview
+                  state: CA
+                  zip: 02139
+                  country: United States
+                  workphone: (123)-456-7890
+                  jobfunction: Manager
+                  companyindustry: Software
+                  companysize: 1 - 49
+                  partnerref: Ref1
+                  eventid: 311512
+                  std1: std1
+                  std2: std2
+                  std3: std3
+                  std4: std4
+                  std5: std5
+                  std6: std6
+                  std7: std7
+                  std8: std8
+                  std9: std9
+                  std10: std10
+                  fax: (123)-456-7890
+                  username: glockhart
+                  exteventusercd: '154092645'
+                  other: sample field content
+                  notes: sample note 1
+                  marketingemail: N
+                  eventemail: Y
+                  homephone: (123)-456-7890
+                  createtimestamp: '2017-05-08T18:44:59-07:00'
+                  lastactivity: '2017-05-08T18:44:59-07:00'
+                  browser: mozilla/5.0
+                  ipaddress: 80.115.1.5
+                  os: win10
+                  emailformat: text
+                  engagementprediction: LOW
+                  userprofileurl: https://data.on24.com/webcast/lead?token=EZB3pmHf6Pa-74Pu8sHetFxWDF64bdJ6VhSTJo42qfacGzyB0gEyQCFjUSHJ74ZzETfjZizOdUBFm3JYSG-lyGiPb8_sDbY1RbbdlMtLndM=
+                  campaigncode: CMP-001
+                  sourcecampaigncode: CMP-001
+                  sourceeventid: 2141380
+                  userstatus: active
+                  utmsource: newsletter
+                  utmmedium: banner
+                  utmcampaign: spring_sale_2022
+                  utmterm: spring+sale
+                  utmcontent: https://mydomain.com/i/p/campaigns/spring_sale_2022.jpg
+                  attendeetype: Virtual
+        '400':
+          description: Invalid Date format for params startdate and enddate. Incorrect timezone value provided.
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | The client id {clientId} is inactive. | You have reached the maximum number of calls for this api. | The event {eventId} is inactive.
+        '404':
+          description: The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/resource:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Resources Viewed
+      description: Returns resources for a particular event. All dates and times are in Pacific Time.
+      operationId: AnalyticsEventLevel.ResourcesViewed
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return list of resources viewed for an event
+          content:
+            application/json:
+              example:
+                totalresources: 2
+                resourcesviewed:
+                - resourceid: 183212518
+                  resourcename: 5 keys to webcasting
+                  uniquedownloads: 4
+                  totaldownloads: 7
+                - resourceid: 183211829
+                  resourcename: Frost and Sullivan 2012
+                  uniquedownloads: 4
+                  totaldownloads: 5
+                resourcesnotviewed:
+                - resourceid: 183212528
+                  resourcename: 7 keys to webcasting
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The event {eventId} doesn't exist.
+  /client/{clientId}/event/{eventId}/survey:
+    get:
+      tags:
+      - Event Level Analytics
+      summary: Surveys
+      description: Returns surveys for a particular event. All dates and times are in Pacific Time.
+      operationId: AnalyticsEventLevel.Surveys
+      parameters:
+      - name: accessTokenKey
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 63129107067A520E6B7DE18D5E1CB2BF
+      - name: accessTokenSecret
+        in: header
+        description: Security Parameter
+        required: true
+        schema:
+          type: string
+        example: 072639740ac239333e3708a1623b9de3590d972e6b1060071b726ecfd9b216001b45391717d9fbeb780438
+      - name: clientId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: eventId
+        in: path
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: Return list of surveys for an event
+          content:
+            application/json:
+              examples:
+                Elite account:
+                  description: Elite account
+                  value:
+                    eventid: 311512
+                    surveys:
+                    - surveyid: 311512_survey1
+                      surveycode: survey1
+                      surveyquestions:
+                      - questionid: 8887738
+                        questiontype: singleoption
+                        question: What is your age?
+                        questioncode: 110
+                        responses: 0
+                      - questionid: 6268271
+                        questiontype: singleoption
+                        question: What industry are you in?
+                        questioncode: 210
+                        responses: 74
+                        surveyanswer:
+                        - answercode: choice1
+                          answer: Technology
+                          percentage: 16.3
+                        - answercode: choice2
+                          answer: HealthCare
+                          percentage: 6.8
+                        - answercode: choice3
+                          answer: Finance
+                          percentage: 36.4
+                        - answercode: choice4
+                          answer: Retail
+                          percentage: 27
+                        - answercode: choice5
+                          answer: Food & Beverage
+                          percentage: 13.5
+                      - questionid: 6268299
+                        questiontype: singletext
+                        question: Which tools are you using today?
+                        questioncode: 315
+                        responses: 8
+                      - questionid: 6268293
+                        questiontype: singleoption
+                        question: How valuable was the information presented?
+                        questioncode: 673
+                        responses: 74
+                        surveyanswer:
+                        - answercode: choice1
+                          answer: Very valuable
+                          percentage: 50.1
+                        - answercode: choice2
+                          answer: Valuable
+                          percentage: 28.4
+                        - answercode: choice3
+                          answer: Neutral
+                          percentage: 8.1
+                        - answercode: choice4
+                          answer: Somewhat Valuable
+                          percentage: 6.7
+                        - answercode: choice5
+                          answer: Not Valuable at all
+                          percentage: 6.7
+                      - questionid: 6268306
+                        questiontype: singleoption
+                        question: Would you like a 1:1 session with an expert?
+                        questioncode: 704
+                        responses: 74
+                        surveyanswer:
+                        - answercode: choice1
+                          answer: 'Yes'
+                          percentage: 12.2
+                        - answercode: choice2
+                          answer: 'No'
+                          percentage: 87.8
+                VE account:
+                  description: VE account
+                  value:
+                    eventid: 6419578
+                    surveys:
+                    - surveyid: '804031'
+                      surveycode: Survey1
+                      surveyquestions:
+                      - questionid: 3188046
+                        questiontype: singletext
+                        question: free response 1
+                        responses: 1
+                      - questionid: 3188047
+                        questiontype: multioption
+                        question: Multiple Answer 1
+                        responses: 1
+                        surveyanswer:
+                        - answercode: '259739'
+                          answer: Answer 1
+                          percentage: 100.0
+                        - answercode: '259740'
+                          answer: Answer 2
+                          percentage: 100.0
+                        - answercode: '259741'
+                          answer: Answer 3
+                          percentage: 0.0
+                      - questionid: 3188048
+                        questiontype: singleoption
+                        question: Single Answer 1
+                        responses: 1
+                        surveyanswer:
+                        - answercode: '259743'
+                          answer: one
+                          percentage: 100.0
+                        - answercode: '259744'
+                          answer: two
+                          percentage: 0.0
+                        - answercode: '259745'
+                          answer: three
+                          percentage: 0.0
+        '401':
+          description: AccessTokenKey and AccessTokenSecret are wrong or invalid.
+        '403':
+          description: You do not have permission to perform the requested operation. | You have reached the maximum number of calls for this api. | The client id {clientId} is inactive. | The event {eventId} is inactive.
+        '404':
+          description: The event {eventId} doesn't exist.
+components:
+  securitySchemes:
+    AccessTokenKey:
+      type: apiKey
+      description: API access token key issued by the ON24 platform. Must be supplied together with AccessTokenSecret.
+      name: AccessTokenKey
+      in: header
+    AccessTokenSecret:
+      type: apiKey
+      description: API access token secret corresponding to the AccessTokenKey. Must be supplied together with AccessTokenKey.
+      name: AccessTokenSecret
+      in: header
