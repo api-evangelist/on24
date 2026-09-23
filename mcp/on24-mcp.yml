@@ -9,14 +9,10 @@ server:
   url: null
 deployment:
   mode: none
-  auth: api-key
   verified: derived
-  tools: 35
-  checked: '2026-08-13'
-  notes: 'ON24 ships NO MCP server, hosted or local. Probed 2026-08-13: https://api.on24.com/mcp -> 404, https://mcp.on24.com/
-    -> DNS does not resolve, npm text search for "on24 mcp" returns no ON24 package, and no ON24 entry exists on
-    the public MCP registries. This file is a PROPOSED surface only — there is no endpoint an agent can call and
-    no package a human can install.'
+  tools: 6
+  checked: '2026-08-12'
+  source: catalog MCP census
 auth:
   scheme: apiKey header pair
   headers:
@@ -25,11 +21,11 @@ auth:
   scoping: numeric clientId in the path; every tool must carry it
   detail: authentication/on24-authentication.yml
 tool_count: 35
-notes: 'UPGRADE FROM THE PREVIOUS ROUND: the earlier candidate list was written from prose in the docs and contained
-  operations that do not exist in the published contract (e.g. PATCH /registrant/{email} was listed without a client/event
-  distinction, and GET /event/{eventId}/registrationfields was named instead of the real /regfield path). Every
-  tool below is now bound to a verified operationId. See mcp/on24-tool-crosswalk.yml for the full REST binding and
-  the 32 operations left uncovered.'
+notes: 'UPGRADE FROM THE PREVIOUS ROUND: the earlier candidate list was written from prose in the docs
+  and contained operations that do not exist in the published contract (e.g. PATCH /registrant/{email}
+  was listed without a client/event distinction, and GET /event/{eventId}/registrationfields was named
+  instead of the real /regfield path). Every tool below is now bound to a verified operationId. See mcp/on24-tool-crosswalk.yml
+  for the full REST binding and the 32 operations left uncovered.'
 tools:
 - name: create_registrant
   category: registration

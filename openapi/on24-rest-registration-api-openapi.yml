@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: ON24 WCC API v2 REST Registration API
+  title: WCC API v2 REST Registration API
   description: 'ON24 Webinar & Content Center REST API v2. All secured endpoints require two request headers: AccessTokenKey and AccessTokenSecret. Both headers must be supplied together — providing only one is not sufficient.'
   version: '2'
 servers:
-- url: https://api.on24.com/v2
-  description: North America (production)
-- url: https://api.eu.on24.com/v2
-  description: European Union (production)
+- url: /wcc/api/v2
+  description: Default base path. The /wcc context root may differ per deployment environment.
+  variables: {}
 security:
 - AccessTokenKey: []
 - AccessTokenSecret: []
@@ -165,7 +164,34 @@ paths:
       tags:
       - REST Registration
       summary: REST Registration API
-      description: "Creates a registrant.\n\n### Soft Delete\n\nPerform a soft delete operation on a particular Registrant by sending the 'isDeleted' form parameter with the value of (Y or N) to update the deleted state of such Registrant. This value can be sent along with the other form parameters listed in the table above. Deleting/Undeleting a registrant is not allowed after the event has started.\n\n| Name | Located In | Required | Description | Default | Schema | Example |\n| --- | --- | --- | --- | --- | --- | --- |\n| **isDeleted** | formData | yes | Performs an update on the isDeleted property of a Registrant | - | string | Y |\n| **email** | formData | yes | The email of the registrant who will be updated | - | string | john.doe@domain.com |\n\n### Validation\n\n- If a field is configured as \"required\" on the registration page, you must pass in a valid value, or the request will not be successful unless you are using the **honorrequired** as \"N\" parameter.\n- The **honorrequired** parameter is supported with possible values of Y or N. If Y is passed (or no value or no parameter is passed), the endpoint will behave as it currently does. If N is passed:\n  - Fields configured as required will be optional (including email)\n  - If a drop-down field is passed, the value must adhere to configured options unless you are using the **honorvalidation** as \"N\"."
+      description: 'Creates a registrant.
+
+
+        ### Soft Delete
+
+
+        Perform a soft delete operation on a particular Registrant by sending the ''isDeleted'' form parameter with the value of (Y or N) to update the deleted state of such Registrant. This value can be sent along with the other form parameters listed in the table above. Deleting/Undeleting a registrant is not allowed after the event has started.
+
+
+        | Name | Located In | Required | Description | Default | Schema | Example |
+
+        | --- | --- | --- | --- | --- | --- | --- |
+
+        | **isDeleted** | formData | yes | Performs an update on the isDeleted property of a Registrant | - | string | Y |
+
+        | **email** | formData | yes | The email of the registrant who will be updated | - | string | john.doe@domain.com |
+
+
+        ### Validation
+
+
+        - If a field is configured as "required" on the registration page, you must pass in a valid value, or the request will not be successful unless you are using the **honorrequired** as "N" parameter.
+
+        - The **honorrequired** parameter is supported with possible values of Y or N. If Y is passed (or no value or no parameter is passed), the endpoint will behave as it currently does. If N is passed:
+
+        - Fields configured as required will be optional (including email)
+
+        - If a drop-down field is passed, the value must adhere to configured options unless you are using the **honorvalidation** as "N".'
       operationId: Registration.RESTRegistrationAPI
       parameters:
       - name: accessTokenKey
@@ -287,7 +313,34 @@ paths:
       tags:
       - REST Registration
       summary: Update Registrant (event-level)
-      description: "Updates an event registrant for the given client using the PATCH method. This means that only those registration fields that are part of the request will be updated.\n\nThe registrant to be updated will be identified by the provided email parameter value.\n\n### Soft Delete\n\nSoft delete is not supported through this endpoint. If you need to perform a soft delete on a registrant, please refer to REST Registration.\n\n### Validation\n\n- An optional 'honorrequired' parameter is supported with possible values of Y or N. If Y is passed (or no value or no parameter is passed), the endpoint will behave as it currently does. If N is passed:\n\n\t1. Fields configured as required will be optional (including email)\n\t2. If a drop-down field is passed, the value must adhere to configured options\n\n- If any of the fields have been marked as required on the Registration Page Setup, then those fields will be required in the API as well.\n- Drop-down choices will be validated (if the value passed does not exist in the drop-down, an error will be returned.)\n- If a required field is missing or passed in without a value, then an error message will be returned."
+      description: 'Updates an event registrant for the given client using the PATCH method. This means that only those registration fields that are part of the request will be updated.
+
+
+        The registrant to be updated will be identified by the provided email parameter value.
+
+
+        ### Soft Delete
+
+
+        Soft delete is not supported through this endpoint. If you need to perform a soft delete on a registrant, please refer to REST Registration.
+
+
+        ### Validation
+
+
+        - An optional ''honorrequired'' parameter is supported with possible values of Y or N. If Y is passed (or no value or no parameter is passed), the endpoint will behave as it currently does. If N is passed:
+
+
+        1. Fields configured as required will be optional (including email)
+
+        2. If a drop-down field is passed, the value must adhere to configured options
+
+
+        - If any of the fields have been marked as required on the Registration Page Setup, then those fields will be required in the API as well.
+
+        - Drop-down choices will be validated (if the value passed does not exist in the drop-down, an error will be returned.)
+
+        - If a required field is missing or passed in without a value, then an error message will be returned.'
       operationId: Registration.UpdateRegistrantEventlevel
       parameters:
       - name: accessTokenKey
@@ -774,6 +827,142 @@ paths:
           description: No registrant was found for that email address
 components:
   schemas:
+    ForgetRegistrantForm:
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+          description: A single email or comma-separated list of emails
+        eventid:
+          type: integer
+          description: An optional event id that will limit the scope of this request
+          format: int32
+          example: 326564
+      description: Parameters for forgetting a registrant
+    UpdateRegistrantForm:
+      type: object
+      properties:
+        addressStreet1:
+          type: string
+          description: Street address line 1.
+        addressStreet2:
+          type: string
+          description: Street address line 2.
+        city:
+          type: string
+          description: City.
+        company:
+          type: string
+          description: Company name.
+          example: Iron Mountain
+        companyIndustry:
+          type: string
+          description: Company industry.
+        companySize:
+          type: string
+          description: Company size.
+        country:
+          type: string
+          description: Country.
+        email:
+          type: string
+          description: Email address of the registrant to be updated.
+          example: 49177588@on24.com
+        emailformat:
+          type: string
+          description: Email format.
+        eventEmail:
+          type: string
+          description: 'Event email opt-in. Values: Y, N.'
+          example: N
+          default: N
+        extEventUserCd:
+          type: string
+          description: External event user code.
+        fax:
+          type: string
+          description: Fax.
+        firstName:
+          type: string
+          description: First name.
+          example: Gina
+        homePhone:
+          type: string
+          description: Home phone.
+        isBlocked:
+          type: string
+          description: Blocks/Unblocks the registrant. A value of Y will block it and a value of N will unblock it.
+          example: Y
+        jobFunction:
+          type: string
+          description: Job function.
+        jobTitle:
+          type: string
+          description: Job title.
+          example: Marketing Executive
+        lastName:
+          type: string
+          description: Last name.
+          example: Parker
+        marketingEmail:
+          type: string
+          description: 'Marketing email opt-in. Values: Y, N.'
+          example: N
+          default: N
+        notes:
+          type: string
+          description: Notes.
+        other:
+          type: string
+          description: Other.
+        partnerRef:
+          type: string
+          description: Partner reference.
+        state:
+          type: string
+          description: State.
+        std1:
+          type: string
+          description: 'Custom Field #1.'
+        std10:
+          type: string
+          description: 'Custom Field #10.'
+        std2:
+          type: string
+          description: 'Custom Field #2.'
+        std3:
+          type: string
+          description: 'Custom Field #3.'
+        std4:
+          type: string
+          description: 'Custom Field #4.'
+        std5:
+          type: string
+          description: 'Custom Field #5.'
+        std6:
+          type: string
+          description: 'Custom Field #6.'
+        std7:
+          type: string
+          description: 'Custom Field #7.'
+        std8:
+          type: string
+          description: 'Custom Field #8.'
+        std9:
+          type: string
+          description: 'Custom Field #9.'
+        userName:
+          type: string
+          description: User name.
+        workPhone:
+          type: string
+          description: Work phone.
+        zip:
+          type: string
+          description: Zip code.
+      description: Parameters for updating a registrant
     AddRegistrantForm:
       type: object
       properties:
@@ -1007,142 +1196,6 @@ components:
           type: string
           description: Zip code.
       description: Parameters for updating a client-level registrant
-    UpdateRegistrantForm:
-      type: object
-      properties:
-        addressStreet1:
-          type: string
-          description: Street address line 1.
-        addressStreet2:
-          type: string
-          description: Street address line 2.
-        city:
-          type: string
-          description: City.
-        company:
-          type: string
-          description: Company name.
-          example: Iron Mountain
-        companyIndustry:
-          type: string
-          description: Company industry.
-        companySize:
-          type: string
-          description: Company size.
-        country:
-          type: string
-          description: Country.
-        email:
-          type: string
-          description: Email address of the registrant to be updated.
-          example: 49177588@on24.com
-        emailformat:
-          type: string
-          description: Email format.
-        eventEmail:
-          type: string
-          description: 'Event email opt-in. Values: Y, N.'
-          example: N
-          default: N
-        extEventUserCd:
-          type: string
-          description: External event user code.
-        fax:
-          type: string
-          description: Fax.
-        firstName:
-          type: string
-          description: First name.
-          example: Gina
-        homePhone:
-          type: string
-          description: Home phone.
-        isBlocked:
-          type: string
-          description: Blocks/Unblocks the registrant. A value of Y will block it and a value of N will unblock it.
-          example: Y
-        jobFunction:
-          type: string
-          description: Job function.
-        jobTitle:
-          type: string
-          description: Job title.
-          example: Marketing Executive
-        lastName:
-          type: string
-          description: Last name.
-          example: Parker
-        marketingEmail:
-          type: string
-          description: 'Marketing email opt-in. Values: Y, N.'
-          example: N
-          default: N
-        notes:
-          type: string
-          description: Notes.
-        other:
-          type: string
-          description: Other.
-        partnerRef:
-          type: string
-          description: Partner reference.
-        state:
-          type: string
-          description: State.
-        std1:
-          type: string
-          description: 'Custom Field #1.'
-        std10:
-          type: string
-          description: 'Custom Field #10.'
-        std2:
-          type: string
-          description: 'Custom Field #2.'
-        std3:
-          type: string
-          description: 'Custom Field #3.'
-        std4:
-          type: string
-          description: 'Custom Field #4.'
-        std5:
-          type: string
-          description: 'Custom Field #5.'
-        std6:
-          type: string
-          description: 'Custom Field #6.'
-        std7:
-          type: string
-          description: 'Custom Field #7.'
-        std8:
-          type: string
-          description: 'Custom Field #8.'
-        std9:
-          type: string
-          description: 'Custom Field #9.'
-        userName:
-          type: string
-          description: User name.
-        workPhone:
-          type: string
-          description: Work phone.
-        zip:
-          type: string
-          description: Zip code.
-      description: Parameters for updating a registrant
-    ForgetRegistrantForm:
-      required:
-      - email
-      type: object
-      properties:
-        email:
-          type: string
-          description: A single email or comma-separated list of emails
-        eventid:
-          type: integer
-          description: An optional event id that will limit the scope of this request
-          format: int32
-          example: 326564
-      description: Parameters for forgetting a registrant
   securitySchemes:
     AccessTokenKey:
       type: apiKey

@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: ON24 WCC API v2 Event Level Analytics API
+  title: WCC API v2 Event Level Analytics API
   description: 'ON24 Webinar & Content Center REST API v2. All secured endpoints require two request headers: AccessTokenKey and AccessTokenSecret. Both headers must be supplied together — providing only one is not sufficient.'
   version: '2'
 servers:
-- url: https://api.on24.com/v2
-  description: North America (production)
-- url: https://api.eu.on24.com/v2
-  description: European Union (production)
+- url: /wcc/api/v2
+  description: Default base path. The /wcc context root may differ per deployment environment.
+  variables: {}
 security:
 - AccessTokenKey: []
 - AccessTokenSecret: []
@@ -528,7 +527,20 @@ paths:
       tags:
       - Event Level Analytics
       summary: Attendees
-      description: "Returns a list of attendees for a particular event. All dates and times are in Pacific Time.\n\n- **dateFilterMode** parameter options (not case-sensitive):\n  - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.\n  - \"lastActivity\" is the only supported value. When passed, the response will include only those attendees who have had activity between (and including) the provided **startDate** and **endDate**. Attendee lastActivity value is updated with new modified date whenever one of the following actions is performed by an attendee:\n    - Starting new session\n    - Refreshing browser during webcast presentation\n    - Submitting poll answers"
+      description: 'Returns a list of attendees for a particular event. All dates and times are in Pacific Time.
+
+
+        - **dateFilterMode** parameter options (not case-sensitive):
+
+        - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.
+
+        - "lastActivity" is the only supported value. When passed, the response will include only those attendees who have had activity between (and including) the provided **startDate** and **endDate**. Attendee lastActivity value is updated with new modified date whenever one of the following actions is performed by an attendee:
+
+        - Starting new session
+
+        - Refreshing browser during webcast presentation
+
+        - Submitting poll answers'
       operationId: AnalyticsEventLevel.Attendees
       parameters:
       - name: accessTokenKey
@@ -1829,7 +1841,26 @@ paths:
       tags:
       - Event Level Analytics
       summary: Registrants
-      description: "Retrieves a list of registrants for a particular event.\n\n- If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses.\n- **dateFilterMode** parameter options (not case-sensitive):\n  - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.\n  - \"lastActivity\" is the only supported value. When passed, the response will include only those registrants who have had activity between (and including) the provided startDate and endDate. Registrant lastActivity value is updated with a new modified date whenever one of the following API endpoints gets invoked to modify the registration information:\n    - REST Registration\n    - Update Registrant (client-level)\n    - Forget Registrant (client-level)\n    - Forget All Registrant (client-level)\n    - Forget All Registrant (event-level)"
+      description: 'Retrieves a list of registrants for a particular event.
+
+
+        - If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses.
+
+        - **dateFilterMode** parameter options (not case-sensitive):
+
+        - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.
+
+        - "lastActivity" is the only supported value. When passed, the response will include only those registrants who have had activity between (and including) the provided startDate and endDate. Registrant lastActivity value is updated with a new modified date whenever one of the following API endpoints gets invoked to modify the registration information:
+
+        - REST Registration
+
+        - Update Registrant (client-level)
+
+        - Forget Registrant (client-level)
+
+        - Forget All Registrant (client-level)
+
+        - Forget All Registrant (event-level)'
       operationId: AnalyticsEventLevel.Registrants
       parameters:
       - name: accessTokenKey

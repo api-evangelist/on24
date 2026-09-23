@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: ON24 WCC API v2 Client Level Analytics API
+  title: WCC API v2 Client Level Analytics API
   description: 'ON24 Webinar & Content Center REST API v2. All secured endpoints require two request headers: AccessTokenKey and AccessTokenSecret. Both headers must be supplied together — providing only one is not sufficient.'
   version: '2'
 servers:
-- url: https://api.on24.com/v2
-  description: North America (production)
-- url: https://api.eu.on24.com/v2
-  description: European Union (production)
+- url: /wcc/api/v2
+  description: Default base path. The /wcc context root may differ per deployment environment.
+  variables: {}
 security:
 - AccessTokenKey: []
 - AccessTokenSecret: []
@@ -73,7 +72,60 @@ paths:
       tags:
       - Client Level Analytics
       summary: Attendees
-      description: "Returns a listing of attendees for a particular client. There is a limit of 100 attendees per page.\n\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client ids (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under the {clientId} of the request\n  - If **subaccounts** is provided and **excludeSubaccounts** is \"Y\", following error message is returned: *\"You have to set excludesubaccounts='N' in order to filter by subaccounts.\".*\n  - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.\n  - When **subaccounts** is provided, the response will only return data for the child client ids included in the parameter\n- **dateFilterMode** parameter conditions (not case-sensitive):\n  - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.\n  - \"lastActivity\" is the only supported value. When passed, the response will include only those attendees who have had activity between (and including) the provided **startDate** and **endDate**. Attendee lastActivity value is updated with new modified date whenever one of the following actions is performed by an attendee:\n    - Starting new session\n    - Refreshing browser during webcast presentation\n    - Submitting poll answers\n- **realtimeonly** parameter conditions (when \"Y\" is passed):\n  - Properties that rely on the datawarehouse will not be included in the response, including:\n    - engagementscore\n    - firstliveactivity\n    - lastliveactivity\n    - firstarchiveactivity\n    - lastarchiveactivity\n    - askedquestions\n    - resourcesdownloaded\n    - answeredpolls\n    - answeredsurveys\n    - cumulativeliveminutes\n    - cumulativearchiveminutes\n    - Any activity / updates that have occurred in the last 15 minutes will be available in the response."
+      description: 'Returns a listing of attendees for a particular client. There is a limit of 100 attendees per page.
+
+
+        - **subaccounts** parameter conditions:
+
+        - Value can be 1 or more child client ids (multiple values will need to be delimited by a comma).
+
+        - Child client IDs must be under the {clientId} of the request
+
+        - If **subaccounts** is provided and **excludeSubaccounts** is "Y", following error message is returned: *"You have to set excludesubaccounts=''N'' in order to filter by subaccounts.".*
+
+        - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.
+
+        - When **subaccounts** is provided, the response will only return data for the child client ids included in the parameter
+
+        - **dateFilterMode** parameter conditions (not case-sensitive):
+
+        - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.
+
+        - "lastActivity" is the only supported value. When passed, the response will include only those attendees who have had activity between (and including) the provided **startDate** and **endDate**. Attendee lastActivity value is updated with new modified date whenever one of the following actions is performed by an attendee:
+
+        - Starting new session
+
+        - Refreshing browser during webcast presentation
+
+        - Submitting poll answers
+
+        - **realtimeonly** parameter conditions (when "Y" is passed):
+
+        - Properties that rely on the datawarehouse will not be included in the response, including:
+
+        - engagementscore
+
+        - firstliveactivity
+
+        - lastliveactivity
+
+        - firstarchiveactivity
+
+        - lastarchiveactivity
+
+        - askedquestions
+
+        - resourcesdownloaded
+
+        - answeredpolls
+
+        - answeredsurveys
+
+        - cumulativeliveminutes
+
+        - cumulativearchiveminutes
+
+        - Any activity / updates that have occurred in the last 15 minutes will be available in the response.'
       operationId: AnalyticsClientLevel.Attendees
       parameters:
       - name: accessTokenKey
@@ -985,7 +1037,20 @@ paths:
       tags:
       - Client Level Analytics
       summary: Attendees by Email Multiple Events
-      description: "Returns a listing of all attendance information for a specific email address. There is a limit of 100 registrants per page.\n\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under the {clientId} of the request.\n  - If **subaccounts** is provided and **excludeSubaccounts** is \"Y\", the following error message is returned: *\"You have to set excludesubaccounts='N' in order to filter by subaccounts.\"*\n  - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.\n  - When **subaccounts** is provided, the response will only return data for the child client ids included in the parameter"
+      description: 'Returns a listing of all attendance information for a specific email address. There is a limit of 100 registrants per page.
+
+
+        - **subaccounts** parameter conditions:
+
+        - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).
+
+        - Child client IDs must be under the {clientId} of the request.
+
+        - If **subaccounts** is provided and **excludeSubaccounts** is "Y", the following error message is returned: *"You have to set excludesubaccounts=''N'' in order to filter by subaccounts."*
+
+        - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.
+
+        - When **subaccounts** is provided, the response will only return data for the child client ids included in the parameter'
       operationId: AnalyticsClientLevel.AttendeesByEmailMultipleEvents
       parameters:
       - name: accessTokenKey
@@ -1514,7 +1579,82 @@ paths:
       tags:
       - Client Level Analytics
       summary: Events
-      description: "Returns a listing of events for a particular client. Events belonging to sub-client accounts are not included in the response.\n\n- If **startDate** and **endDate** are not sent, the response will return all events from the past 3 months.\n- The **startDate** and **endDate** will filter the list of events based on **dateFilterMode** parameter value.\n- If **includesubaccounts** is \"Y\", pagination will be required. Both **pageOffset** and **itemsPerPage** parameters will be available. Response schema differs.\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under the {clientId} of the request.\n  - If **subaccounts** is provided and **includeSubaccounts=N** (either explicitly or by default), the following error message is returned: *\"You have to set includesubaccounts='Y' in order to filter by subaccounts.\".*\n  - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.\n  - When **subaccounts** is provided, the response will only return data for the child client IDs included in the parameter.\n- **dateFilterMode** accepted values (not case-sensitive):\n  - \"goodafter\" (default): date and time an event is first available for the audience.\n  - \"updated\": filters based on \"lastupdated\" attribute in the response. It may be between 2 and 12 hours to see changes on \"lastupdated\". The \"lastupdated\" is the last time an event had audience activity as:\n    - Event is created\n    - New Registrant\n    - New Attendee\n    - Poll is answered\n    - Survey is answered\n  - \"modified\": filters based on \"lastmodified\" attribute in the response. \"lastmodified\" is the last time the event's information was modified.\n  - \"creation\": date and time an event was created.\n  - \"livestart\": date and time an event starts the live broadcasting.\n  - \"liveend\": date and time an event ends the live broadcasting.\n  - \"archivestart\": date and time an event will be available on-demand for the audience.\n  - \"archiveend\": date and time an event won't be available anymore for the audience.\n- **filterOrder** accepted values (not case-sensitive):\n  - \"asc\" (default): ascending\n  - \"desc\": descending\n- **contentType** accepted values (not case-sensitive):\n  - \"all\" (default)\n  - \"experience\": Experience Hub contents\n  - \"gateway\": Engagement Hub contents\n  - \"golive\": Go Live events\n  - \"pdf\": Documents from Media Manager library\n  - \"video\": Videos from Media Manager library\n  - \"webcast\": Elite webinars\n  - \"webpage\": Links from Media Library\n  - \"forum\": Forum events\n- In the Client Level Events response, \"eventlocation\" is the same as the \"campaigncode\" (Campaign Code)."
+      description: 'Returns a listing of events for a particular client. Events belonging to sub-client accounts are not included in the response.
+
+
+        - If **startDate** and **endDate** are not sent, the response will return all events from the past 3 months.
+
+        - The **startDate** and **endDate** will filter the list of events based on **dateFilterMode** parameter value.
+
+        - If **includesubaccounts** is "Y", pagination will be required. Both **pageOffset** and **itemsPerPage** parameters will be available. Response schema differs.
+
+        - **subaccounts** parameter conditions:
+
+        - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).
+
+        - Child client IDs must be under the {clientId} of the request.
+
+        - If **subaccounts** is provided and **includeSubaccounts=N** (either explicitly or by default), the following error message is returned: *"You have to set includesubaccounts=''Y'' in order to filter by subaccounts.".*
+
+        - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.
+
+        - When **subaccounts** is provided, the response will only return data for the child client IDs included in the parameter.
+
+        - **dateFilterMode** accepted values (not case-sensitive):
+
+        - "goodafter" (default): date and time an event is first available for the audience.
+
+        - "updated": filters based on "lastupdated" attribute in the response. It may be between 2 and 12 hours to see changes on "lastupdated". The "lastupdated" is the last time an event had audience activity as:
+
+        - Event is created
+
+        - New Registrant
+
+        - New Attendee
+
+        - Poll is answered
+
+        - Survey is answered
+
+        - "modified": filters based on "lastmodified" attribute in the response. "lastmodified" is the last time the event''s information was modified.
+
+        - "creation": date and time an event was created.
+
+        - "livestart": date and time an event starts the live broadcasting.
+
+        - "liveend": date and time an event ends the live broadcasting.
+
+        - "archivestart": date and time an event will be available on-demand for the audience.
+
+        - "archiveend": date and time an event won''t be available anymore for the audience.
+
+        - **filterOrder** accepted values (not case-sensitive):
+
+        - "asc" (default): ascending
+
+        - "desc": descending
+
+        - **contentType** accepted values (not case-sensitive):
+
+        - "all" (default)
+
+        - "experience": Experience Hub contents
+
+        - "gateway": Engagement Hub contents
+
+        - "golive": Go Live events
+
+        - "pdf": Documents from Media Manager library
+
+        - "video": Videos from Media Manager library
+
+        - "webcast": Elite webinars
+
+        - "webpage": Links from Media Library
+
+        - "forum": Forum events
+
+        - In the Client Level Events response, "eventlocation" is the same as the "campaigncode" (Campaign Code).'
       operationId: AnalyticsClientLevel.Events
       parameters:
       - name: accessTokenKey
@@ -2367,7 +2507,38 @@ paths:
       tags:
       - Client Level Analytics
       summary: Registrants
-      description: "Returns a listing of registrants for a particular client. There is a limit of 100 registrants per page.\n\n- If double opt-in verification was enabled at the time of registration for an event, and a user has not completed the verification process, the user will not be included in any endpoint responses.\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma)\n  - Child client IDs must be under the {clientId} of the request\n  - If **subaccounts** is provided and **excludeSubaccounts=Y**, following error message is returned: *\"You have to set excludesubaccounts='N' in order to filter by subaccounts.\".*\n  - If **subaccounts** includes multiple values, and at least one value is not valid, an error message is returned.\n  - When **subaccounts** is provided, the response will only return the data of the child client IDs included in the parameter.\n- **dateFilterMode** parameter options (not case-sensitive):\n  - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.\n  - \"lastActivity\" is the only supported value. When passed, the response will include only those registrants who have had activity between (and including) the provided startDate and endDate. Registrant lastActivity value is updated with new modified date whenever one of the following API endpoints gets invoked to modify the registration information:\n    - REST Registration\n    - Update Registrant (client-level)\n    - Forget Registrant (client-level)\n    - Forget All Registrant (client-level)\n    - Forget All Registrant (event-level)"
+      description: 'Returns a listing of registrants for a particular client. There is a limit of 100 registrants per page.
+
+
+        - If double opt-in verification was enabled at the time of registration for an event, and a user has not completed the verification process, the user will not be included in any endpoint responses.
+
+        - **subaccounts** parameter conditions:
+
+        - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma)
+
+        - Child client IDs must be under the {clientId} of the request
+
+        - If **subaccounts** is provided and **excludeSubaccounts=Y**, following error message is returned: *"You have to set excludesubaccounts=''N'' in order to filter by subaccounts.".*
+
+        - If **subaccounts** includes multiple values, and at least one value is not valid, an error message is returned.
+
+        - When **subaccounts** is provided, the response will only return the data of the child client IDs included in the parameter.
+
+        - **dateFilterMode** parameter options (not case-sensitive):
+
+        - If the parameter is not included or no value is supplied, **startDate** and **endDate** will work in the manner they usually do.
+
+        - "lastActivity" is the only supported value. When passed, the response will include only those registrants who have had activity between (and including) the provided startDate and endDate. Registrant lastActivity value is updated with new modified date whenever one of the following API endpoints gets invoked to modify the registration information:
+
+        - REST Registration
+
+        - Update Registrant (client-level)
+
+        - Forget Registrant (client-level)
+
+        - Forget All Registrant (client-level)
+
+        - Forget All Registrant (event-level)'
       operationId: AnalyticsClientLevel.Registrants
       parameters:
       - name: clientId
@@ -2697,7 +2868,22 @@ paths:
       tags:
       - Client Level Analytics
       summary: Registrants by Email Multiple Events
-      description: "Returns a listing of all registration information for a specific email address. There is a limit of 100 registrants per page.\n\n- If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses.\n- **subaccounts** parameter conditions:\n  - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).\n  - Child client IDs must be under the {clientId} of the request.\n  - If **subaccounts** is provided and **excludeSubaccounts** is \"Y\", the following error message is returned: *\"You have to set excludesubaccounts='N' in order to filter by subaccounts.\".*\n  - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.\n  - When **subaccounts** is provided, the response will only return data for the child client IDs included in the parameter"
+      description: 'Returns a listing of all registration information for a specific email address. There is a limit of 100 registrants per page.
+
+
+        - If double opt-in verification was enabled at the time of registration for an event and a user has not completed the verification process, the user will not be included in any endpoint responses.
+
+        - **subaccounts** parameter conditions:
+
+        - Value can be 1 or more child client IDs (multiple values will need to be delimited by a comma).
+
+        - Child client IDs must be under the {clientId} of the request.
+
+        - If **subaccounts** is provided and **excludeSubaccounts** is "Y", the following error message is returned: *"You have to set excludesubaccounts=''N'' in order to filter by subaccounts.".*
+
+        - If **subaccounts** includes multiple values and at least one value is not valid, an error message is returned.
+
+        - When **subaccounts** is provided, the response will only return data for the child client IDs included in the parameter'
       operationId: AnalyticsClientLevel.RegistrantsByEmailMultipleEvents
       parameters:
       - name: clientId

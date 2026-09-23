@@ -1,13 +1,12 @@
 openapi: 3.2.0
 info:
-  title: ON24 WCC API v2 Event Management API
+  title: WCC API v2 Event Management API
   description: 'ON24 Webinar & Content Center REST API v2. All secured endpoints require two request headers: AccessTokenKey and AccessTokenSecret. Both headers must be supplied together — providing only one is not sufficient.'
   version: '2'
 servers:
-- url: https://api.on24.com/v2
-  description: North America (production)
-- url: https://api.eu.on24.com/v2
-  description: European Union (production)
+- url: /wcc/api/v2
+  description: Default base path. The /wcc context root may differ per deployment environment.
+  variables: {}
 security:
 - AccessTokenKey: []
 - AccessTokenSecret: []
@@ -19,7 +18,100 @@ paths:
       tags:
       - Event Management
       summary: Create/Copy a Webinar
-      description: "Creates a new Webinar or Forum. When an existing event id is provided in query parameter **eventsource**, a copy of that event is created instead.\n\n- When an existing event id is provided in query parameter **eventsource**, the new event created by this Endpoint will copy all the other fields from this existing event except the **liveStart** and **liveDuration**.\n- Any of the parameters can be overridden, all parameters in the Event Creation are accepted.\n- Required form parameters: **liveDuration** and **liveStart.**\n- The copy process will copy the event source's tags (funnel, campaign, sales) and resources uploaded to it (PDF,mp4, etc)\n- **liveDuration** parameter conditions:\n  - When copying a webinar, users are able to provide a liveDuration value in 15 minute increments (e.g. 15, 30, 45, 60, etc.) up to 120 minutes.\n  - Above 120 minutes, increments will be 30 minutes up to 480 minutes.\n  - The maximum allowed liveDuration is 480 minutes.\n- **liveStart** accepted date/time formats:\n  - **MM/DD/YYYY hh:mm a** (08/26/2016 09:00 AM)\n  - **YYYY-MM-DDThh:mm:ss** Default timezone will be Pacific Time. (2016-08-26T09:00:00)\n  - **YYYY-MM-DDThh:mm:ss±zz:zz** where ±zz:zz is timezone's offset (2016-08-26T09:00:00-07:00)\n  - JavaScript Date.toString() format is also supported (Wed Apr 04 2018 16:12:41 GMT+0200 (CEST) )\n- **tagCampaign** parameter conditions:\n  - When copying a webinar users are allowed to add up to 10 custom tags via the tagCampaign parameter.\n  - Every tag that is associated with the webinar should be available in the **tags** array field in the response.\n  - The following characters can not be used and will result in an error: £$!%&*()}{@#~?><',\"|=_+¬\n- **customAccountTag** parameter conditions:\n  - Supported only for client accounts with enabled custom account tags.\n  - When copying a webinar for an account with enabled custom account tags, users are allowed to add up to 3 tag IDs\n  - Provided values must match configured client account values.\n- **languageCd** / **countryCd** parameters conditions:\n  - Following are allowed pairs of language/country values when copying an event:\n    - Chinese (Simplified): languageCd=**\"zh\"**, countryCd=**\"CN\"**\n    - Chinese (Traditional): languageCd=**\"zh\"**, countryCd=**\"TW\"**\n    - English (UK): languageCd=**\"en\"**, countryCd=**\"UK\"**\n  - For other languages, No countryCd is allowed.\n- When copying a webinar, the following features will be copied from the source event unless their values are overriden:\n  - Title. *In the following format: 'Copy of' + [source event name]*\n  - Event Type\n  - Duration\n  - Language\n  - Funnel Tags\n  - Campaign Tags\n  - Custom Account Tags\n  - Registration page:\n    - Banner\n    - Registration fields\n    - Page design\n  - Email notifications configuration\n  - Videos and Slides\n  - Console customization\n- **Elements that are not copied:**\n  - Start time\n  - Archive configuration\n  - Security configuration"
+      description: 'Creates a new Webinar or Forum. When an existing event id is provided in query parameter **eventsource**, a copy of that event is created instead.
+
+
+        - When an existing event id is provided in query parameter **eventsource**, the new event created by this Endpoint will copy all the other fields from this existing event except the **liveStart** and **liveDuration**.
+
+        - Any of the parameters can be overridden, all parameters in the Event Creation are accepted.
+
+        - Required form parameters: **liveDuration** and **liveStart.**
+
+        - The copy process will copy the event source''s tags (funnel, campaign, sales) and resources uploaded to it (PDF,mp4, etc)
+
+        - **liveDuration** parameter conditions:
+
+        - When copying a webinar, users are able to provide a liveDuration value in 15 minute increments (e.g. 15, 30, 45, 60, etc.) up to 120 minutes.
+
+        - Above 120 minutes, increments will be 30 minutes up to 480 minutes.
+
+        - The maximum allowed liveDuration is 480 minutes.
+
+        - **liveStart** accepted date/time formats:
+
+        - **MM/DD/YYYY hh:mm a** (08/26/2016 09:00 AM)
+
+        - **YYYY-MM-DDThh:mm:ss** Default timezone will be Pacific Time. (2016-08-26T09:00:00)
+
+        - **YYYY-MM-DDThh:mm:ss±zz:zz** where ±zz:zz is timezone''s offset (2016-08-26T09:00:00-07:00)
+
+        - JavaScript Date.toString() format is also supported (Wed Apr 04 2018 16:12:41 GMT+0200 (CEST) )
+
+        - **tagCampaign** parameter conditions:
+
+        - When copying a webinar users are allowed to add up to 10 custom tags via the tagCampaign parameter.
+
+        - Every tag that is associated with the webinar should be available in the **tags** array field in the response.
+
+        - The following characters can not be used and will result in an error: £$!%&*()}{@#~?><'',"|=_+¬
+
+        - **customAccountTag** parameter conditions:
+
+        - Supported only for client accounts with enabled custom account tags.
+
+        - When copying a webinar for an account with enabled custom account tags, users are allowed to add up to 3 tag IDs
+
+        - Provided values must match configured client account values.
+
+        - **languageCd** / **countryCd** parameters conditions:
+
+        - Following are allowed pairs of language/country values when copying an event:
+
+        - Chinese (Simplified): languageCd=**"zh"**, countryCd=**"CN"**
+
+        - Chinese (Traditional): languageCd=**"zh"**, countryCd=**"TW"**
+
+        - English (UK): languageCd=**"en"**, countryCd=**"UK"**
+
+        - For other languages, No countryCd is allowed.
+
+        - When copying a webinar, the following features will be copied from the source event unless their values are overriden:
+
+        - Title. *In the following format: ''Copy of'' + [source event name]*
+
+        - Event Type
+
+        - Duration
+
+        - Language
+
+        - Funnel Tags
+
+        - Campaign Tags
+
+        - Custom Account Tags
+
+        - Registration page:
+
+        - Banner
+
+        - Registration fields
+
+        - Page design
+
+        - Email notifications configuration
+
+        - Videos and Slides
+
+        - Console customization
+
+        - **Elements that are not copied:**
+
+        - Start time
+
+        - Archive configuration
+
+        - Security configuration'
       operationId: EventManagement.CreateAWebinar
       parameters:
       - name: clientId
@@ -211,7 +303,54 @@ paths:
       tags:
       - Event Management
       summary: Update a Webinar
-      description: "Updates a webinar.\n\n- **liveDuration** parameter conditions:\n  - When copying a webinar, users are able to provide a liveDuration value in 15 minute increments (e.g. 15, 30, 45, 60, etc.) up to 120 minutes.\n  - Above 120 minutes, increments will be 30 minutes up to 480 minutes.\n  - The maximum allowed liveDuration is 480 minutes.\n- **liveStart** accepted date/time formats:\n  - **MM/DD/YYYY hh:mm a** (08/26/2016 09:00 AM)\n  - **YYYY-MM-DDThh:mm:ss** Default timezone will be Pacific Time. (2016-08-26T09:00:00)\n  - **YYYY-MM-DDThh:mm:ss±zz:zz** where ±zz:zz is timezone's offset (2016-08-26T09:00:00-07:00)\n  - JavaScript Date.toString() format is also supported (Wed Apr 04 2018 16:12:41 GMT+0200 (CEST) )\n- **tagCampaign** parameter conditions:\n  - When copying a webinar users are allowed to add up to 10 custom tags via the tagCampaign parameter.\n  - Every tag that is associated with the webinar should be available in the **tags** array field in the response.\n  - The following characters can not be used and will result in an error: £$!%&*()}{@#~?><',\"|=_+¬\n- **customAccountTag** parameter conditions:\n  - Supported only for client accounts with enabled custom account tags.\n  - When copying a webinar for an account with enabled custom account tags, users are allowed to add up to 3 tag IDs\n  - Provided values must match configured client account values.\n- **languageCd** / **countryCd** parameters conditions:\n  - Following are allowed pairs of language/country values when copying an event:\n    - Chinese (Simplified): languageCd=**\"zh\"**, countryCd=**\"CN\"**\n    - Chinese (Traditional): languageCd=**\"zh\"**, countryCd=**\"TW\"**\n    - English (UK): languageCd=**\"en\"**, countryCd=**\"UK\"**\n  - For other languages, No countryCd is allowed."
+      description: 'Updates a webinar.
+
+
+        - **liveDuration** parameter conditions:
+
+        - When copying a webinar, users are able to provide a liveDuration value in 15 minute increments (e.g. 15, 30, 45, 60, etc.) up to 120 minutes.
+
+        - Above 120 minutes, increments will be 30 minutes up to 480 minutes.
+
+        - The maximum allowed liveDuration is 480 minutes.
+
+        - **liveStart** accepted date/time formats:
+
+        - **MM/DD/YYYY hh:mm a** (08/26/2016 09:00 AM)
+
+        - **YYYY-MM-DDThh:mm:ss** Default timezone will be Pacific Time. (2016-08-26T09:00:00)
+
+        - **YYYY-MM-DDThh:mm:ss±zz:zz** where ±zz:zz is timezone''s offset (2016-08-26T09:00:00-07:00)
+
+        - JavaScript Date.toString() format is also supported (Wed Apr 04 2018 16:12:41 GMT+0200 (CEST) )
+
+        - **tagCampaign** parameter conditions:
+
+        - When copying a webinar users are allowed to add up to 10 custom tags via the tagCampaign parameter.
+
+        - Every tag that is associated with the webinar should be available in the **tags** array field in the response.
+
+        - The following characters can not be used and will result in an error: £$!%&*()}{@#~?><'',"|=_+¬
+
+        - **customAccountTag** parameter conditions:
+
+        - Supported only for client accounts with enabled custom account tags.
+
+        - When copying a webinar for an account with enabled custom account tags, users are allowed to add up to 3 tag IDs
+
+        - Provided values must match configured client account values.
+
+        - **languageCd** / **countryCd** parameters conditions:
+
+        - Following are allowed pairs of language/country values when copying an event:
+
+        - Chinese (Simplified): languageCd=**"zh"**, countryCd=**"CN"**
+
+        - Chinese (Traditional): languageCd=**"zh"**, countryCd=**"TW"**
+
+        - English (UK): languageCd=**"en"**, countryCd=**"UK"**
+
+        - For other languages, No countryCd is allowed.'
       operationId: EventManagement.UpdateAWebinar
       parameters:
       - name: accessTokenKey
@@ -400,7 +539,42 @@ paths:
       tags:
       - Event Management
       summary: Update Email Calendar Reminder
-      description: "Updates the Email Calendar Reminder for a particular event.\n\n- **reminder** parameter conditions:\n  - Cannot be updated if the event has already started.\n  - Accpeted values:\n    - None\n    - 0 Minutes\n    - 5 Minutes\n    - 10 Minutes\n    - 15 Minutes\n    - 30 Minutes\n    - 1 Hour\n    - 2 Hours\n    - 3 Hours\n    - 4 Hours\n    - 5 Hours\n    - 6 Hours\n    - 12 Hours\n    - 1 Day"
+      description: 'Updates the Email Calendar Reminder for a particular event.
+
+
+        - **reminder** parameter conditions:
+
+        - Cannot be updated if the event has already started.
+
+        - Accpeted values:
+
+        - None
+
+        - 0 Minutes
+
+        - 5 Minutes
+
+        - 10 Minutes
+
+        - 15 Minutes
+
+        - 30 Minutes
+
+        - 1 Hour
+
+        - 2 Hours
+
+        - 3 Hours
+
+        - 4 Hours
+
+        - 5 Hours
+
+        - 6 Hours
+
+        - 12 Hours
+
+        - 1 Day'
       operationId: EventManagement.UpdateEmailCalendarReminder
       parameters:
       - name: accessTokenKey
@@ -458,7 +632,76 @@ paths:
       tags:
       - Event Management
       summary: Update Email Notification
-      description: "Updates an Email Notification for a particular event.\n\n- **fromLabel** validations:\n  - Only alphanumeric characters and a maximum of 50 characters are allowed.\n  - International characters or email addresses are not allowed.\n- **whentosend** accepted values:\n  - 2 Weeks Before Event\n  - 1 Week Before Event\n  - 5 Days Before Event\n  - Days Before Event\n  - 2 Days Before Event\n  - 1 Day Before Event\n  - 12 Hours Before Event\n  - 6 Hours Before Event\n  - 5 Hours Before Event\n  - 4 Hours Before Event\n  - 3 Hours Before Event\n  - 2 Hours Before Event\n  - 1 Hour Before Event\n  - 30 Minutes Before Event\n  - 15 Minutes Before Event\n  - 1 Hour After Event\n  - 2 Hours After Event\n  - 3 Hours After Event\n  - 4 Hours After Event\n  - 5 Hours After Event\n  - 6 Hours After Event\n  - 12 Hours After Event\n  - 1 Day After Event\n  - 2 Days After Event\n  - 3 Days After Event\n  - 5 Days After Event\n  - 1 Week After Event\n  - 2 Weeks After Event\n  - When Event Starts\n  - Custom Date And Time"
+      description: 'Updates an Email Notification for a particular event.
+
+
+        - **fromLabel** validations:
+
+        - Only alphanumeric characters and a maximum of 50 characters are allowed.
+
+        - International characters or email addresses are not allowed.
+
+        - **whentosend** accepted values:
+
+        - 2 Weeks Before Event
+
+        - 1 Week Before Event
+
+        - 5 Days Before Event
+
+        - Days Before Event
+
+        - 2 Days Before Event
+
+        - 1 Day Before Event
+
+        - 12 Hours Before Event
+
+        - 6 Hours Before Event
+
+        - 5 Hours Before Event
+
+        - 4 Hours Before Event
+
+        - 3 Hours Before Event
+
+        - 2 Hours Before Event
+
+        - 1 Hour Before Event
+
+        - 30 Minutes Before Event
+
+        - 15 Minutes Before Event
+
+        - 1 Hour After Event
+
+        - 2 Hours After Event
+
+        - 3 Hours After Event
+
+        - 4 Hours After Event
+
+        - 5 Hours After Event
+
+        - 6 Hours After Event
+
+        - 12 Hours After Event
+
+        - 1 Day After Event
+
+        - 2 Days After Event
+
+        - 3 Days After Event
+
+        - 5 Days After Event
+
+        - 1 Week After Event
+
+        - 2 Weeks After Event
+
+        - When Event Starts
+
+        - Custom Date And Time'
       operationId: EventManagement.UpdateEmailNotification
       parameters:
       - name: accessTokenKey
@@ -989,7 +1232,20 @@ paths:
       tags:
       - Event Management
       summary: Update Text With Banner Widget
-      description: "Updates the text content of a webinar's Text With Banner widget.\n\n- At least one Text With Banner widget must already exist in the webinar. If a Text With Banner widget does not exist, a 404 response will be returned.\n- The \"matchname\" metadata field value must be the same as the Text With Banner widget name. If a Text With Banner widget does not exist with the \"matchname\" value, a 404 response will be returned.\n- After successfully executing this endpoint, the previously existing text content of the widget will be overwritten.\n- **type** parameter options:\n  - \"text\" is intended for plain text content.\n  - \"table\" is intended for tabular information. All rows must have the same number of columns and these must be called column1 to columnN, otherwise a 400 response will be returned."
+      description: 'Updates the text content of a webinar''s Text With Banner widget.
+
+
+        - At least one Text With Banner widget must already exist in the webinar. If a Text With Banner widget does not exist, a 404 response will be returned.
+
+        - The "matchname" metadata field value must be the same as the Text With Banner widget name. If a Text With Banner widget does not exist with the "matchname" value, a 404 response will be returned.
+
+        - After successfully executing this endpoint, the previously existing text content of the widget will be overwritten.
+
+        - **type** parameter options:
+
+        - "text" is intended for plain text content.
+
+        - "table" is intended for tabular information. All rows must have the same number of columns and these must be called column1 to columnN, otherwise a 400 response will be returned.'
       operationId: EventManagement.UpdateTextWithBannerWidget
       parameters:
       - name: accessTokenKey
@@ -1258,6 +1514,80 @@ paths:
           description: Response code from uploading service is not success
 components:
   schemas:
+    CreateRelatedContentForm:
+      required:
+      - matchname
+      - name
+      - type
+      type: object
+      properties:
+        file:
+          type: string
+          description: The file to be uploaded if type is "Resource". This parameter becomes mandatory when type is "Resource" and must not be sent at all when type is "URL".
+          format: binary
+        matchname:
+          type: string
+          description: Used to find the name of the existing Related Content widget
+          example: Related Content 1
+        name:
+          type: string
+          description: Display name of the resource being uploaded
+          example: ON24 Website
+        type:
+          type: string
+          description: 'Determines whether the resource being uploaded is either a file or a URL. Accepted values are: "Resource" for uploading a file and "URL" for uploading a URL. These values are case-sensitive.'
+          example: URL
+        url:
+          type: string
+          description: URL for the resource if type is "URL". This parameter becomes mandatory when type is "URL" and must not be sent at all when type is "Resource".
+          example: https://www.on24.com
+      description: Parameters for creating related content
+    CreateSpeakerBioForm:
+      required:
+      - metadata
+      type: object
+      properties:
+        file:
+          type: string
+          description: Speaker bio image
+          format: binary
+        metadata:
+          type: string
+          description: JSON body with speaker data
+          example: '{"name":"John Doe","title":"Product Manager","company":"ON24","email":"john.doe@on24.com","twitter":"https://x","linkedin":"https://x","website":"https://x","facebook":"https://x","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}'
+      description: Parameters for creating a speaker bio
+    UploadDocumentForm:
+      required:
+      - file
+      type: object
+      properties:
+        file:
+          type: string
+          description: Video file to be uploaded
+          format: binary
+        metadata:
+          type: string
+          description: Json Body with extra data
+          example: '{"id":"e164529c-2ea2-4925-9ad5-0c443ec57","title":"DocumentName"}'
+      description: Parameters for uploading a document to Media Manager
+    CreateSurveyQuestionForm:
+      type: object
+      properties:
+        metadata:
+          type: string
+          description: JSON object containing all the survey questions data. It can be sent as a formData parameter using Content-Type = "application/x-www-form-urlencoded" or as the request body using Content-Type = "application/json".
+          example: '{"surveyquestions":[{"questiontype":"multioption","required":"Y","question":"What industry are you in?","surveyanswers":["Technology","HealthCare","Finance","Retail","Food & Beverage"]},{"questiontype":"singleoption","required":"N","question":"Would you like a 1:1 session with an expert?","surveyanswers":["Yes","No"]},{"questiontype":"singletext","required":"N","question":"Describe yourself"}]}'
+      description: Parameters for creating survey questions and answers
+    UploadSlidesForm:
+      required:
+      - file
+      type: object
+      properties:
+        file:
+          type: string
+          description: Power Point presentation to be uploaded
+          format: binary
+      description: Parameters for uploading slides to an event
     UploadVideoForm:
       required:
       - file
@@ -1272,47 +1602,6 @@ components:
           description: Json Body with extra data
           example: '{"id":"e164529c-2ea2-4925-9ad5-0c443ec57","title":"This is a video name"}'
       description: Parameters for uploading a video to Media Manager
-    CreateSurveyQuestionForm:
-      type: object
-      properties:
-        metadata:
-          type: string
-          description: JSON object containing all the survey questions data. It can be sent as a formData parameter using Content-Type = "application/x-www-form-urlencoded" or as the request body using Content-Type = "application/json".
-          example: '{"surveyquestions":[{"questiontype":"multioption","required":"Y","question":"What industry are you in?","surveyanswers":["Technology","HealthCare","Finance","Retail","Food & Beverage"]},{"questiontype":"singleoption","required":"N","question":"Would you like a 1:1 session with an expert?","surveyanswers":["Yes","No"]},{"questiontype":"singletext","required":"N","question":"Describe yourself"}]}'
-      description: Parameters for creating survey questions and answers
-    UpdateEmailNotificationForm:
-      type: object
-      properties:
-        activated:
-          type: string
-          description: Indicates if the email notification is active or not.
-          example: Y
-        body:
-          type: string
-          description: email notification body
-          example: 'Thank you for registering for #EVENTTITLE#. Save this email for details on the webcast.'
-        fromlabel:
-          type: string
-          description: The from label that will display in addition to the standard from address of <do_not_reply@on24event.com>
-          example: ON24Webcast
-          default: Webcast
-        goodafter:
-          type: string
-          description: specifies the date and time on which the notification should be sent
-          example: '2018-11-02T09:00:00-07:00'
-        replyto:
-          type: string
-          description: email notification reply to
-          example: do_not_reply@on24events.com
-        subject:
-          type: string
-          description: email notification subject
-          example: 'Reminder - #EVENTTITLE#'
-        whentosend:
-          type: string
-          description: When to send the email notification
-          example: 1 Day Before Event
-      description: Parameters for updating an email notification
     CalendarReminderForm:
       type: object
       properties:
@@ -1333,20 +1622,6 @@ components:
           description: email calendar reminder subject
           example: 'Reminder - #EVENTTITLE#'
       description: Parameters for updating an email calendar reminder
-    CreateSpeakerBioForm:
-      required:
-      - metadata
-      type: object
-      properties:
-        file:
-          type: string
-          description: Speaker bio image
-          format: binary
-        metadata:
-          type: string
-          description: JSON body with speaker data
-          example: '{"name":"John Doe","title":"Product Manager","company":"ON24","email":"john.doe@on24.com","twitter":"https://x","linkedin":"https://x","website":"https://x","facebook":"https://x","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}'
-      description: Parameters for creating a speaker bio
     UpdateEventForm:
       type: object
       properties:
@@ -1403,6 +1678,39 @@ components:
           description: Event title. Limited to 255 characters.
           example: New Webcast
       description: Parameters for updating an event
+    UpdateEmailNotificationForm:
+      type: object
+      properties:
+        activated:
+          type: string
+          description: Indicates if the email notification is active or not.
+          example: Y
+        body:
+          type: string
+          description: email notification body
+          example: 'Thank you for registering for #EVENTTITLE#. Save this email for details on the webcast.'
+        fromlabel:
+          type: string
+          description: The from label that will display in addition to the standard from address of <do_not_reply@on24event.com>
+          example: ON24Webcast
+          default: Webcast
+        goodafter:
+          type: string
+          description: specifies the date and time on which the notification should be sent
+          example: '2018-11-02T09:00:00-07:00'
+        replyto:
+          type: string
+          description: email notification reply to
+          example: do_not_reply@on24events.com
+        subject:
+          type: string
+          description: email notification subject
+          example: 'Reminder - #EVENTTITLE#'
+        whentosend:
+          type: string
+          description: When to send the email notification
+          example: 1 Day Before Event
+      description: Parameters for updating an email notification
     UpdateTextWithBannerForm:
       type: object
       properties:
@@ -1489,58 +1797,6 @@ components:
           description: When selecting Hybrid, this field can be used to store the in-person venue name.
           example: Moscone
       description: Parameters for creating or copying an event
-    CreateRelatedContentForm:
-      required:
-      - matchname
-      - name
-      - type
-      type: object
-      properties:
-        file:
-          type: string
-          description: The file to be uploaded if type is "Resource". This parameter becomes mandatory when type is "Resource" and must not be sent at all when type is "URL".
-          format: binary
-        matchname:
-          type: string
-          description: Used to find the name of the existing Related Content widget
-          example: Related Content 1
-        name:
-          type: string
-          description: Display name of the resource being uploaded
-          example: ON24 Website
-        type:
-          type: string
-          description: 'Determines whether the resource being uploaded is either a file or a URL. Accepted values are: "Resource" for uploading a file and "URL" for uploading a URL. These values are case-sensitive.'
-          example: URL
-        url:
-          type: string
-          description: URL for the resource if type is "URL". This parameter becomes mandatory when type is "URL" and must not be sent at all when type is "Resource".
-          example: https://www.on24.com
-      description: Parameters for creating related content
-    UploadSlidesForm:
-      required:
-      - file
-      type: object
-      properties:
-        file:
-          type: string
-          description: Power Point presentation to be uploaded
-          format: binary
-      description: Parameters for uploading slides to an event
-    UploadDocumentForm:
-      required:
-      - file
-      type: object
-      properties:
-        file:
-          type: string
-          description: Video file to be uploaded
-          format: binary
-        metadata:
-          type: string
-          description: Json Body with extra data
-          example: '{"id":"e164529c-2ea2-4925-9ad5-0c443ec57","title":"DocumentName"}'
-      description: Parameters for uploading a document to Media Manager
   securitySchemes:
     AccessTokenKey:
       type: apiKey

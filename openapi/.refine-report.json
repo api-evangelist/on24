@@ -1,0 +1,37 @@
+{
+  "provider": "on24",
+  "sources": [
+    "_original/on24-openapi.json"
+  ],
+  "outputs": [
+    "on24-client-level-analytics-api-openapi.yml",
+    "on24-content-listings-api-openapi.yml",
+    "on24-event-level-analytics-api-openapi.yml",
+    "on24-event-management-api-openapi.yml",
+    "on24-helpers-api-openapi.yml",
+    "on24-rest-registration-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "6 archived document(s) dropped as subsets of other archived documents",
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "on24-openapi.json: upgraded openapi 3.0.1 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "_original/on24-rest-registration-openapi.yml: archived document superseded by a larger archived document",
+    "_original/on24-helpers-openapi.yml: archived document superseded by a larger archived document",
+    "_original/on24-event-management-openapi.yml: archived document superseded by a larger archived document",
+    "_original/on24-event-level-analytics-openapi.yml: archived document superseded by a larger archived document",
+    "_original/on24-content-listings-openapi.yml: archived document superseded by a larger archived document",
+    "_original/on24-client-level-analytics-openapi.yml: archived document superseded by a larger archived document",
+    "on24-client-level-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "on24-content-listings-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "on24-event-level-analytics-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "on24-event-management-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "on24-helpers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "on24-rest-registration-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
