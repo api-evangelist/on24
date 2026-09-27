@@ -827,20 +827,6 @@ paths:
           description: No registrant was found for that email address
 components:
   schemas:
-    ForgetRegistrantForm:
-      required:
-      - email
-      type: object
-      properties:
-        email:
-          type: string
-          description: A single email or comma-separated list of emails
-        eventid:
-          type: integer
-          description: An optional event id that will limit the scope of this request
-          format: int32
-          example: 326564
-      description: Parameters for forgetting a registrant
     UpdateRegistrantForm:
       type: object
       properties:
@@ -963,6 +949,135 @@ components:
           type: string
           description: Zip code.
       description: Parameters for updating a registrant
+    UpdateRegistrantClientLevelForm:
+      type: object
+      properties:
+        addressStreet1:
+          type: string
+          description: Street address line 1.
+        addressStreet2:
+          type: string
+          description: Street address line 2.
+        city:
+          type: string
+          description: City.
+        company:
+          type: string
+          description: Company name.
+          example: Iron Mountain
+        companyIndustry:
+          type: string
+          description: Company industry.
+        companySize:
+          type: string
+          description: Company size.
+        country:
+          type: string
+          description: Country.
+        email:
+          type: string
+          description: Email address.
+          example: 49177588@on24.com
+        eventEmail:
+          type: string
+          description: 'Event email opt-in. Values: Y, N.'
+          example: N
+          default: N
+        extEventUserCd:
+          type: string
+          description: External event user code.
+        fax:
+          type: string
+          description: Fax.
+        firstName:
+          type: string
+          description: First name.
+          example: Gina
+        homePhone:
+          type: string
+          description: Home phone.
+        jobFunction:
+          type: string
+          description: Job function.
+        jobTitle:
+          type: string
+          description: Job title.
+          example: Marketing Executive
+        lastName:
+          type: string
+          description: Last name.
+          example: Parker
+        marketingEmail:
+          type: string
+          description: 'Marketing email opt-in. Values: Y, N.'
+          example: N
+          default: N
+        notes:
+          type: string
+          description: Notes.
+        other:
+          type: string
+          description: Other.
+        partnerRef:
+          type: string
+          description: Partner reference.
+        state:
+          type: string
+          description: State.
+        std1:
+          type: string
+          description: 'Custom Field #1.'
+        std10:
+          type: string
+          description: 'Custom Field #10.'
+        std2:
+          type: string
+          description: 'Custom Field #2.'
+        std3:
+          type: string
+          description: 'Custom Field #3.'
+        std4:
+          type: string
+          description: 'Custom Field #4.'
+        std5:
+          type: string
+          description: 'Custom Field #5.'
+        std6:
+          type: string
+          description: 'Custom Field #6.'
+        std7:
+          type: string
+          description: 'Custom Field #7.'
+        std8:
+          type: string
+          description: 'Custom Field #8.'
+        std9:
+          type: string
+          description: 'Custom Field #9.'
+        userName:
+          type: string
+          description: User name.
+        workPhone:
+          type: string
+          description: Work phone.
+        zip:
+          type: string
+          description: Zip code.
+      description: Parameters for updating a client-level registrant
+    ForgetRegistrantForm:
+      required:
+      - email
+      type: object
+      properties:
+        email:
+          type: string
+          description: A single email or comma-separated list of emails
+        eventid:
+          type: integer
+          description: An optional event id that will limit the scope of this request
+          format: int32
+          example: 326564
+      description: Parameters for forgetting a registrant
     AddRegistrantForm:
       type: object
       properties:
@@ -1081,121 +1196,6 @@ components:
           type: string
           description: Zip code.
       description: Parameters for creating a registrant
-    UpdateRegistrantClientLevelForm:
-      type: object
-      properties:
-        addressStreet1:
-          type: string
-          description: Street address line 1.
-        addressStreet2:
-          type: string
-          description: Street address line 2.
-        city:
-          type: string
-          description: City.
-        company:
-          type: string
-          description: Company name.
-          example: Iron Mountain
-        companyIndustry:
-          type: string
-          description: Company industry.
-        companySize:
-          type: string
-          description: Company size.
-        country:
-          type: string
-          description: Country.
-        email:
-          type: string
-          description: Email address.
-          example: 49177588@on24.com
-        eventEmail:
-          type: string
-          description: 'Event email opt-in. Values: Y, N.'
-          example: N
-          default: N
-        extEventUserCd:
-          type: string
-          description: External event user code.
-        fax:
-          type: string
-          description: Fax.
-        firstName:
-          type: string
-          description: First name.
-          example: Gina
-        homePhone:
-          type: string
-          description: Home phone.
-        jobFunction:
-          type: string
-          description: Job function.
-        jobTitle:
-          type: string
-          description: Job title.
-          example: Marketing Executive
-        lastName:
-          type: string
-          description: Last name.
-          example: Parker
-        marketingEmail:
-          type: string
-          description: 'Marketing email opt-in. Values: Y, N.'
-          example: N
-          default: N
-        notes:
-          type: string
-          description: Notes.
-        other:
-          type: string
-          description: Other.
-        partnerRef:
-          type: string
-          description: Partner reference.
-        state:
-          type: string
-          description: State.
-        std1:
-          type: string
-          description: 'Custom Field #1.'
-        std10:
-          type: string
-          description: 'Custom Field #10.'
-        std2:
-          type: string
-          description: 'Custom Field #2.'
-        std3:
-          type: string
-          description: 'Custom Field #3.'
-        std4:
-          type: string
-          description: 'Custom Field #4.'
-        std5:
-          type: string
-          description: 'Custom Field #5.'
-        std6:
-          type: string
-          description: 'Custom Field #6.'
-        std7:
-          type: string
-          description: 'Custom Field #7.'
-        std8:
-          type: string
-          description: 'Custom Field #8.'
-        std9:
-          type: string
-          description: 'Custom Field #9.'
-        userName:
-          type: string
-          description: User name.
-        workPhone:
-          type: string
-          description: Work phone.
-        zip:
-          type: string
-          description: Zip code.
-      description: Parameters for updating a client-level registrant
   securitySchemes:
     AccessTokenKey:
       type: apiKey
