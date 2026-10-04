@@ -1522,6 +1522,85 @@ components:
           description: JSON object containing all the data needed to update the widget
           example: '{"type":"text","matchname":"TWB_text","content":"Lorem ipsum dolor sit amet, consectetur adipiscing elit."}'
       description: Parameters for updating a Text With Banner widget
+    UploadVideoForm:
+      required:
+      - file
+      type: object
+      properties:
+        file:
+          type: string
+          description: Video file to be uploaded
+          format: binary
+        metadata:
+          type: string
+          description: Json Body with extra data
+          example: '{"id":"e164529c-2ea2-4925-9ad5-0c443ec57","title":"This is a video name"}'
+      description: Parameters for uploading a video to Media Manager
+    UploadSlidesForm:
+      required:
+      - file
+      type: object
+      properties:
+        file:
+          type: string
+          description: Power Point presentation to be uploaded
+          format: binary
+      description: Parameters for uploading slides to an event
+    UpdateEmailNotificationForm:
+      type: object
+      properties:
+        activated:
+          type: string
+          description: Indicates if the email notification is active or not.
+          example: Y
+        body:
+          type: string
+          description: email notification body
+          example: 'Thank you for registering for #EVENTTITLE#. Save this email for details on the webcast.'
+        fromlabel:
+          type: string
+          description: The from label that will display in addition to the standard from address of <do_not_reply@on24event.com>
+          example: ON24Webcast
+          default: Webcast
+        goodafter:
+          type: string
+          description: specifies the date and time on which the notification should be sent
+          example: '2018-11-02T09:00:00-07:00'
+        replyto:
+          type: string
+          description: email notification reply to
+          example: do_not_reply@on24events.com
+        subject:
+          type: string
+          description: email notification subject
+          example: 'Reminder - #EVENTTITLE#'
+        whentosend:
+          type: string
+          description: When to send the email notification
+          example: 1 Day Before Event
+      description: Parameters for updating an email notification
+    CreateSpeakerBioForm:
+      required:
+      - metadata
+      type: object
+      properties:
+        file:
+          type: string
+          description: Speaker bio image
+          format: binary
+        metadata:
+          type: string
+          description: JSON body with speaker data
+          example: '{"name":"John Doe","title":"Product Manager","company":"ON24","email":"john.doe@on24.com","twitter":"https://x","linkedin":"https://x","website":"https://x","facebook":"https://x","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}'
+      description: Parameters for creating a speaker bio
+    CreateSurveyQuestionForm:
+      type: object
+      properties:
+        metadata:
+          type: string
+          description: JSON object containing all the survey questions data. It can be sent as a formData parameter using Content-Type = "application/x-www-form-urlencoded" or as the request body using Content-Type = "application/json".
+          example: '{"surveyquestions":[{"questiontype":"multioption","required":"Y","question":"What industry are you in?","surveyanswers":["Technology","HealthCare","Finance","Retail","Food & Beverage"]},{"questiontype":"singleoption","required":"N","question":"Would you like a 1:1 session with an expert?","surveyanswers":["Yes","No"]},{"questiontype":"singletext","required":"N","question":"Describe yourself"}]}'
+      description: Parameters for creating survey questions and answers
     CreateRelatedContentForm:
       required:
       - matchname
@@ -1550,6 +1629,82 @@ components:
           description: URL for the resource if type is "URL". This parameter becomes mandatory when type is "URL" and must not be sent at all when type is "Resource".
           example: https://www.on24.com
       description: Parameters for creating related content
+    UpdateEventForm:
+      type: object
+      properties:
+        archiveAvailable:
+          type: string
+          description: Indicates if the Archive Option is Enabled or Disabled for this event.
+          example: N
+          default: Y
+        campaignCode:
+          type: string
+          description: Campaign code.
+          example: CAMP-2024-Q1
+        countryCd:
+          type: string
+          description: 'Country code. Required when languageCd is ''zh''. Values: CN, TW.'
+          example: CN
+        customAccountTag:
+          type: string
+          description: Custom account tag IDs configured for the account.
+          example: '701'
+        enableRegistration:
+          type: string
+          description: Enables/Disables registration. Accepted values are Y and N.
+          example: N
+        eventType:
+          type: string
+          description: Event type. Valid values returned by getEventTypes.
+          example: webcam
+        languageCd:
+          type: string
+          description: Language code. Valid values returned by getLanguageCodes.
+          example: en
+        liveDuration:
+          type: string
+          description: Event duration in minutes.
+          example: '90'
+        liveStart:
+          type: string
+          description: 'Event start date. Format: MM/dd/yyyy hh:mm a'
+          example: 08/26/2016 09:00 AM
+        promotionalSummary:
+          type: string
+          description: Promotional summary for the event.
+          example: Don't miss this exclusive event
+        tagCampaign:
+          type: string
+          description: Webinar's tag campaign. You can set up to 10 tags, providing multiple tagCampaign parameters with different values.
+        timeZone:
+          type: string
+          description: Time zone. Valid values retrieved by calling getTimeZones.
+          example: America/Los_Angeles
+        title:
+          type: string
+          description: Event title. Limited to 255 characters.
+          example: New Webcast
+      description: Parameters for updating an event
+    CalendarReminderForm:
+      type: object
+      properties:
+        body:
+          type: string
+          description: email calendar reminder body
+          example: 'Thank you for registering for #EVENTTITLE#. \n\nLIVE WEBCAST DATE: #EVENTDATE#.'
+        location:
+          type: string
+          description: email calendar reminder location
+          example: Webcast
+        reminder:
+          type: string
+          description: The duration prior to start time that the reminder will trigger
+          example: 15 Minutes
+        subject:
+          type: string
+          description: email calendar reminder subject
+          example: 'Reminder - #EVENTTITLE#'
+      description: Parameters for updating an email calendar reminder
     AddEventForm:
       required:
       - eventType
@@ -1628,104 +1783,6 @@ components:
           description: When selecting Hybrid, this field can be used to store the in-person venue name.
           example: Moscone
       description: Parameters for creating or copying an event
-    CreateSpeakerBioForm:
-      required:
-      - metadata
-      type: object
-      properties:
-        file:
-          type: string
-          description: Speaker bio image
-          format: binary
-        metadata:
-          type: string
-          description: JSON body with speaker data
-          example: '{"name":"John Doe","title":"Product Manager","company":"ON24","email":"john.doe@on24.com","twitter":"https://x","linkedin":"https://x","website":"https://x","facebook":"https://x","description":"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."}'
-      description: Parameters for creating a speaker bio
-    CreateSurveyQuestionForm:
-      type: object
-      properties:
-        metadata:
-          type: string
-          description: JSON object containing all the survey questions data. It can be sent as a formData parameter using Content-Type = "application/x-www-form-urlencoded" or as the request body using Content-Type = "application/json".
-          example: '{"surveyquestions":[{"questiontype":"multioption","required":"Y","question":"What industry are you in?","surveyanswers":["Technology","HealthCare","Finance","Retail","Food & Beverage"]},{"questiontype":"singleoption","required":"N","question":"Would you like a 1:1 session with an expert?","surveyanswers":["Yes","No"]},{"questiontype":"singletext","required":"N","question":"Describe yourself"}]}'
-      description: Parameters for creating survey questions and answers
-    CalendarReminderForm:
-      type: object
-      properties:
-        body:
-          type: string
-          description: email calendar reminder body
-          example: 'Thank you for registering for #EVENTTITLE#. \n\nLIVE WEBCAST DATE: #EVENTDATE#.'
-        location:
-          type: string
-          description: email calendar reminder location
-          example: Webcast
-        reminder:
-          type: string
-          description: The duration prior to start time that the reminder will trigger
-          example: 15 Minutes
-        subject:
-          type: string
-          description: email calendar reminder subject
-          example: 'Reminder - #EVENTTITLE#'
-      description: Parameters for updating an email calendar reminder
-    UpdateEventForm:
-      type: object
-      properties:
-        archiveAvailable:
-          type: string
-          description: Indicates if the Archive Option is Enabled or Disabled for this event.
-          example: N
-          default: Y
-        campaignCode:
-          type: string
-          description: Campaign code.
-          example: CAMP-2024-Q1
-        countryCd:
-          type: string
-          description: 'Country code. Required when languageCd is ''zh''. Values: CN, TW.'
-          example: CN
-        customAccountTag:
-          type: string
-          description: Custom account tag IDs configured for the account.
-          example: '701'
-        enableRegistration:
-          type: string
-          description: Enables/Disables registration. Accepted values are Y and N.
-          example: N
-        eventType:
-          type: string
-          description: Event type. Valid values returned by getEventTypes.
-          example: webcam
-        languageCd:
-          type: string
-          description: Language code. Valid values returned by getLanguageCodes.
-          example: en
-        liveDuration:
-          type: string
-          description: Event duration in minutes.
-          example: '90'
-        liveStart:
-          type: string
-          description: 'Event start date. Format: MM/dd/yyyy hh:mm a'
-          example: 08/26/2016 09:00 AM
-        promotionalSummary:
-          type: string
-          description: Promotional summary for the event.
-          example: Don't miss this exclusive event
-        tagCampaign:
-          type: string
-          description: Webinar's tag campaign. You can set up to 10 tags, providing multiple tagCampaign parameters with different values.
-        timeZone:
-          type: string
-          description: Time zone. Valid values retrieved by calling getTimeZones.
-          example: America/Los_Angeles
-        title:
-          type: string
-          description: Event title. Limited to 255 characters.
-          example: New Webcast
-      description: Parameters for updating an event
     UploadDocumentForm:
       required:
       - file
@@ -1740,63 +1797,6 @@ components:
           description: Json Body with extra data
           example: '{"id":"e164529c-2ea2-4925-9ad5-0c443ec57","title":"DocumentName"}'
       description: Parameters for uploading a document to Media Manager
-    UploadVideoForm:
-      required:
-      - file
-      type: object
-      properties:
-        file:
-          type: string
-          description: Video file to be uploaded
-          format: binary
-        metadata:
-          type: string
-          description: Json Body with extra data
-          example: '{"id":"e164529c-2ea2-4925-9ad5-0c443ec57","title":"This is a video name"}'
-      description: Parameters for uploading a video to Media Manager
-    UploadSlidesForm:
-      required:
-      - file
-      type: object
-      properties:
-        file:
-          type: string
-          description: Power Point presentation to be uploaded
-          format: binary
-      description: Parameters for uploading slides to an event
-    UpdateEmailNotificationForm:
-      type: object
-      properties:
-        activated:
-          type: string
-          description: Indicates if the email notification is active or not.
-          example: Y
-        body:
-          type: string
-          description: email notification body
-          example: 'Thank you for registering for #EVENTTITLE#. Save this email for details on the webcast.'
-        fromlabel:
-          type: string
-          description: The from label that will display in addition to the standard from address of <do_not_reply@on24event.com>
-          example: ON24Webcast
-          default: Webcast
-        goodafter:
-          type: string
-          description: specifies the date and time on which the notification should be sent
-          example: '2018-11-02T09:00:00-07:00'
-        replyto:
-          type: string
-          description: email notification reply to
-          example: do_not_reply@on24events.com
-        subject:
-          type: string
-          description: email notification subject
-          example: 'Reminder - #EVENTTITLE#'
-        whentosend:
-          type: string
-          description: When to send the email notification
-          example: 1 Day Before Event
-      description: Parameters for updating an email notification
   securitySchemes:
     AccessTokenKey:
       type: apiKey
