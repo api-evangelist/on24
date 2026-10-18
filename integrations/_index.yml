@@ -52,5 +52,5 @@
     - connectors/applications/on24
     vendor_link: https://www.on24.com/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
